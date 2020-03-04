@@ -1,0 +1,23 @@
+ls
+sudo chown -r pywoe *
+chown pywoe -r *
+chown pywoe *
+chown -R pywoe *
+sudo chown -R pywoe *
+hunspell en_AU.dic
+clear
+python3 watchList.py 
+git config --global user.email "spamyyyy@gmail.com"
+git config --global user.name "spambi"
+ls
+sudo chmod +x xsetroottime 
+xsetroot
+xsetroottime 
+xsetroottime 
+xsetroottime 
+xsetroottime 
+pkill st
+git push origin HEAD:origin/master
+git push origin HEAD:origin
+python2 PyPe.py
+sudo pip2 install wxPython

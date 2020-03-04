@@ -1,0 +1,530 @@
+#+STARTIP: overview
+* Base Tweaks
+** Make Emacs useable
+#+BEGIN_SRC emacs-lisp
+;  (server-start)
+  (tool-bar-mode -1)
+  (menu-bar-mode 0)
+  (setq visible-bell 1)
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (electric-pair-mode 1)
+  (global-visual-line-mode 1)
+  (global-display-line-numbers-mode 1)
+
+  ;; Direct backup to ~/.saves
+  (setq backup-directory-alist `(("." . "~/.saves")))
+
+#+END_SRC
+* Interface Tweaks
+** Nyan
+NYANYANYANYANYANYANYANYANYAN cat
+This is the most important package, fuck evil and org, this is why
+I use EMACS YEYEYEYEYE NYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYAANYANYANYAN
+#+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode
+    :ensure t
+    :config
+    (nyan-mode 1)
+    (nyan-start-animation)
+    (nyan-toggle-wavy-trail))
+#+END_SRC
+** Emoji 
+Emojis
+#+BEGIN_SRC emacs-lisp
+    (defun --set-emoji-font (frame)
+      "Adjust the font settings of FRAME so Emacs can display emoji properly."
+      (if (eq system-type 'darwin)
+	;; For Linux
+	(set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
+  (--set-emoji-font nil)
+  (add-hook 'after-make-frame-functions '--set-emoji-font)
+#+END_SRC
+
+Better looking org bulltets
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+
+#+END_SRC
+
+** Dired
+*** Dired+
+   For Better Dired
+[[https://www.emacswiki.org/emacs/download/dired%252b.el][Dired+ Source]]
+(Needs to manually install it)
+#+BEGIN_SRC emacs-lisp
+ ; (use-package dired+
+ ;   :load-path "~/.emacs.d/lisp/dired+.el")
+#+END_SRC
+
+*** Dired Rainbow
+    Dired rainbow
+#+BEGIN_SRC emacs-lisp
+  ;(use-package dired-rainbow
+  ;  :config
+  ;  (progn
+  ;    (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
+  ;    (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+  ;    (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+  ;    (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+  ;    (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
+  ;    (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+  ;    (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
+  ;    (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+  ;    (dired-rainbow-define log "#c17d11" ("log"))
+  ;    (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
+  ;    (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+  ;    (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+  ;    (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
+  ;    (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+  ;    (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+  ;    (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+  ;    (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+  ;    (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+  ;    (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
+  ;    (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
+  ;    )) 
+#+END_SRC
+*** Dired shit
+No multiple buffers!
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-subtree
+    :ensure t
+    :config
+    (define-key dired-mode-map "n" 'dired-subtree-insert)
+    (define-key dired-mode-map "N" 'dired-subtree-remove))
+#+END_SRC
+** Esehll
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'comint-mode-hook
+	       (defun rm-comint-postoutput-scroll-to-bottom ()
+		 (remove-hook 'comint-output-filter-functions
+			      'comint-postoutput-scroll-to-bottom)))
+
+   #+END_SRC
+** Buffers
+*** ibuffer
+   A better buffer mode (still can use )
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+#+END_SRC
+*** Helm buffer
+    In the Helm section, will change the normal micro buffer list into helm micro buffer list
+** Rainbow Mode
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode
+    :ensure t)
+#+END_SRC
+** Doom Mode
+#+BEGIN_SRC emacs-lisp
+    (use-package doom-modeline
+     :ensure t
+     :hook (after-init . doom-modeline-mode))
+
+    ;(all-the-icons-install-fonts)
+
+#+END_SRC
+** Which Key
+   #+BEGIN_SRC emacs-lisp
+     (use-package which-key
+       :ensure t)
+     (which-key-mode)
+   #+END_SRC
+** Font
+*** Normal Font
+    #+BEGIN_SRC emacs-lisp
+    (set-frame-font "Hack-10" nil t)
+
+
+
+    #+END_SRC
+** Sublime Mode
+#+BEGIN_SRC emacs-lisp
+    
+   
+   
+   
+
+
+#+END_SRC
+** Copy Path
+#+BEGIN_SRC emacs-lisp
+  (defun xah-copy-file-path (&optional @dir-path-only-p)
+    "Copy the current buffer's file path or dired path to `kill-ring'.
+  Result is full path.
+  If `universal-argument' is called first, copy only the dir path.
+
+  If in dired, copy the file/dir cursor is on, or marked files.
+
+  If a buffer is not file and not dired, copy value of `default-directory' (which is usually the “current” dir when that buffer was created)
+
+  URL `http://ergoemacs.org/emacs/emacs_copy_file_path.html'
+  Version 2017-09-01"
+    (interactive "P")
+    (let (($fpath
+	   (if (string-equal major-mode 'dired-mode)
+	       (progn
+		 (let (($result (mapconcat 'identity (dired-get-marked-files) "\n")))
+		   (if (equal (length $result) 0)
+		       (progn default-directory )
+		     (progn $result))))
+	     (if (buffer-file-name)
+		 (buffer-file-name)
+	       (expand-file-name default-directory)))))
+      (kill-new
+       (if @dir-path-only-p
+	   (progn
+	     (message "Directory path copied: 「%s」" (file-name-directory $fpath))
+	     (file-name-directory $fpath))
+	 (progn
+	   (message "File path copied: 「%s」" $fpath)
+	   $fpath )))))
+
+  (global-set-key (kbd "C-c C-p") 'xah-copy-file-path)
+#+END_SRC
+** Time
+   #+begin_src emacs-lisp
+     (display-time-mode t)
+   #+end_src
+** Windows
+   #+begin_src emacs-lisp
+     (use-package ace-window
+       :ensure t
+       :init
+       (progn
+	 (global-set-key [remap other-window] 'ace-window)
+	 (custom-set-faces
+	  '(aw-leading-char-face
+	    ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+	 ))
+
+   #+end_src
+* Media
+Why bother with an external media manager when emacs is a thing. EMMS is huge, incredibly powerful and luckily well documented. All I need it for is to play music and video, that's it. I also need it to display metadata on the modeline correctly, which it does with mpd automatically. ** Open With #+BEGIN_SRC emacs-lisp (use-package openwith :ensure t) (setq openwith-associations (list (list (openwith-make-extension-regexp '("mpg" "mpeg" "mp3" "mp4" "avi" "wmv" "wav" "mov" "flv" "ogm" "ogg" "mkv")) "mpv" '(file)) (list (openwith-make-extension-regexp '("flac" "mpeg" "mp3" "ogm" "ogg")) "emms-play file" '(file)) (list (openwith-make-extension-regexp '("xbm" "pbm" "pgm" "ppm" "pnm" "png" "gif" "bmp" "tif" "jpeg" "jpg")) "sxiv" '(file)) (list (openwith-make-extension-regexp '("doc" "xls" "ppt" "odt" "ods" "odg" "odp")) "openoffice" '(file)) '("\\.lyx" "lyx" (file)) '("\\.chm" "kchmviewer" (file)) (list (openwith-make-extension-regexp '("pdf" "ps" "ps.gz" "dvi")) "zathura" '(file)))) (openwith-mode 1) #+END_SRC ** EMMS with mpd There is many backends, many players and codecs for EMMS, we use mpd now. *** Basic setup for mpd The non XF86 keys are made to be somewhat logical to follow and easy to remember. At the bottom part of the configuration, you will notice how XF86 keys are used by default, so unless you keyboard is broken it should work out of the box. Obviously you might have to adjust /server-name/ and /server-port/ to fit your configuration. #+BEGIN_SRC emacs-lisp (use-package emms :ensure t :config (require 'emms-setup) (require 'emms-player-mpd) (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work (setq emms-seek-seconds 5) (setq emms-player-list '(emms-player-mpd)) (setq emms-info-functions '(emms-info-mpd)) (setq emms-player-mpd-server-name "localhost") (setq emms-player-mpd-server-port "6601") :bind ("s-u p" . emms) ("s-u b" . emms-smart-browse) ("s-u r" . emms-player-mpd-update-all-reset-cache) ("<XF86AudioPrev>" . emms-previous) ("<XF86AudioNext>" . emms-next) ("s-/" . emms-pause) ("<XF86AudioStop>" . emms-stop) ("<XF86AudioRaiseVolume>" . emms-volume-raise) ("<XF86AudioLowerVolume>" . emms-volume-lower)) #+END_SRC *** Mpc Setup **** Setting the default port We use Non-default settings for the socket, to use the built in =mpc= functionality we need to set up a variable. Adjust according to your setup. #+BEGIN_SRC emacs-lisp (setq mpc-host "localhost:6601") #+END_SRC *** Some more fun stuff **** Starting the daemon from within emacs If you have an absolutely massive music library, it might be a good idea to get rid of =mpc-update= and only invoke it manually when needed. #+BEGIN_SRC emacs-lisp (defun mpd/start-music-daemon () "Start MPD, connects to it and syncs the metadata cache." (interactive) (shell-command "mpd ~/.config/mpd/config") (mpd/update-database) (emms-player-mpd-connect) (message "MPD Started!")) (global-set-key (kbd "s-u c") 'mpd/start-music-daemon) #+END_SRC **** Killing the daemon from within emacs #+BEGIN_SRC emacs-lisp (defun mpd/kill-music-daemon () "Stops playback and kill the music daemon." (interactive) (emms-stop) (call-process "killall" nil nil nil "mpd") (message "MPD Killed!")) (global-set-key (kbd "s-u k") 'mpd/kill-music-daemon) #+END_SRC **** Updating the database easily. #+BEGIN_SRC emacs-lisp (defun mpd/update-database () "Updates the MPD database synchronously." (interactive) (call-process "mpc" nil nil nil "update") (message "MPD Database Updated!")) (global-set-key (kbd "s-u u") 'mpd/update-database) #+END_SRC **** Evil Keybindings #+BEGIN_SRC emacs-lisp (add-hook 'emms-browser-show-display-hook 'evil-initialize) #+END_SRC ** * Evil Mode
+** Base Evil Mode
+#+BEGIN_SRC emacs-lisp
+  (use-package evil 
+    :ensure t
+    :config
+    (evil-mode 1))
+
+  ;(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+  ;(add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
+  ;(add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
+#+END_SRC
+* Programming
+** C++
+*** Rtags
+#+BEGIN_SRC 
+
+(use-package rtags
+:ensure t)
+
+#+END_SRC
+** IEdit
+#+BEGIN_SRC emacs-lisp
+  (use-package iedit
+    :ensure t)
+
+#+END_SRC
+** Webmode
+#+BEGIN_SRC emacs-lisp
+    (use-package web-mode
+      :ensure t)
+
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+#+END_SRC
+** emmet Mode
+#+BEGIN_SRC emacs-lisp
+  (use-package emmet-mode
+    :ensure t)
+
+    (add-hook 'sgml-mode-hook 'emmet-mode)
+    (add-hook 'css-mode-hook  'emmet-mode) 
+    (setq emmet-move-cursor-between-quotes t)
+
+
+#+END_SRC
+** Tramp mode
+#+BEGIN_SRC emacs-lisp
+  (setq tramp-default-method "ssh")
+  (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+  (customize-set-variable 'tramp-syntax 'simplified)
+
+#+end_src
+
+#+END_SRC
+** Arduino
+   #+begin_src emacs-lisp
+     (use-package arduino-mode
+       :ensure t)
+
+     (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
+     (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
+   #+end_src
+
+* Org
+** Normal Org
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :ensure t
+    :pin org)
+  (use-package org-bullets
+    :ensure t)
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  
+  (require 'org-tempo)
+#+END_SRC
+
+Create *org-capture-templates*
+
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+   '(("x"  "local notes" entry 
+     (file+headline (lambda () (concat (file-name-directory buffer-file-name) "notes.org")) "Copied regions")
+       "* %^{Title} %U \n %i")
+))
+
+
+  (setq org-export-html-style-include-scripts nil
+        org-export-html-style-include-default nil)
+#+END_SRC
+** Org Brain
+  Org Brain
+#+BEGIN_SRC emacs-lisp
+    (use-package org-brain :ensure t
+      :init
+      (setq org-brain-path "~/doc/Org Brain")
+      ;; For Evil users
+      (with-eval-after-load 'evil
+	(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+      :config
+      (setq org-id-track-globally t)
+      (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
+      (push '("b" "Brain" plain (function org-brain-goto-end)
+	      "* %i%?" :empty-lines 1)
+	    org-capture-templates)
+      (setq org-brain-visualize-default-choices 'all)
+      (setq org-brain-title-max-length 12))
+    
+
+#+END_SRC
+** Org Reveal
+#+BEGIN_SRC emacs-lisp
+  (setq org-reveal-mathjax t)
+
+  (use-package ox-reveal
+    :ensure ox-reveal)
+  (use-package htmlize
+    :ensure t)
+    (setq org-reveal-root "file:///home/pywoe/.misc/reveal.js")
+#+END_SRC
+* Helm
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+      :ensure t
+      :config
+      (helm-mode))
+  (use-package helm-swoop
+    :ensure t)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-s") 'helm-swoop)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+
+
+  (helm-mode 1)
+
+#+END_SRC
+* Comapny
+#+BEGIN_SRC emacs-lisp
+  (use-package company-emoji
+    :ensure t)
+  (use-package company-auctex
+    :ensure t)
+  (use-package company-bibtex
+    :ensure t)
+  ;(use-package company-jedi
+  ;  :ensure t)
+  ;(add-to-list 'company-backends 'company-emoji)
+  ;(add-to-list 'company-backends 'company-yasnippet);
+  ;(add-to-list 'company-backends 'company-auctex)
+  ;(add-to-list 'company-backends 'company-bibtex)
+  ;(add-to-list 'company-backends 'company-elisp)
+  (add-to-list 'company-backends 'elpy-company-backend)
+  (add-to-list 'company-backends 'company-elisp)
+  (add-to-list 'company-backends 'company-clang)
+
+  (add-hook 'after-init-hook 'global-company-mode)
+
+  
+#+END_SRC
+* Japanese
+  Install ddskk (doesnt work for some reason)
+  #+BEGIN_SRC emacs-lisp
+  ;;(use-package ddskk)
+
+  #+END_SRC
+  Config for skk
+  #+BEGIN_SRC emacs-lisp
+      (global-set-key (kbd "C-x C-j") 'skk-mode)
+      (setq skk-large-jisyo "/usr/share/skk/SKK-JISYO.L")
+  
+  #+END_SRC
+  分かりました!
+* Misc Shit
+** Elfeed
+   Rss Manager
+#+BEGIN_SRC emacs-lisp
+  (use-package elfeed
+     :ensure t)
+
+  (use-package elfeed-org
+    :ensure t)
+
+  (global-set-key (kbd "C-x w") 'elfeed)
+  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeedURLS.org"))
+  (setq rmh-elfeed-org-tree-id "elfeed")
+  (elfeed-org)
+
+  (add-to-list 'evil-motion-state-modes 'elfeed-search-mode)
+  (add-to-list 'evil-motion-state-modes 'elfeed-show-mode)
+
+  (evil-define-key* 'motion elfeed-search-mode-map
+		    "o" #'elfeed-search-browse-url
+		    "g" #'elfeed-update
+		    "G" #'elfeed-update-feed
+		    (kbd "SPC") #'elfeed-search-show-entry
+		    (kbd "RET") #'elfeed-search-show-entry
+		    "y" #'ekfeed-search-yank)
+
+
+#+END_SRC
+** Coding 
+*** AUCTeX
+#+BEGIN_SRC emacs-lisp
+  (use-package auctex
+    :defer t
+    :ensure t)
+
+#+END_SRC
+*** Yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t)
+  (use-package yasnippet-snippets
+    :ensure t)
+  (use-package helm-c-yasnippet
+    :ensure t
+    :config
+    (global-set-key (kbd "C-c y") 'helm-yas-complete))
+  (yas-global-mode 1)
+
+#+END_SRC
+*** Elpy
+#+BEGIN_SRC emacs-lisp
+  (use-package elpy
+    :ensure t
+    :config
+    (elpy-enable))
+  ;; Python2
+  ; (setq elpy-rpc-python-command "python2")
+  ; (setq python-shell-interpreter "python2")
+  ;; Python3
+  (setq elpy-rpc-python-command "python3")
+  (setq python-shell-interpreter "python3")
+#+END_SRC
+*** Magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t)
+  (use-package evil-magit
+    :ensure t)
+
+#+END_SRC
+** Anki
+   I don't actulaly use this
+   #+BEGIN_SRC emacs-lisp
+     (use-package anki-mode
+       :ensure t)
+     (use-package anki-editor
+       :ensure t)
+   #+END_SRC
+** Themes
+   Put at end for more seamless startup
+   Themes
+#+BEGIN_SRC emacs-lisp
+   ;; Dark purple theme
+  ;   (use-package nimbus-theme
+  ;     :ensure t)
+  ;   ;; Dark theme
+  ;   (use-package srcery-theme
+  ;     :ensure t)
+  ;   ;; Good dark theme
+  ;   (use-package atom-one-dark-theme
+  ;     :ensure t)
+  ;   ;; Solarized
+  ;   (use-package solarized-theme
+  ;     :ensure t)
+  ; (use-package moe-theme
+  ;   :ensure t)
+  ;(use-package badwolf-theme
+  ; :ensure t)
+  (use-package base16-theme
+    :ensure t)
+
+     ;(load-theme 'moe-dark)
+     ;(load-theme 'nimbus)
+     ;(load-theme 'srcery)
+     ;(load-theme 'atom-one-dark)
+     ;(load-theme 'solarized-light)
+     ;(load-theme 'solarized-dark)
+     ;(load-theme 'badwolf-theme)
+(load-theme 'base16-oceanicnext)
+#+END_SRC
+** Misc
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c s") 'eshell)
+  (global-set-key (kbd "C-c p") 'helm-bookmarks)
+
+#+END_SRC
+** Flycheck
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+  :ensure t)
+
+  (global-flycheck-mode)
+
+#+END_SRC
+** Dictionary
+   #+begin_src emacs-lisp
+     (setq ispell-program-name "hunspell")
+     (setq ispell-local-dictionary "en_AU")
+
+   #+end_src
+** EAF 
+
+   #+begin_src emacs-lisp
+
+     (use-package eaf
+       :load-path "~/.emacs.d/site-lisp/emacs-application-framework" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
+       :custom
+       (eaf-find-alternate-file-in-dired t)
+       :config
+       (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+       (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+       (eaf-bind-key take_photo "p" eaf-camera-keybinding))
+   #+end_src
