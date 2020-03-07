@@ -200,9 +200,7 @@
 	 ))
 
    #+end_src
-* Media
-  Why bother with an external media manager when emacs is a thing. EMMS is huge, incredibly powerful and luckily well documented. All I need it for is to play music and video, that's it. I also need it to display metadata on the modeline correctly, which it does with mpd automatically. ** Open With #+BEGIN_SRC emacs-lisp (use-package openwith :ensure t) (setq openwith-associations (list (list (openwith-make-extension-regexp '("mpg" "mpeg" "mp3" "mp4" "avi" "wmv" "wav" "mov" "flv" "ogm" "ogg" "mkv")) "mpv" '(file)) (list (openwith-make-extension-regexp '("flac" "mpeg" "mp3" "ogm" "ogg")) "emms-play file" '(file)) (list (openwith-make-extension-regexp '("xbm" "pbm" "pgm" "ppm" "pnm" "png" "gif" "bmp" "tif" "jpeg" "jpg")) "sxiv" '(file)) (list (openwith-make-extension-regexp '("doc" "xls" "ppt" "odt" "ods" "odg" "odp")) "openoffice" '(file)) '("\\.lyx" "lyx" (file)) '("\\.chm" "kchmviewer" (file)) (list (openwith-make-extension-regexp '("pdf" "ps" "ps.gz" "dvi")) "zathura" '(file)))) (openwith-mode 1) #+END_SRC ** EMMS with mpd There is many backends, many players and codecs for EMMS, we use mpd now. *** Basic setup for mpd The non XF86 keys are made to be somewhat logical to follow and easy to remember. At the bottom part of the configuration, you will notice how XF86 keys are used by default, so unless you keyboard is broken it should work out of the box. Obviously you might have to adjust /server-name/ and /server-port/ to fit your configuration. #+BEGIN_SRC emacs-lisp (use-package emms :ensure t :config (require 'emms-setup) (require 'emms-player-mpd) (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work (setq emms-seek-seconds 5) (setq emms-player-list '(emms-player-mpd)) (setq emms-info-functions '(emms-info-mpd)) (setq emms-player-mpd-server-name "localhost") (setq emms-player-mpd-server-port "6601") :bind ("s-u p" . emms) ("s-u b" . emms-smart-browse) ("s-u r" . emms-player-mpd-update-all-reset-cache) ("<XF86AudioPrev>" . emms-previous) ("<XF86AudioNext>" . emms-next) ("s-/" . emms-pause) ("<XF86AudioStop>" . emms-stop) ("<XF86AudioRaiseVolume>" . emms-volume-raise) ("<XF86AudioLowerVolume>" . emms-volume-lower)) #+END_SRC *** Mpc Setup **** Setting the default port We use Non-default settings for the socket, to use the built in =mpc= functionality we need to set up a variable. Adjust according to your setup. #+BEGIN_SRC emacs-lisp (setq mpc-host "localhost:6601") #+END_SRC *** Some more fun stuff **** Starting the daemon from within emacs If you have an absolutely massive music library, it might be a good idea to get rid of =mpc-update= and only invoke it manually when needed. #+BEGIN_SRC emacs-lisp (defun mpd/start-music-daemon () "Start MPD, connects to it and syncs the metadata cache." (interactive) (shell-command "mpd ~/.config/mpd/config") (mpd/update-database) (emms-player-mpd-connect) (message "MPD Started!")) (global-set-key (kbd "s-u c") 'mpd/start-music-daemon) #+END_SRC **** Killing the daemon from within emacs #+BEGIN_SRC emacs-lisp (defun mpd/kill-music-daemon () "Stops playback and kill the music daemon." (interactive) (emms-stop) (call-process "killall" nil nil nil "mpd") (message "MPD Killed!")) (global-set-key (kbd "s-u k") 'mpd/kill-music-daemon) #+END_SRC **** Updating the database easily. #+BEGIN_SRC emacs-lisp (defun mpd/update-database () "Updates the MPD database synchronously." (interactive) (call-process "mpc" nil nil nil "update") (message "MPD Database Updated!")) (global-set-key (kbd "s-u u") 'mpd/update-database) #+END_SRC **** Evil Keybindings #+BEGIN_SRC emacs-lisp (add-hook 'emms-browser-show-display-hook 'evil-initialize) #+END_SRC ** * Evil Mode
-** Base Evil Mode
+* Evil
    #+BEGIN_SRC emacs-lisp
   (use-package evil 
     :ensure t
@@ -235,7 +233,6 @@
      (add-hook 'objc-mode-hook 'irony-mode)
      (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 #+END_SRC
->>>>>>> b92f505bafdf77b60ad9ad9cb46bb8cba54e1d5e
 ** IEdit
    #+BEGIN_SRC emacs-lisp
   (use-package iedit
@@ -295,13 +292,10 @@
     :ensure t)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   
-<<<<<<< HEAD
   (require 'org-tempo)
    #+END_SRC
-=======
 ;  (require 'org-tempo)
 #+END_SRC
->>>>>>> b92f505bafdf77b60ad9ad9cb46bb8cba54e1d5e
 
    Create *org-capture-templates*
 
@@ -344,7 +338,6 @@
     :ensure ox-reveal)
   (use-package htmlize
     :ensure t)
-<<<<<<< HEAD
     (setq org-reveal-root "file:///home/pywoe/.misc/reveal.js")
    #+END_SRC
 * Helm (NOT USED)
@@ -359,7 +352,6 @@
  ; (global-set-key (kbd "C-x C-f") 'helm-find-files)
  ; (global-set-key (kbd "C-s") 'helm-swoop)
  ; (global-set-key (kbd "C-x b") 'helm-buffers-list)
-=======
     (setq org-reveal-root "file:///home/moogly/.misc/reveal.js")
 #+END_SRC
 * Helm
@@ -376,7 +368,6 @@
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-s") 'helm-swoop)
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
->>>>>>> b92f505bafdf77b60ad9ad9cb46bb8cba54e1d5e
 
  ; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 
