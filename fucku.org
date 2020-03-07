@@ -13,25 +13,25 @@
   (global-display-line-numbers-mode 1)
 
   ;; Direct backup to ~/.saves
-  (setq backup-directory-alist `(("." . "~/.saves")))
+  ;(setq backup-directory-alist `(("." . "~/.saves")))
 
-#+END_SRC
+  #+END_SRC
 * Interface Tweaks
 ** Nyan
-NYANYANYANYANYANYANYANYANYAN cat
-This is the most important package, fuck evil and org, this is why
-I use EMACS YEYEYEYEYE NYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYAANYANYANYAN
-#+BEGIN_SRC emacs-lisp
+   NYANYANYANYANYANYANYANYANYAN cat
+   This is the most important package, fuck evil and org, this is why
+   I use EMACS YEYEYEYEYE NYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYAANYANYANYAN
+   #+BEGIN_SRC emacs-lisp
   (use-package nyan-mode
     :ensure t
     :config
     (nyan-mode 1)
     (nyan-start-animation)
     (nyan-toggle-wavy-trail))
-#+END_SRC
+   #+END_SRC
 ** Emoji 
-Emojis
-#+BEGIN_SRC emacs-lisp
+   Emojis
+   #+BEGIN_SRC emacs-lisp
     (defun --set-emoji-font (frame)
       "Adjust the font settings of FRAME so Emacs can display emoji properly."
       (if (eq system-type 'darwin)
@@ -39,30 +39,30 @@ Emojis
 	(set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
   (--set-emoji-font nil)
   (add-hook 'after-make-frame-functions '--set-emoji-font)
-#+END_SRC
+   #+END_SRC
 
-Better looking org bulltets
-#+BEGIN_SRC emacs-lisp
+   Better looking org bulltets
+   #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
     :ensure t
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
 
-#+END_SRC
+   #+END_SRC
 
 ** Dired
 *** Dired+
-   For Better Dired
-[[https://www.emacswiki.org/emacs/download/dired%252b.el][Dired+ Source]]
-(Needs to manually install it)
-#+BEGIN_SRC emacs-lisp
+    For Better Dired
+    [[https://www.emacswiki.org/emacs/download/dired%252b.el][Dired+ Source]]
+    (Needs to manually install it)
+    #+BEGIN_SRC emacs-lisp
  ; (use-package dired+
  ;   :load-path "~/.emacs.d/lisp/dired+.el")
-#+END_SRC
+    #+END_SRC
 
 *** Dired Rainbow
     Dired rainbow
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   ;(use-package dired-rainbow
   ;  :config
   ;  (progn
@@ -87,16 +87,16 @@ Better looking org bulltets
   ;    (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
   ;    (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
   ;    )) 
-#+END_SRC
+    #+END_SRC
 *** Dired shit
-No multiple buffers!
-#+BEGIN_SRC emacs-lisp
+    No multiple buffers!
+    #+BEGIN_SRC emacs-lisp
   (use-package dired-subtree
     :ensure t
     :config
     (define-key dired-mode-map "n" 'dired-subtree-insert)
     (define-key dired-mode-map "N" 'dired-subtree-remove))
-#+END_SRC
+    #+END_SRC
 ** Esehll
    #+BEGIN_SRC emacs-lisp
      (add-hook 'comint-mode-hook
@@ -107,26 +107,24 @@ No multiple buffers!
    #+END_SRC
 ** Buffers
 *** ibuffer
-   A better buffer mode (still can use )
-#+BEGIN_SRC emacs-lisp
+    A better buffer mode (still can use )
+    #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
-#+END_SRC
-*** Helm buffer
-    In the Helm section, will change the normal micro buffer list into helm micro buffer list
+    #+END_SRC
 ** Rainbow Mode
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode
     :ensure t)
-#+END_SRC
+   #+END_SRC
 ** Doom Mode
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
     (use-package doom-modeline
      :ensure t
      :hook (after-init . doom-modeline-mode))
 
     ;(all-the-icons-install-fonts)
 
-#+END_SRC
+   #+END_SRC
 ** Which Key
    #+BEGIN_SRC emacs-lisp
      (use-package which-key
@@ -142,16 +140,16 @@ No multiple buffers!
 
     #+END_SRC
 ** Sublime Mode
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
     
    
    
    
 
 
-#+END_SRC
+   #+END_SRC
 ** Copy Path
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (defun xah-copy-file-path (&optional @dir-path-only-p)
     "Copy the current buffer's file path or dired path to `kill-ring'.
   Result is full path.
@@ -184,7 +182,7 @@ No multiple buffers!
 	   $fpath )))))
 
   (global-set-key (kbd "C-c C-p") 'xah-copy-file-path)
-#+END_SRC
+   #+END_SRC
 ** Time
    #+begin_src emacs-lisp
      (display-time-mode t)
@@ -203,9 +201,9 @@ No multiple buffers!
 
    #+end_src
 * Media
-Why bother with an external media manager when emacs is a thing. EMMS is huge, incredibly powerful and luckily well documented. All I need it for is to play music and video, that's it. I also need it to display metadata on the modeline correctly, which it does with mpd automatically. ** Open With #+BEGIN_SRC emacs-lisp (use-package openwith :ensure t) (setq openwith-associations (list (list (openwith-make-extension-regexp '("mpg" "mpeg" "mp3" "mp4" "avi" "wmv" "wav" "mov" "flv" "ogm" "ogg" "mkv")) "mpv" '(file)) (list (openwith-make-extension-regexp '("flac" "mpeg" "mp3" "ogm" "ogg")) "emms-play file" '(file)) (list (openwith-make-extension-regexp '("xbm" "pbm" "pgm" "ppm" "pnm" "png" "gif" "bmp" "tif" "jpeg" "jpg")) "sxiv" '(file)) (list (openwith-make-extension-regexp '("doc" "xls" "ppt" "odt" "ods" "odg" "odp")) "openoffice" '(file)) '("\\.lyx" "lyx" (file)) '("\\.chm" "kchmviewer" (file)) (list (openwith-make-extension-regexp '("pdf" "ps" "ps.gz" "dvi")) "zathura" '(file)))) (openwith-mode 1) #+END_SRC ** EMMS with mpd There is many backends, many players and codecs for EMMS, we use mpd now. *** Basic setup for mpd The non XF86 keys are made to be somewhat logical to follow and easy to remember. At the bottom part of the configuration, you will notice how XF86 keys are used by default, so unless you keyboard is broken it should work out of the box. Obviously you might have to adjust /server-name/ and /server-port/ to fit your configuration. #+BEGIN_SRC emacs-lisp (use-package emms :ensure t :config (require 'emms-setup) (require 'emms-player-mpd) (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work (setq emms-seek-seconds 5) (setq emms-player-list '(emms-player-mpd)) (setq emms-info-functions '(emms-info-mpd)) (setq emms-player-mpd-server-name "localhost") (setq emms-player-mpd-server-port "6601") :bind ("s-u p" . emms) ("s-u b" . emms-smart-browse) ("s-u r" . emms-player-mpd-update-all-reset-cache) ("<XF86AudioPrev>" . emms-previous) ("<XF86AudioNext>" . emms-next) ("s-/" . emms-pause) ("<XF86AudioStop>" . emms-stop) ("<XF86AudioRaiseVolume>" . emms-volume-raise) ("<XF86AudioLowerVolume>" . emms-volume-lower)) #+END_SRC *** Mpc Setup **** Setting the default port We use Non-default settings for the socket, to use the built in =mpc= functionality we need to set up a variable. Adjust according to your setup. #+BEGIN_SRC emacs-lisp (setq mpc-host "localhost:6601") #+END_SRC *** Some more fun stuff **** Starting the daemon from within emacs If you have an absolutely massive music library, it might be a good idea to get rid of =mpc-update= and only invoke it manually when needed. #+BEGIN_SRC emacs-lisp (defun mpd/start-music-daemon () "Start MPD, connects to it and syncs the metadata cache." (interactive) (shell-command "mpd ~/.config/mpd/config") (mpd/update-database) (emms-player-mpd-connect) (message "MPD Started!")) (global-set-key (kbd "s-u c") 'mpd/start-music-daemon) #+END_SRC **** Killing the daemon from within emacs #+BEGIN_SRC emacs-lisp (defun mpd/kill-music-daemon () "Stops playback and kill the music daemon." (interactive) (emms-stop) (call-process "killall" nil nil nil "mpd") (message "MPD Killed!")) (global-set-key (kbd "s-u k") 'mpd/kill-music-daemon) #+END_SRC **** Updating the database easily. #+BEGIN_SRC emacs-lisp (defun mpd/update-database () "Updates the MPD database synchronously." (interactive) (call-process "mpc" nil nil nil "update") (message "MPD Database Updated!")) (global-set-key (kbd "s-u u") 'mpd/update-database) #+END_SRC **** Evil Keybindings #+BEGIN_SRC emacs-lisp (add-hook 'emms-browser-show-display-hook 'evil-initialize) #+END_SRC ** * Evil Mode
+  Why bother with an external media manager when emacs is a thing. EMMS is huge, incredibly powerful and luckily well documented. All I need it for is to play music and video, that's it. I also need it to display metadata on the modeline correctly, which it does with mpd automatically. ** Open With #+BEGIN_SRC emacs-lisp (use-package openwith :ensure t) (setq openwith-associations (list (list (openwith-make-extension-regexp '("mpg" "mpeg" "mp3" "mp4" "avi" "wmv" "wav" "mov" "flv" "ogm" "ogg" "mkv")) "mpv" '(file)) (list (openwith-make-extension-regexp '("flac" "mpeg" "mp3" "ogm" "ogg")) "emms-play file" '(file)) (list (openwith-make-extension-regexp '("xbm" "pbm" "pgm" "ppm" "pnm" "png" "gif" "bmp" "tif" "jpeg" "jpg")) "sxiv" '(file)) (list (openwith-make-extension-regexp '("doc" "xls" "ppt" "odt" "ods" "odg" "odp")) "openoffice" '(file)) '("\\.lyx" "lyx" (file)) '("\\.chm" "kchmviewer" (file)) (list (openwith-make-extension-regexp '("pdf" "ps" "ps.gz" "dvi")) "zathura" '(file)))) (openwith-mode 1) #+END_SRC ** EMMS with mpd There is many backends, many players and codecs for EMMS, we use mpd now. *** Basic setup for mpd The non XF86 keys are made to be somewhat logical to follow and easy to remember. At the bottom part of the configuration, you will notice how XF86 keys are used by default, so unless you keyboard is broken it should work out of the box. Obviously you might have to adjust /server-name/ and /server-port/ to fit your configuration. #+BEGIN_SRC emacs-lisp (use-package emms :ensure t :config (require 'emms-setup) (require 'emms-player-mpd) (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work (setq emms-seek-seconds 5) (setq emms-player-list '(emms-player-mpd)) (setq emms-info-functions '(emms-info-mpd)) (setq emms-player-mpd-server-name "localhost") (setq emms-player-mpd-server-port "6601") :bind ("s-u p" . emms) ("s-u b" . emms-smart-browse) ("s-u r" . emms-player-mpd-update-all-reset-cache) ("<XF86AudioPrev>" . emms-previous) ("<XF86AudioNext>" . emms-next) ("s-/" . emms-pause) ("<XF86AudioStop>" . emms-stop) ("<XF86AudioRaiseVolume>" . emms-volume-raise) ("<XF86AudioLowerVolume>" . emms-volume-lower)) #+END_SRC *** Mpc Setup **** Setting the default port We use Non-default settings for the socket, to use the built in =mpc= functionality we need to set up a variable. Adjust according to your setup. #+BEGIN_SRC emacs-lisp (setq mpc-host "localhost:6601") #+END_SRC *** Some more fun stuff **** Starting the daemon from within emacs If you have an absolutely massive music library, it might be a good idea to get rid of =mpc-update= and only invoke it manually when needed. #+BEGIN_SRC emacs-lisp (defun mpd/start-music-daemon () "Start MPD, connects to it and syncs the metadata cache." (interactive) (shell-command "mpd ~/.config/mpd/config") (mpd/update-database) (emms-player-mpd-connect) (message "MPD Started!")) (global-set-key (kbd "s-u c") 'mpd/start-music-daemon) #+END_SRC **** Killing the daemon from within emacs #+BEGIN_SRC emacs-lisp (defun mpd/kill-music-daemon () "Stops playback and kill the music daemon." (interactive) (emms-stop) (call-process "killall" nil nil nil "mpd") (message "MPD Killed!")) (global-set-key (kbd "s-u k") 'mpd/kill-music-daemon) #+END_SRC **** Updating the database easily. #+BEGIN_SRC emacs-lisp (defun mpd/update-database () "Updates the MPD database synchronously." (interactive) (call-process "mpc" nil nil nil "update") (message "MPD Database Updated!")) (global-set-key (kbd "s-u u") 'mpd/update-database) #+END_SRC **** Evil Keybindings #+BEGIN_SRC emacs-lisp (add-hook 'emms-browser-show-display-hook 'evil-initialize) #+END_SRC ** * Evil Mode
 ** Base Evil Mode
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package evil 
     :ensure t
     :config
@@ -214,24 +212,24 @@ Why bother with an external media manager when emacs is a thing. EMMS is huge, i
   ;(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
   ;(add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
   ;(add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
-#+END_SRC
+   #+END_SRC
 * Programming
 ** C++
 *** Rtags
-#+BEGIN_SRC 
+    #+BEGIN_SRC 
 
 (use-package rtags
 :ensure t)
 
-#+END_SRC
+    #+END_SRC
 ** IEdit
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package iedit
     :ensure t)
 
-#+END_SRC
+   #+END_SRC
 ** Webmode
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
     (use-package web-mode
       :ensure t)
 
@@ -244,9 +242,9 @@ Why bother with an external media manager when emacs is a thing. EMMS is huge, i
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
-#+END_SRC
+   #+END_SRC
 ** emmet Mode
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package emmet-mode
     :ensure t)
 
@@ -255,16 +253,16 @@ Why bother with an external media manager when emacs is a thing. EMMS is huge, i
     (setq emmet-move-cursor-between-quotes t)
 
 
-#+END_SRC
+   #+END_SRC
 ** Tramp mode
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (setq tramp-default-method "ssh")
   (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
   (customize-set-variable 'tramp-syntax 'simplified)
 
-#+end_src
+   #+end_src
 
-#+END_SRC
+   #+END_SRC
 ** Arduino
    #+begin_src emacs-lisp
      (use-package arduino-mode
@@ -276,7 +274,7 @@ Why bother with an external media manager when emacs is a thing. EMMS is huge, i
 
 * Org
 ** Normal Org
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package org
     :ensure t
     :pin org)
@@ -285,11 +283,11 @@ Why bother with an external media manager when emacs is a thing. EMMS is huge, i
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   
   (require 'org-tempo)
-#+END_SRC
+   #+END_SRC
 
-Create *org-capture-templates*
+   Create *org-capture-templates*
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
    '(("x"  "local notes" entry 
      (file+headline (lambda () (concat (file-name-directory buffer-file-name) "notes.org")) "Copied regions")
@@ -299,10 +297,10 @@ Create *org-capture-templates*
 
   (setq org-export-html-style-include-scripts nil
         org-export-html-style-include-default nil)
-#+END_SRC
+   #+END_SRC
 ** Org Brain
-  Org Brain
-#+BEGIN_SRC emacs-lisp
+   Org Brain
+   #+BEGIN_SRC emacs-lisp
     (use-package org-brain :ensure t
       :init
       (setq org-brain-path "~/doc/Org Brain")
@@ -319,9 +317,9 @@ Create *org-capture-templates*
       (setq org-brain-title-max-length 12))
     
 
-#+END_SRC
+   #+END_SRC
 ** Org Reveal
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (setq org-reveal-mathjax t)
 
   (use-package ox-reveal
@@ -329,26 +327,53 @@ Create *org-capture-templates*
   (use-package htmlize
     :ensure t)
     (setq org-reveal-root "file:///home/pywoe/.misc/reveal.js")
-#+END_SRC
-* Helm
+   #+END_SRC
+* Helm (NOT USED)
 #+BEGIN_SRC emacs-lisp
-  (use-package helm
-      :ensure t
-      :config
-      (helm-mode))
-  (use-package helm-swoop
-    :ensure t)
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-s") 'helm-swoop)
-  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+ ; (use-package helm
+ ;     :ensure t
+ ;     :config
+ ;     (helm-mode))
+ ; (use-package helm-swoop
+ ;   :ensure t)
+ ; (global-set-key (kbd "M-x") 'helm-M-x)
+ ; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+ ; (global-set-key (kbd "C-s") 'helm-swoop)
+ ; (global-set-key (kbd "C-x b") 'helm-buffers-list)
 
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+ ; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 
 
-  (helm-mode 1)
+ ; (helm-mode 1)
 
 #+END_SRC
+* Counsel
+  #+begin_src emacs-lisp
+    (use-package swiper
+      :ensure t)
+
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    ;; enable this if you want `swiper' to use it
+    ;; (setq search-default-mode #'char-fold-to-regexp)
+    (global-set-key "\C-s" 'swiper)
+    (global-set-key (kbd "C-c C-r") 'ivy-resume)
+    (global-set-key (kbd "<f6>") 'ivy-resume)
+    (global-set-key (kbd "M-x") 'counsel-M-x)
+    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+    (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+    (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+    (global-set-key (kbd "<f1> l") 'counsel-find-library)
+    (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+    (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+    (global-set-key (kbd "C-c g") 'counsel-git)
+    (global-set-key (kbd "C-c j") 'counsel-git-grep)
+    (global-set-key (kbd "C-c k") 'counsel-ag)
+    (global-set-key (kbd "C-x l") 'counsel-locate)
+    (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+    (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+  #+end_src
 * Comapny
 #+BEGIN_SRC emacs-lisp
   (use-package company-emoji
@@ -426,11 +451,11 @@ Create *org-capture-templates*
   (use-package yasnippet
     :ensure t)
   (use-package yasnippet-snippets
-    :ensure t)
-  (use-package helm-c-yasnippet
-    :ensure t
-    :config
-    (global-set-key (kbd "C-c y") 'helm-yas-complete))
+  :ensure t)
+ ; (use-package helm-c-yasnippet
+ ;   :ensure t
+ ;   :config
+ ;   (global-set-key (kbd "C-c y") 'helm-yas-complete))
   (yas-global-mode 1)
 
 #+END_SRC
@@ -456,7 +481,7 @@ Create *org-capture-templates*
 
 #+END_SRC
 ** Anki
-   I don't actulaly use this
+   I don't actually use this
    #+BEGIN_SRC emacs-lisp
      (use-package anki-mode
        :ensure t)
@@ -498,8 +523,7 @@ Create *org-capture-templates*
 ** Misc
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c s") 'eshell)
-  (global-set-key (kbd "C-c p") 'helm-bookmarks)
-
+  (global-set-key (kbd "C-c p") 'counsel-bookmark)
 #+END_SRC
 ** Flycheck
 #+BEGIN_SRC emacs-lisp
@@ -516,9 +540,7 @@ Create *org-capture-templates*
 
    #+end_src
 ** EAF 
-
    #+begin_src emacs-lisp
-
      (use-package eaf
        :load-path "~/.emacs.d/site-lisp/emacs-application-framework" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
        :custom

@@ -30,7 +30,7 @@
  '(org-agenda-files (quote ("~/.emacs.d/fucku.org")))
  '(package-selected-packages
    (quote
-    (base16-theme ace-window arduino-mode moe-theme try emmet-mode ## web-mode iedit sublimity rtags irony-eldoc flycheck-irony flycheck company-irony irony company htmlize org-reveal ox-reveal evil-collection emms openwith company-smart-elisp mentor anki-editor anki-editori anki-mode which-key solarized-theme helm-c-yasnippet evil-org company-jedi doom-modeline doom-mode evil-magit evil-mage magit rainbow-mode srcery-theme scerey-theme company-elpy-backend dired-rainbow dired-subtree yasnippet-snippets elfeed-org elfeed dired+ auctex auxtex nyan-mode helm-swoop helm org-bullets nimbus-theme company-elpy company-mode comapny-mode ddskk use-package evil)))
+    (counsel ivy base16-theme ace-window arduino-mode moe-theme try emmet-mode ## web-mode iedit sublimity rtags irony-eldoc flycheck-irony flycheck company-irony irony company htmlize org-reveal ox-reveal evil-collection emms openwith company-smart-elisp mentor anki-editor anki-editori anki-mode which-key solarized-theme helm-c-yasnippet evil-org company-jedi doom-modeline doom-mode evil-magit evil-mage magit rainbow-mode srcery-theme scerey-theme company-elpy-backend dired-rainbow dired-subtree yasnippet-snippets elfeed-org elfeed dired+ auctex auxtex nyan-mode helm-swoop helm org-bullets nimbus-theme company-elpy company-mode comapny-mode ddskk use-package evil)))
  '(tramp-syntax (quote simplified) nil (tramp)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
