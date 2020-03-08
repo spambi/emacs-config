@@ -17,9 +17,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(counsel-mode t)
  '(custom-safe-themes
    (quote
-    ("669e02142a56f63861288cc585bee81643ded48a19e36bfdf02b66d745bcc626" default)))
+    ("7f791f743870983b9bb90c8285e1e0ba1bf1ea6e9c9a02c60335899ba20f3c94" "99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" "e1ecb0536abec692b5a5e845067d75273fe36f24d01210bf0aa5842f2a7e029f" "1526aeed166165811eefd9a6f9176061ec3d121ba39500af2048073bea80911e" "669e02142a56f63861288cc585bee81643ded48a19e36bfdf02b66d745bcc626" default)))
+ '(eaf-find-alternate-file-in-dired t t)
+ '(org-agenda-files
+   (quote
+    ("~/doc/Programming/horriblesubsrssparser/TODO.org")))
  '(package-selected-packages
    (quote
     (company-c-headers yasnippet-snippets which-key web-mode use-package try sublimity srcery-theme solarized-theme rtags rainbow-mode ox-reveal org-bullets org-brain openwith nyan-mode nimbus-theme moe-theme irony-eldoc iedit htmlize helm-swoop helm-c-yasnippet flycheck-irony evil-magit emms emmet-mode elpy elfeed-org doom-modeline dired-subtree counsel company-irony company-emoji company-bibtex company-auctex base16-theme badwolf-theme atom-one-dark-theme arduino-mode anki-mode anki-editor ace-window)))
