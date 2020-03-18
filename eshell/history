@@ -21,3 +21,30 @@ git push origin HEAD:origin/master
 git push origin HEAD:origin
 python2 PyPe.py
 sudo pip2 install wxPython
+ls
+cd
+ls
+clear
+ls
+git clone https://github.com/handsomegui/mpd-win32-build
+pacman -S cmake
+(counsel-M-X)
+(counsel-M-x)
+(init)
+)help
+(help)
+pip
+pacman -S pip
+pacman -S python-pip
+pip instalpip instal
+pip
+pacman -S python
+pip
+pip3
+python3
+ls
+pip
+(directory-files "D:/")
+(all-the-icons-font-instasll)
+(all-the-icons-font-install)
+(all-the-icons-font-instasll)
