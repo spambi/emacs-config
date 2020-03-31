@@ -134,7 +134,7 @@
 ** Font
 *** Normal Font
     #+BEGIN_SRC emacs-lisp
-    (set-frame-font "Hack-10" nil t)
+;    (set-frame-font "Hack-10" nil t)
 
 
 
@@ -327,6 +327,7 @@
 * Org
 ** Normal Org
    #+BEGIN_SRC emacs-lisp
+<<<<<<< HEAD
      (use-package org
        :ensure t
        :pin org)
@@ -337,6 +338,27 @@
        (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 
      (require 'org-tempo)
+=======
+       (use-package org
+	 :ensure t
+	 :pin org)
+       (use-package org-bullets
+	 :ensure t)
+       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+       ; use this to change colours of keywords1
+      (setq org-todo-keyword-faces
+      	   '(
+      	     ("DOING" . (:foreground "#D19A66" :weight bold))
+      	     ("ABANDONED" . (:foreground "#BE5046" :weight bold))
+      	     ("DONE" . (:foreground "#98C379" :weight bold))
+      	     ))
+
+     (setq org-todo-keywords
+	   '((sequence "TODO" "DOING" "DONE" "ABANDONED")))
+
+     ;  (require 'org-tempo)
+>>>>>>> origin/master
    #+END_SRC
 ;  (require 'org-tempo)
 #+END_SRC
@@ -344,15 +366,18 @@
    Create *org-capture-templates*
 
    #+BEGIN_SRC emacs-lisp
-(setq org-capture-templates
-   '(("x"  "local notes" entry 
-     (file+headline (lambda () (concat (file-name-directory buffer-file-name) "notes.org")) "Copied regions")
-       "* %^{Title} %U \n %i")
-))
+     (setq org-capture-templates
+	'(("x"  "local notes" entry 
+	  (file+headline (lambda () (concat (file-name-directory buffer-file-name) "notes.org")) "Copied regions")
+	    "* %^{Title} %U \n %i")
+     ))
 
 
-  (setq org-export-html-style-include-scripts nil
-        org-export-html-style-include-default nil)
+       (setq org-export-html-style-include-scripts nil
+	     org-export-html-style-include-default nil)
+	
+     (setq org-clock-persist 'history)
+     (org-clock-persistence-insinuate)
    #+END_SRC
 ** Org Brain
    Org Brain
