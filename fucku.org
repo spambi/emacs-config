@@ -161,6 +161,7 @@
 
   URL `http://ergoemacs.org/emacs/emacs_copy_file_path.html'
   Version 2017-09-01"
+
     (interactive "P")
     (let (($fpath
 	   (if (string-equal major-mode 'dired-mode)
@@ -187,7 +188,7 @@
    #+begin_src emacs-lisp
      (display-time-mode t)
    #+end_src
-** Windows
+** Buffer Management
    #+begin_src emacs-lisp
      (use-package ace-window
        :ensure t
@@ -513,28 +514,31 @@
 * Misc Shit
 ** Elfeed
    Rss Manager
+   #+begin_src emacs-lisp
 
-  (use-package elfeed
-     :ensure t)
+;  (use-package elfeed
+;     :ensure t)
+;
+;  (use-package elfeed-org
+;    :ensure t)
+;
+;  (global-set-key (kbd "C-x w") 'elfeed)
+;  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeedURLS.org"))
+;  (setq rmh-elfeed-org-tree-id "elfeed")
+;  (elfeed-org)
+;
+;  (add-to-list 'evil-motion-state-modes 'elfeed-search-mode)
+;  (add-to-list 'evil-motion-state-modes 'elfeed-show-mode)
+;
+;  (evil-define-key* 'motion elfeed-search-mode-map
+;		    "o" #'elfeed-search-browse-url
+;		    "g" #'elfeed-update
+;		    "G" #'elfeed-update-feed
+;		    (kbd "SPC") #'elfeed-search-show-entry
+;		    (kbd "RET") #'elfeed-search-show-entry
+;		    "y" #'ekfeed-search-yank)
 
-  (use-package elfeed-org
-    :ensure t)
-
-  (global-set-key (kbd "C-x w") 'elfeed)
-  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeedURLS.org"))
-  (setq rmh-elfeed-org-tree-id "elfeed")
-  (elfeed-org)
-
-  (add-to-list 'evil-motion-state-modes 'elfeed-search-mode)
-  (add-to-list 'evil-motion-state-modes 'elfeed-show-mode)
-
-  (evil-define-key* 'motion elfeed-search-mode-map
-		    "o" #'elfeed-search-browse-url
-		    "g" #'elfeed-update
-		    "G" #'elfeed-update-feed
-		    (kbd "SPC") #'elfeed-search-show-entry
-		    (kbd "RET") #'elfeed-search-show-entry
-		    "y" #'ekfeed-search-yank)
+   #+end_src
 
 
 
@@ -580,7 +584,7 @@
     :ensure t)
 
 #+END_SRC
-** Anki
+* Anki
    I don't actually use this
    #+BEGIN_SRC emacs-lisp
      (use-package anki-mode

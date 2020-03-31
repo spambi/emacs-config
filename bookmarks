@@ -2,42 +2,24 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-
-(("Dropbox"
+(("tor"
+ (filename . "~/tor/")
+ (front-context-string . "[AnimePlaza] Ish")
+ (rear-context-string . "26 Mar 20 00:26 ")
+ (position . 236))
+("drp"
  (filename . "~/Dropbox/")
- (front-context-string . "20200317_151455.")
- (rear-context-string . "94 Mar 17 15:14 ")
+ (front-context-string . "Books\n  drwxr-xr")
+ (rear-context-string . "96 Mar 30 22:18 ")
  (position . 227))
-("documents"
+("doc"
  (filename . "~/doc/")
- (front-context-string . "Resources\n  -rw-")
- (rear-context-string . "96 Feb 27 05:11 ")
- (position . 441))
-
-(("TODO"
- (filename . "d:/org/TODO.org")
- (front-context-string . "* General\n** TOD")
- (rear-context-string)
- (position . 1))
-("org"
- (filename . "d:/org/")
- (front-context-string)
- (rear-context-string . "0 03-12 23:31 .\n")
- (position . 158))
-
-("Cookbook"
- (filename . "~/doc/CookBook.org")
- (front-context-string)
- (rear-context-string)
- (position . 1))
-("Networking Test"
- (filename . "~/doc/Networking Test/")
- (front-context-string . "main.cpp\n  -rw-r")
- (rear-context-string . "71 Feb 11 23:45 ")
- (position . 294))
+ (front-context-string . "CookBook.org\n  -")
+ (rear-context-string . "68 Mar 13 00:40 ")
+ (position . 212))
 ("Init"
  (filename . "~/.emacs.d/fucku.org")
- (front-context-string . "* Interface Twea")
- (rear-context-string . "\")))\n\n#+END_SRC\n")
- (position . 419))
+ (front-context-string . "#+STARTIP: overv")
+ (rear-context-string)
+ (position . 1))
 )
