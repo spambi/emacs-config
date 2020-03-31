@@ -327,7 +327,6 @@
 * Org
 ** Normal Org
    #+BEGIN_SRC emacs-lisp
-<<<<<<< HEAD
      (use-package org
        :ensure t
        :pin org)
@@ -338,7 +337,6 @@
        (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 
      (require 'org-tempo)
-=======
        (use-package org
 	 :ensure t
 	 :pin org)
@@ -358,7 +356,6 @@
 	   '((sequence "TODO" "DOING" "DONE" "ABANDONED")))
 
      ;  (require 'org-tempo)
->>>>>>> origin/master
    #+END_SRC
 ;  (require 'org-tempo)
 #+END_SRC
