@@ -327,9 +327,9 @@
 * Org
 ** Normal Org
    #+BEGIN_SRC emacs-lisp
-     (use-package org
-       :ensure t
-       :pin org)
+       (use-package org
+	 :ensure t
+	 :pin org)
 
      (use-package org-superstar
        :ensure t
@@ -337,9 +337,6 @@
        (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 
      (require 'org-tempo)
-       (use-package org
-	 :ensure t
-	 :pin org)
        (use-package org-bullets
 	 :ensure t)
        (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
