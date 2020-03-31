@@ -27,7 +27,7 @@
     ("~/doc/Programming/horriblesubsrssparser/TODO.org")))
  '(package-selected-packages
    (quote
-    (company-ghc haskell-mode company-c-headers yasnippet-snippets which-key web-mode use-package try sublimity srcery-theme solarized-theme rtags rainbow-mode ox-reveal org-bullets org-brain openwith nyan-mode nimbus-theme moe-theme irony-eldoc iedit htmlize helm-swoop helm-c-yasnippet flycheck-irony evil-magit emms emmet-mode elpy elfeed-org doom-modeline dired-subtree counsel company-irony company-emoji company-bibtex company-auctex base16-theme badwolf-theme atom-one-dark-theme arduino-mode anki-mode anki-editor ace-window)))
+    (evil-collection org-superstar flycheck-rust cargo toml-mode lsp-mode rust-mode haskell-emacs flymake-haskell-multi flycheck-stack stack-mode haskell-indent-mode flycheck-haskell company-ghc haskell-mode company-c-headers yasnippet-snippets which-key web-mode use-package try sublimity srcery-theme solarized-theme rtags rainbow-mode ox-reveal org-bullets org-brain openwith nyan-mode nimbus-theme moe-theme irony-eldoc iedit htmlize helm-swoop helm-c-yasnippet flycheck-irony evil-magit emms emmet-mode elpy elfeed-org doom-modeline dired-subtree counsel company-irony company-emoji company-bibtex company-auctex base16-theme badwolf-theme atom-one-dark-theme arduino-mode anki-mode anki-editor ace-window)))
  '(tramp-syntax (quote simplified) nil (tramp)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

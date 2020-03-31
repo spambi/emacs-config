@@ -203,14 +203,23 @@
 
 * Evil
    #+BEGIN_SRC emacs-lisp
-  (use-package evil 
-    :ensure t
-    :config
-    (evil-mode 1))
+     (use-package evil 
+       :ensure t
+       :init
+       (setq evil-want-keybinding t) ;; To make sure its set to nil
+       (setq evil-want-keybinding nil)
+       :config
+       (evil-mode 1))
 
-  ;(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
-  ;(add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
-  ;(add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
+     (use-package evil-collection
+       :after evil
+       :ensure t
+       :config
+       (evil-collection-init))
+
+     ;(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+     ;(add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
+     ;(add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
    #+END_SRC
 * Programming
 ** C++
@@ -239,6 +248,8 @@
      (use-package haskell-mode
        :ensure t)
      (use-package company-ghc
+       :ensure t)
+     (use-package flycheck-haskell
        :ensure t)
    #+end_src
 ** IEdit
@@ -275,9 +286,10 @@
    #+END_SRC
 ** Tramp mode
    #+BEGIN_SRC emacs-lisp
-  (setq tramp-default-method "ssh")
-  (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
-  (customize-set-variable 'tramp-syntax 'simplified)
+
+;  (setq tramp-default-method "ssh")
+;  (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+;  (customize-set-variable 'tramp-syntax 'simplified)
 
    #+end_src
 
@@ -290,17 +302,41 @@
      (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
      (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
    #+end_src
+** Rust
+   #+begin_src emacs-lisp
+     (use-package lsp-mode
+       :config (require 'lsp-clients))
+     (use-package lsp-ui
+       :ensure t)
+
+
+     (use-package toml-mode
+       :ensure t)
+     (use-package rust-mode
+       :ensure t
+       :hook (rust-mode . lsp))
+
+     (use-package cargo
+       :ensure t
+       :config
+       (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+     (use-package flycheck-rust
+       :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+   #+end_src
 * Org
 ** Normal Org
    #+BEGIN_SRC emacs-lisp
-  (use-package org
-    :ensure t
-    :pin org)
-  (use-package org-bullets
-    :ensure t)
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  
-  (require 'org-tempo)
+     (use-package org
+       :ensure t
+       :pin org)
+
+     (use-package org-superstar
+       :ensure t
+       :config
+       (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+
+     (require 'org-tempo)
    #+END_SRC
 ;  (require 'org-tempo)
 #+END_SRC
@@ -440,6 +476,7 @@
   (add-to-list 'company-backends 'company-irony)
   (add-to-list 'company-backends 'company-ghc)
 
+
   (add-hook 'after-init-hook 'global-company-mode)
 
 #+END_SRC
@@ -535,7 +572,7 @@
        :ensure t)
    #+END_SRC
 ** Themes
-   Put at end for more seamless startup
+   Put at end for more better startup
    Themes
 #+BEGIN_SRC emacs-lisp
      ;; Dark purple theme
