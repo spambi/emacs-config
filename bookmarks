@@ -2,7 +2,7 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-<<<<<<< HEAD
+
 (("Dropbox"
  (filename . "~/Dropbox/")
  (front-context-string . "20200317_151455.")
@@ -13,7 +13,7 @@
  (front-context-string . "Resources\n  -rw-")
  (rear-context-string . "96 Feb 27 05:11 ")
  (position . 441))
-=======
+
 (("TODO"
  (filename . "d:/org/TODO.org")
  (front-context-string . "* General\n** TOD")
@@ -24,7 +24,7 @@
  (front-context-string)
  (rear-context-string . "0 03-12 23:31 .\n")
  (position . 158))
->>>>>>> origin/master
+
 ("Cookbook"
  (filename . "~/doc/CookBook.org")
  (front-context-string)

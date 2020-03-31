@@ -101,3 +101,9 @@ ls
 ./hello 
 ./hello 
 ./hello 
+git add rm eshell/history
+git add rm eshell/lastdir
+git add add eshell/lastdir
+git add/rm add eshell/lastdir
+git add eshell/lastdir
+git add eshell/history

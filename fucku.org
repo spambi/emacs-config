@@ -229,9 +229,7 @@
 (use-package rtags
 :ensure t)
 
-<<<<<<< HEAD
     #+END_SRC
-=======
 #+END_SRC
 *** Irony
 #+BEGIN_SRC emacs-lisp
@@ -515,7 +513,7 @@
 * Misc Shit
 ** Elfeed
    Rss Manager
-#+BEGIN_SRC emacs-lisp
+
   (use-package elfeed
      :ensure t)
 
@@ -539,7 +537,7 @@
 		    "y" #'ekfeed-search-yank)
 
 
-#+END_SRC
+
 ** Coding 
 *** AUCTeX
 #+BEGIN_SRC emacs-lisp
