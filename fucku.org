@@ -13,7 +13,7 @@
   (global-display-line-numbers-mode 1)
 
   ;; Direct backup to ~/.saves
-  ;(setq backup-directory-alist `(("." . "~/.saves")))
+  (setq backup-directory-alist `(("." . "~/.config/saves")))
 
   #+END_SRC
 * Interface Tweaks
@@ -51,6 +51,15 @@
    #+END_SRC
 
 ** Dired
+*** Dired Utils
+    #+begin_src emacs-lisp
+      (use-package dired-open
+	:ensure t
+	:init (require 'dired-open))
+
+      (use-package dired-rainbow
+	:ensure t)
+    #+end_src
 *** Dired+
     For Better Dired
     [[https://www.emacswiki.org/emacs/download/dired%252b.el][Dired+ Source]]
@@ -63,30 +72,30 @@
 *** Dired Rainbow
     Dired rainbow
     #+BEGIN_SRC emacs-lisp
-  ;(use-package dired-rainbow
-  ;  :config
-  ;  (progn
-  ;    (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
-  ;    (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
-  ;    (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
-  ;    (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
-  ;    (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
-  ;    (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
-  ;    (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
-  ;    (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
-  ;    (dired-rainbow-define log "#c17d11" ("log"))
-  ;    (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
-  ;    (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
-  ;    (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
-  ;    (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
-  ;    (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
-  ;    (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
-  ;    (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
-  ;    (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
-  ;    (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
-  ;    (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
-  ;    (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
-  ;    )) 
+  (use-package dired-rainbow
+    :config
+    (progn
+      (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
+      (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+      (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+      (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+      (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
+      (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+      (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac" "mkv" "webm"))
+      (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+      (dired-rainbow-define log "#c17d11" ("log"))
+      (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim" "fish"))
+      (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+      (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+      (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
+      (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+      (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+      (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+      (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+      (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+      (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
+      (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
+      )) 
     #+END_SRC
 *** Dired shit
     No multiple buffers!
@@ -203,6 +212,7 @@
    #+end_src
 
 * Evil
+  Used for main keybindings, remove from dired mode for personal preference (due to Dired Subtree being overwritten)
    #+BEGIN_SRC emacs-lisp
      (use-package evil 
        :ensure t
@@ -213,12 +223,14 @@
        (evil-mode 1))
 
      (use-package evil-collection
-       :after evil
+       :after evil dired-subtree
        :ensure t
        :config
        (evil-collection-init))
 
-     ;(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+     ;(add-to-list 'evil-emacs-state-modes 'dired-mode)
+
+     (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
      ;(add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
      ;(add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
    #+END_SRC
@@ -228,7 +240,7 @@
     #+BEGIN_SRC 
 
 (use-package rtags
-:ensure t)
+  :ensure t)
 
     #+END_SRC
 #+END_SRC
@@ -323,6 +335,37 @@
      (use-package flycheck-rust
        :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
    #+end_src
+** Lisp
+*** Eshell
+    #+begin_src emacs-lisp
+
+      (require 'ansi-color)
+
+      (defun eshell-handle-ansi-color ()
+	(ansi-color-apply-on-region eshell-last-output-start
+				    eshell-last-output-end))
+
+      (add-to-list 'eshell-output-filter-functions 'eshell-handle-ansi-color)
+
+      (global-set-key (kbd "C-c s") 'eshell)
+
+      (defun custom-eshell ()
+	"Highlight eshell pwd and prompt separately."
+	(mapconcat
+	 (lambda (list)
+	   (propertize (car list)
+		       'read-only      t
+		       'font-lock-face (cdr list)
+		       'front-sticky   '(font-lock-face read-only)
+		       'rear-nonsticky '(font-lock-face read-only)))
+	 `((,(abbreviate-file-name (eshell/pwd)) :foreground "blue")
+	   (,(if (zerop (user-uid)) " # " " $ ") :foreground "green"))
+	 ""))
+
+      (setq eshell-highlight-prompt nil
+	    eshell-prompt-function  #'my-eshell-prompt)
+    #+end_src
+
 * Org
 ** Normal Org
    #+BEGIN_SRC emacs-lisp
@@ -627,7 +670,6 @@
 #+END_SRC
 ** Misc
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c s") 'eshell)
   (global-set-key (kbd "C-c p") 'counsel-bookmark)
 #+END_SRC
 ** Flycheck
@@ -654,4 +696,17 @@
 	    (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
 	    (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
 	    (eaf-bind-key take_photo "p" eaf-camera-keybinding))
+   #+end_src
+** IDK
+   #+begin_src emacs-lisp
+	(define-key dired-mode-map "n" 'dired-subtree-insert)
+	(define-key dired-mode-map "N" 'dired-subtree-remove)
+
+     (with-eval-after-load 'dired-subtree
+       (evil-collection-define-key 'normal 'dired-mode-map
+	 (kbd "TAB") 'dired-subtree-toggle
+	(kbd "M-j") 'dired-subtree-next-sibling
+	 (kbd "M-k") 'dired-subtree-previous-sibling
+	 "n" 'dired-subtree-insert
+	 "N" 'dired-subtree-remove))
    #+end_src
