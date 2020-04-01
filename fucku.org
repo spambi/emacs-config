@@ -345,7 +345,7 @@
 	(ansi-color-apply-on-region eshell-last-output-start
 				    eshell-last-output-end))
 
-      (add-to-list 'eshell-output-filter-functions 'eshell-handle-ansi-color)
+      ;(add-to-list 'eshell-output-filter-functions 'eshell-handle-ansi-color)
 
       (global-set-key (kbd "C-c s") 'eshell)
 
