@@ -210,7 +210,14 @@
 	 ))
 
    #+end_src
+** Emoji
+   #+begin_src emacs-lisp
+     (use-package emojify
+       :ensure t
+       :config
+       (add-hook 'after-init-hook #'global-emojify-hook)
 
+   #+end_src
 * Evil
   Used for main keybindings, remove from dired mode for personal preference (due to Dired Subtree being overwritten)
    #+BEGIN_SRC emacs-lisp
