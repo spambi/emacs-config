@@ -215,7 +215,7 @@
      (use-package emojify
        :ensure t
        :config
-       (add-hook 'after-init-hook #'global-emojify-hook)
+       (add-hook 'after-init-hook #'global-emojify-hook))
 
    #+end_src
 * Evil
@@ -261,6 +261,37 @@
      (add-hook 'objc-mode-hook 'irony-mode)
      (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 #+END_SRC
+** LSP Mode
+   Might re enable when I can figure out the shitty minibuffer at the bottom
+   #+begin_src emacs-lisp
+  ;   (use-package lsp-mode
+  ;     :config (require 'lsp-clients))
+
+  ;   (use-package lsp-mode
+  ;     :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+  ;	      (elpy-mode . lsp)
+  ;	      ;; if you want which-key integration
+  ;	      (lsp-mode . lsp-enable-which-key-integration))
+  ;     :commands lsp)
+
+; ;    (use-package lsp-ui
+; ;      :ensure t
+; ;      :commands lsp-ui-mode)
+
+  ;   (use-package company-lsp
+  ;     :ensure t
+  ;     :commands company-lsp)
+
+; ;    (use-package lsp-ivy
+; ;      :ensure t
+; ;      :commands lsp-ivy-workspace-symbol)
+
+  ;   (setq gc-cons-threshold 100000000)
+
+  ;   (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  ;   (setq lsp-idle-delay 0.500)
+   #+end_src
+
 ** Haskell
    #+begin_src emacs-lisp 
      (use-package haskell-mode
@@ -322,11 +353,6 @@
    #+end_src
 ** Rust
    #+begin_src emacs-lisp
-     (use-package lsp-mode
-       :config (require 'lsp-clients))
-     (use-package lsp-ui
-       :ensure t)
-
 
      (use-package toml-mode
        :ensure t)
@@ -365,12 +391,12 @@
 		       'font-lock-face (cdr list)
 		       'front-sticky   '(font-lock-face read-only)
 		       'rear-nonsticky '(font-lock-face read-only)))
-	 `((,(abbreviate-file-name (eshell/pwd)) :foreground "blue")
-	   (,(if (zerop (user-uid)) " # " " $ ") :foreground "green"))
+	 `((,(abbreviate-file-name (eshell/pwd)) :foreground "#528BFF")
+	   (,(if (zerop (user-uid)) " # " " $ ") :foreground "#C678DD"))
 	 ""))
 
       (setq eshell-highlight-prompt nil
-	    eshell-prompt-function  #'my-eshell-prompt)
+	    eshell-prompt-function  #'custom-eshell)
     #+end_src
 
 * Org
@@ -488,6 +514,8 @@
 
 #+END_SRC
 * Counsel
+** Main Counsel
+  
   #+begin_src emacs-lisp
     (use-package swiper
       :ensure t)
@@ -517,6 +545,12 @@
     (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
     (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
   #+end_src
+** ivy-yas
+   #+begin_src emacs-lisp
+     (use-package ivy-yasnippet
+       :ensure t
+       :bind (("C-c y" . ivy-yasnippet)))
+   #+end_src
 * Comapny
 #+BEGIN_SRC emacs-lisp
   (use-package company
