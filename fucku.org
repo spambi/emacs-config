@@ -2,7 +2,9 @@
 * Base Tweaks
 ** Make Emacs useable
 #+BEGIN_SRC emacs-lisp
-;  (server-start)
+  (require 'server)
+  (or (server-running-p)
+    (server-start))
   (tool-bar-mode -1)
   (menu-bar-mode 0)
   (setq visible-bell 1)
@@ -16,212 +18,10 @@
   (setq backup-directory-alist `(("." . "~/.config/saves")))
 
   #+END_SRC
-* Interface Tweaks
-** Nyan
-   NYANYANYANYANYANYANYANYANYAN cat
-   This is the most important package, fuck evil and org, this is why
-   I use EMACS YEYEYEYEYE NYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYANYAANYANYANYAN
-   #+BEGIN_SRC emacs-lisp
-  (use-package nyan-mode
-    :ensure t
-    :config
-    (nyan-mode 1)
-    (nyan-start-animation)
-    (nyan-toggle-wavy-trail))
-   #+END_SRC
-** Emoji 
-   Emojis
-   #+BEGIN_SRC emacs-lisp
-    (defun --set-emoji-font (frame)
-      "Adjust the font settings of FRAME so Emacs can display emoji properly."
-      (if (eq system-type 'darwin)
-	;; For Linux
-	(set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
-  (--set-emoji-font nil)
-  (add-hook 'after-make-frame-functions '--set-emoji-font)
-   #+END_SRC
-
-   Better looking org bulltets
-   #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :ensure t
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
-
-   #+END_SRC
-
-** Dired
-*** Dired Utils
-    #+begin_src emacs-lisp
-      (use-package dired-open
-	:ensure t
-	:init (require 'dired-open))
-
-      (use-package dired-rainbow
-	:ensure t)
-    #+end_src
-*** Dired+
-    For Better Dired
-    [[https://www.emacswiki.org/emacs/download/dired%252b.el][Dired+ Source]]
-    (Needs to manually install it)
-    #+BEGIN_SRC emacs-lisp
- ; (use-package dired+
- ;   :load-path "~/.emacs.d/lisp/dired+.el")
-    #+END_SRC
-
-*** Dired Rainbow
-    Dired rainbow
-    #+BEGIN_SRC emacs-lisp
-  (use-package dired-rainbow
-    :config
-    (progn
-      (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
-      (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
-      (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
-      (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
-      (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
-      (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
-      (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac" "mkv" "webm"))
-      (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
-      (dired-rainbow-define log "#c17d11" ("log"))
-      (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim" "fish"))
-      (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
-      (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
-      (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
-      (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
-      (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
-      (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
-      (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
-      (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
-      (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
-      (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
-      )) 
-    #+END_SRC
-*** Dired shit
-    No multiple buffers!
-    #+BEGIN_SRC emacs-lisp
-  (use-package dired-subtree
-    :ensure t
-    :config
-    (define-key dired-mode-map "n" 'dired-subtree-insert)
-    (define-key dired-mode-map "N" 'dired-subtree-remove))
-    #+END_SRC
-** Esehll
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'comint-mode-hook
-	       (defun rm-comint-postoutput-scroll-to-bottom ()
-		 (remove-hook 'comint-output-filter-functions
-			      'comint-postoutput-scroll-to-bottom)))
-
-   #+END_SRC
-** Buffers
-*** ibuffer
-    A better buffer mode (still can use )
-    #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
-    #+END_SRC
-** Rainbow Mode
-   #+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode
-    :ensure t)
-   #+END_SRC
-** Doom Mode
-   #+BEGIN_SRC emacs-lisp
-     (use-package doom-modeline
-      :ensure t
-      :init (doom-modeline-mode 1))
-
-     ;(all-the-icons-install-fonts)
-
-   #+END_SRC
-** Which Key
-   #+BEGIN_SRC emacs-lisp
-     (use-package which-key
-       :ensure t)
-     (which-key-mode)
-   #+END_SRC
-** Font
-*** Normal Font
-    #+BEGIN_SRC emacs-lisp
-;    (set-frame-font "Hack-10" nil t)
-
-
-
-    #+END_SRC
-** Sublime Mode
-   #+BEGIN_SRC emacs-lisp
-    
-   
-   
-   
-
-
-   #+END_SRC
-** Copy Path
-   #+BEGIN_SRC emacs-lisp
-  (defun xah-copy-file-path (&optional @dir-path-only-p)
-    "Copy the current buffer's file path or dired path to `kill-ring'.
-  Result is full path.
-  If `universal-argument' is called first, copy only the dir path.
-
-  If in dired, copy the file/dir cursor is on, or marked files.
-
-  If a buffer is not file and not dired, copy value of `default-directory' (which is usually the “current” dir when that buffer was created)
-
-  URL `http://ergoemacs.org/emacs/emacs_copy_file_path.html'
-  Version 2017-09-01"
-
-    (interactive "P")
-    (let (($fpath
-	   (if (string-equal major-mode 'dired-mode)
-	       (progn
-		 (let (($result (mapconcat 'identity (dired-get-marked-files) "\n")))
-		   (if (equal (length $result) 0)
-		       (progn default-directory )
-		     (progn $result))))
-	     (if (buffer-file-name)
-		 (buffer-file-name)
-	       (expand-file-name default-directory)))))
-      (kill-new
-       (if @dir-path-only-p
-	   (progn
-	     (message "Directory path copied: 「%s」" (file-name-directory $fpath))
-	     (file-name-directory $fpath))
-	 (progn
-	   (message "File path copied: 「%s」" $fpath)
-	   $fpath )))))
-
-  (global-set-key (kbd "C-c C-p") 'xah-copy-file-path)
-   #+END_SRC
-** Time
-   #+begin_src emacs-lisp
-     (display-time-mode t)
-   #+end_src
-** Buffer Management
-   #+begin_src emacs-lisp
-     (use-package ace-window
-       :ensure t
-       :init
-       (progn
-	 (global-set-key [remap other-window] 'ace-window)
-	 (custom-set-faces
-	  '(aw-leading-char-face
-	    ((t (:inherit ace-jump-face-foreground :height 3.0)))))
-	 ))
-
-   #+end_src
-** Emoji
-   #+begin_src emacs-lisp
-     (use-package emojify
-       :ensure t
-       :config
-       (add-hook 'after-init-hook #'global-emojify-hook))
-
-   #+end_src
 * Evil
   Used for main keybindings, remove from dired mode for personal preference (due to Dired Subtree being overwritten)
    #+BEGIN_SRC emacs-lisp
-     (use-package evil 
+     (use-package evil
        :ensure t
        :init
        (setq evil-want-keybinding t) ;; To make sure its set to nil
@@ -244,7 +44,7 @@
 * Programming
 ** C++
 *** Rtags
-    #+BEGIN_SRC 
+    #+BEGIN_SRC
 
 (use-package rtags
   :ensure t)
@@ -293,7 +93,7 @@
    #+end_src
 
 ** Haskell
-   #+begin_src emacs-lisp 
+   #+begin_src emacs-lisp
      (use-package haskell-mode
        :ensure t)
      (use-package company-ghc
@@ -308,6 +108,7 @@
 
    #+END_SRC
 ** Webmode
+   All your webdev needs
    #+BEGIN_SRC emacs-lisp
     (use-package web-mode
       :ensure t)
@@ -323,17 +124,19 @@
 
    #+END_SRC
 ** emmet Mode
+   For better html tags
    #+BEGIN_SRC emacs-lisp
   (use-package emmet-mode
     :ensure t)
 
     (add-hook 'sgml-mode-hook 'emmet-mode)
-    (add-hook 'css-mode-hook  'emmet-mode) 
+    (add-hook 'css-mode-hook  'emmet-mode)
     (setq emmet-move-cursor-between-quotes t)
 
 
    #+END_SRC
 ** Tramp mode
+   Never works for me..
    #+BEGIN_SRC emacs-lisp
 
 ;  (setq tramp-default-method "ssh")
@@ -344,12 +147,13 @@
 
    #+END_SRC
 ** Arduino
+   Barely functions, just use windows for arduino dev
    #+begin_src emacs-lisp
-     (use-package arduino-mode
-       :ensure t)
+    ; (use-package arduino-mode
+    ;   :ensure t)
 
-     (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
-     (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
+    ; (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
+    ; (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
    #+end_src
 ** Rust
    #+begin_src emacs-lisp
@@ -372,33 +176,49 @@
 *** Eshell
     #+begin_src emacs-lisp
 
-      (require 'ansi-color)
+       (require 'ansi-color)
 
-      (defun eshell-handle-ansi-color ()
-	(ansi-color-apply-on-region eshell-last-output-start
-				    eshell-last-output-end))
+      (defun eshell/clear ()
+	 "Clear the eshell buffer."
+	 (let ((inhibit-read-only t))
+	   (erase-buffer)
+	   (eshell-send-input)))
 
-      ;(add-to-list 'eshell-output-filter-functions 'eshell-handle-ansi-color)
+       (defun eshell-handle-ansi-color ()
+	 (ansi-color-apply-on-region eshell-last-output-start
+				     eshell-last-output-end))
 
-      (global-set-key (kbd "C-c s") 'eshell)
+       (defun custom-eshell ()
+	 "Highlight eshell pwd and prompt separately."
+	 (mapconcat
+	  (lambda (list)
+	    (propertize (car list)
+			'read-only      t
+			'font-lock-face (cdr list)
+			'front-sticky   '(font-lock-face read-only)
+			'rear-nonsticky '(font-lock-face read-only)))
+	  `((,(abbreviate-file-name (eshell/pwd)) :foreground "#528BFF")
+	    (,(if (zerop (user-uid)) " # " " $ ") :foreground "#C678DD"))
+	  ""))
 
-      (defun custom-eshell ()
-	"Highlight eshell pwd and prompt separately."
-	(mapconcat
-	 (lambda (list)
-	   (propertize (car list)
-		       'read-only      t
-		       'font-lock-face (cdr list)
-		       'front-sticky   '(font-lock-face read-only)
-		       'rear-nonsticky '(font-lock-face read-only)))
-	 `((,(abbreviate-file-name (eshell/pwd)) :foreground "#528BFF")
-	   (,(if (zerop (user-uid)) " # " " $ ") :foreground "#C678DD"))
-	 ""))
+       (setq eshell-highlight-prompt nil
+	     eshell-prompt-function  #'custom-eshell)
 
-      (setq eshell-highlight-prompt nil
-	    eshell-prompt-function  #'custom-eshell)
+      (add-hook 'comint-mode-hook
+		(defun rm-comint-postoutput-scroll-to-bottom ()
+		  (remove-hook 'comint-output-filter-functions
+			       'comint-postoutput-scroll-to-bottom)))
+
+       (global-set-key (kbd "C-c s") 'eshell)
     #+end_src
+** Flycheck
+   #+begin_src emacs-lisp
 
+  (use-package flycheck
+  :ensure t)
+
+  (global-flycheck-mode)
+   #+end_src
 * Org
 ** Normal Org
    #+BEGIN_SRC emacs-lisp
@@ -436,7 +256,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (setq org-capture-templates
-	'(("x"  "local notes" entry 
+	'(("x"  "local notes" entry
 	  (file+headline (lambda () (concat (file-name-directory buffer-file-name) "notes.org")) "Copied regions")
 	    "* %^{Title} %U \n %i")
      ))
@@ -444,7 +264,7 @@
 
        (setq org-export-html-style-include-scripts nil
 	     org-export-html-style-include-default nil)
-	
+
      (setq org-clock-persist 'history)
      (org-clock-persistence-insinuate)
    #+END_SRC
@@ -465,7 +285,7 @@
 	    org-capture-templates)
       (setq org-brain-visualize-default-choices 'all)
       (setq org-brain-title-max-length 12))
-    
+
 
    #+END_SRC
 ** Org Reveal
@@ -515,7 +335,7 @@
 #+END_SRC
 * Counsel
 ** Main Counsel
-  
+
   #+begin_src emacs-lisp
     (use-package swiper
       :ensure t)
@@ -592,7 +412,7 @@
   #+BEGIN_SRC emacs-lisp
       (global-set-key (kbd "C-x C-j") 'skk-mode)
       (setq skk-large-jisyo "/usr/share/skk/SKK-JISYO.L")
-  
+
   #+END_SRC
   分かりました!
 * Misc Shit
@@ -626,7 +446,7 @@
 
 
 
-** Coding 
+** Coding
 *** AUCTeX
 #+BEGIN_SRC emacs-lisp
   (use-package auctex
@@ -676,6 +496,225 @@
      (use-package anki-editor
        :ensure t)
    #+END_SRC
+** Misc
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC
+** Dictionary
+   #+begin_src emacs-lisp
+     (setq ispell-program-name "hunspell")
+     (setq ispell-local-dictionary "en_AU")
+   #+end_src
+** EAF
+   #+begin_src emacs-lisp
+	  (use-package eaf
+	    :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
+	    :custom
+	    (eaf-find-alternate-file-in-dired t)
+	    :config
+	    (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+	    (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+	    (eaf-bind-key take_photo "p" eaf-camera-keybinding))
+   #+end_src
+** IDK
+   #+begin_src emacs-lisp
+	(define-key dired-mode-map "n" 'dired-subtree-insert)
+	(define-key dired-mode-map "N" 'dired-subtree-remove)
+
+     (with-eval-after-load 'dired-subtree
+       (evil-collection-define-key 'normal 'dired-mode-map
+	 (kbd "TAB") 'dired-subtree-toggle
+	(kbd "M-j") 'dired-subtree-next-sibling
+	 (kbd "M-k") 'dired-subtree-previous-sibling
+	 "n" 'dired-subtree-insert
+	 "N" 'dired-subtree-remove))
+   #+end_src
+* Interface Tweaks
+** Nyan
+   NYANYANYANYANYANYANYANYANYAN cat
+   This is the most important package, fuck evil and org, this is why
+   I use EMACS
+   #+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode
+    :ensure t
+    :config
+    (nyan-mode 1)
+    (nyan-start-animation)
+    (nyan-toggle-wavy-trail))
+   #+END_SRC
+** Emoji
+   Emojis
+   Both are deprecated
+   #+BEGIN_SRC emacs-lisp
+;    (defun --set-emoji-font (frame)
+;      "Adjust the font settings of FRAME so Emacs can display emoji properly."
+;      (if (eq system-type 'darwin)
+;	;; For Linux
+;	(set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
+;  (--set-emoji-font nil)
+;  (add-hook 'after-make-frame-functions '--set-emoji-font)
+;   #+END_SRC
+;
+;   Better looking org bulltets
+;   #+BEGIN_SRC emacs-lisp
+;  (use-package org-bullets
+;    :ensure t
+;    :config
+;    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+
+   #+END_SRC
+
+** Dired
+*** Dired Utils
+    #+begin_src emacs-lisp
+      (use-package dired-open
+	:ensure t
+	:init (require 'dired-open))
+
+      (use-package dired-rainbow
+	:ensure t)
+    #+end_src
+*** Dired+
+    For Better Dired
+    [[https://www.emacswiki.org/emacs/download/dired%252b.el][Dired+ Source]]
+    (Needs to manually install it)
+    #+BEGIN_SRC emacs-lisp
+ ; (use-package dired+
+ ;   :load-path "~/.emacs.d/lisp/dired+.el")
+    #+END_SRC
+
+*** Dired Rainbow
+    Dired rainbow
+    #+BEGIN_SRC emacs-lisp
+  (use-package dired-rainbow
+    :config
+    (progn
+      (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
+      (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+      (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+      (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+      (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
+      (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+      (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac" "mkv" "webm"))
+      (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+      (dired-rainbow-define log "#c17d11" ("log"))
+      (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim" "fish"))
+      (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+      (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+      (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
+      (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+      (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+      (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+      (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+      (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+      (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
+      (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
+      ))
+    #+END_SRC
+*** Dired shit
+    No multiple buffers!
+    #+BEGIN_SRC emacs-lisp
+  (use-package dired-subtree
+    :ensure t
+    :config
+    (define-key dired-mode-map "n" 'dired-subtree-insert)
+    (define-key dired-mode-map "N" 'dired-subtree-remove))
+    #+END_SRC
+** Buffers
+*** ibuffer
+    A better buffer mode (still can use)
+    #+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+    #+END_SRC
+** Rainbow Mode
+   #+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode
+    :ensure t)
+   #+END_SRC
+** Doom Mode
+   Use (all-the-icons-install-fonts) to install fonts for modeline
+   #+BEGIN_SRC emacs-lisp
+     (use-package doom-modeline
+      :ensure t
+      :init (doom-modeline-mode 1))
+   #+END_SRC
+** Which Key
+   #+BEGIN_SRC emacs-lisp
+     (use-package which-key
+       :ensure t)
+     (which-key-mode)
+   #+END_SRC
+** Font
+*** Normal Font
+    #+BEGIN_SRC emacs-lisp
+;    (set-frame-font "Hack-10" nil t)
+
+
+
+    #+END_SRC
+** Copy Path
+   #+BEGIN_SRC emacs-lisp
+  (defun xah-copy-file-path (&optional @dir-path-only-p)
+    "Copy the current buffer's file path or dired path to `kill-ring'.
+  Result is full path.
+  If `universal-argument' is called first, copy only the dir path.
+
+  If in dired, copy the file/dir cursor is on, or marked files.
+
+  If a buffer is not file and not dired, copy value of `default-directory' (which is usually the “current” dir when that buffer was created)
+
+  URL `http://ergoemacs.org/emacs/emacs_copy_file_path.html'
+  Version 2017-09-01"
+
+    (interactive "P")
+    (let (($fpath
+	   (if (string-equal major-mode 'dired-mode)
+	       (progn
+		 (let (($result (mapconcat 'identity (dired-get-marked-files) "\n")))
+		   (if (equal (length $result) 0)
+		       (progn default-directory )
+		     (progn $result))))
+	     (if (buffer-file-name)
+		 (buffer-file-name)
+	       (expand-file-name default-directory)))))
+      (kill-new
+       (if @dir-path-only-p
+	   (progn
+	     (message "Directory path copied: 「%s」" (file-name-directory $fpath))
+	     (file-name-directory $fpath))
+	 (progn
+	   (message "File path copied: 「%s」" $fpath)
+	   $fpath )))))
+
+  (global-set-key (kbd "C-c C-p") 'xah-copy-file-path)
+   #+END_SRC
+** Time
+   #+begin_src emacs-lisp
+     (display-time-mode t)
+   #+end_src
+** Buffer Management
+   #+begin_src emacs-lisp
+     (use-package ace-window
+       :ensure t
+       :init
+       (progn
+	 (global-set-key [remap other-window] 'ace-window)
+	 (custom-set-faces
+	  '(aw-leading-char-face
+	    ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+	 ))
+
+   #+end_src
+** Emoji
+   #+begin_src emacs-lisp
+     (use-package emojify
+       :ensure t
+       :config
+       (add-hook 'after-init-hook #'global-emojify-hook))
+
+   #+end_src
 ** Themes
    Put at end for more better startup
    Themes
@@ -709,45 +748,8 @@
        ;(load-theme 'base16-onedark)
   ;(load-theme 'base16-oceanicnext)
 #+END_SRC
-** Misc
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c p") 'counsel-bookmark)
-#+END_SRC
-** Flycheck
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-  :ensure t)
+* Keybinds
+  #+begin_src emacs-lisp
+  (global-set-key (kbd "C-c p") 'counsel-bookmark) ;; bookmark
+  #+end_src
 
-  (global-flycheck-mode)
-
-#+END_SRC
-** Dictionary
-   #+begin_src emacs-lisp
-     (setq ispell-program-name "hunspell")
-     (setq ispell-local-dictionary "en_AU")
-
-   #+end_src
-** EAF 
-   #+begin_src emacs-lisp
-	  (use-package eaf
-	    :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
-	    :custom
-	    (eaf-find-alternate-file-in-dired t)
-	    :config
-	    (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
-	    (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
-	    (eaf-bind-key take_photo "p" eaf-camera-keybinding))
-   #+end_src
-** IDK
-   #+begin_src emacs-lisp
-	(define-key dired-mode-map "n" 'dired-subtree-insert)
-	(define-key dired-mode-map "N" 'dired-subtree-remove)
-
-     (with-eval-after-load 'dired-subtree
-       (evil-collection-define-key 'normal 'dired-mode-map
-	 (kbd "TAB") 'dired-subtree-toggle
-	(kbd "M-j") 'dired-subtree-next-sibling
-	 (kbd "M-k") 'dired-subtree-previous-sibling
-	 "n" 'dired-subtree-insert
-	 "N" 'dired-subtree-remove))
-   #+end_src
