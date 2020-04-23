@@ -1,0 +1,21 @@
+* Blogs                                                              :elfeed:
+** [[https://lukesmith.xyz/rss.xml][Luke Smith]]                                                         :linux:
+** [[http://ergoemacs.org/emacs/blog.xml][Xah Emacs]]                                                          :emacs:
+* Youtube                                                            :elfeed:
+#+BEGIN_COMMENT
+** Youtube example rss
+*** Channel ID
+    https://www.youtube.com/feeds/videos.xml?channel_id=
+*** Channel username
+    https://www.youtube.com/feeds/videos.xml?user=
+#+END_COMMENT
+** IDK                                                                :misc:
+*** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCxsQFG_8Dbt1sZhLReL2mUw][Nerd City]] 
+** Tech                                                                :tech:
+*** [[https://lukesmith.xyz/youtube.xml][Luke Smith yt]] 
+*** [[https://www.youtube.com/feeds/videos.xml?user=TheChernoProject][The Cherno]] 
+    
+* Twitter                                                    :elfeed:twitter:
+** Funny                                                                :fun:
+*** [[https://twitrss.me/twitter_user_to_rss/?user=idubbbz][idubbz]]
+*** [[https://twitrss.me/twitter_user_to_rss/?user=maxmoefoe][maxmoefoe]]

@@ -1,10 +1,24 @@
 #+STARTIP: overview
 * Base Tweaks
+** Startup commands
+#+BEGIN_SRC emacs-lisp
+;  (defun my-minibuffer-setup-hook ()
+;    (setq gc-cons-threshold most-positive-fixnum))
+;
+;  (defun my-minibuffer-exit-hook ()
+;    (setq gc-cons-threshold 800000))
+;
+;  (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+;  (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
+
+
+
+
+
+#+END_SRC
+
 ** Make Emacs useable
 #+BEGIN_SRC emacs-lisp
-  (require 'server)
-  (or (server-running-p)
-    (server-start))
   (tool-bar-mode -1)
   (menu-bar-mode 0)
   (setq visible-bell 1)
@@ -126,12 +140,14 @@
 ** emmet Mode
    For better html tags
    #+BEGIN_SRC emacs-lisp
-  (use-package emmet-mode
-    :ensure t)
+     (use-package emmet-mode
+       :ensure t)
 
-    (add-hook 'sgml-mode-hook 'emmet-mode)
-    (add-hook 'css-mode-hook  'emmet-mode)
-    (setq emmet-move-cursor-between-quotes t)
+       (add-hook 'sgml-mode-hook 'emmet-mode)
+       (add-hook 'css-mode-hook  'emmet-mode)
+       (add-hook 'web-mode-hook 'emmet-mode)
+       (add-hook 'web-mode-hook 'emmet-mode-preview-mode)
+       (setq emmet-move-cursor-between-quotes t)
 
 
    #+END_SRC
@@ -158,25 +174,25 @@
 ** Rust
    #+begin_src emacs-lisp
 
-     (use-package toml-mode
-       :ensure t)
-     (use-package rust-mode
-       :ensure t
-       :hook (rust-mode . lsp))
-
-     (use-package cargo
-       :ensure t
-       :config
-       (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
-     (use-package flycheck-rust
-       :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+   ;  (use-package toml-mode
+   ;    :ensure t)
+   ;  (use-package rust-mode
+   ;    :ensure t
+   ;    :hook (rust-mode . lsp))
+   ;
+   ;  (use-package cargo
+   ;    :ensure t
+   ;    :config
+   ;    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+   ;
+   ;  (use-package flycheck-rust
+   ;    :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
    #+end_src
 ** Lisp
 *** Eshell
     #+begin_src emacs-lisp
 
-       (require 'ansi-color)
+      (require 'ansi-color)
 
       (defun eshell/clear ()
 	 "Clear the eshell buffer."
@@ -221,70 +237,59 @@
    #+end_src
 * Org
 ** Normal Org
-   #+BEGIN_SRC emacs-lisp
-       (use-package org
-	 :ensure t
-	 :pin org)
+*** Formatting
+    #+BEGIN_SRC emacs-lisp
+	(use-package org
+	  :ensure t
+	  :pin org)
 
-     (use-package org-superstar
-       :ensure t
-       :config
-       (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+      (use-package org-superstar
+	:ensure t
+	:config
+	(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 
-     (require 'org-tempo)
-       (use-package org-bullets
-	 :ensure t)
-       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+      (require 'org-tempo)
+	(use-package org-bullets
+	  :ensure t)
+	(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-       ; use this to change colours of keywords1
-      (setq org-todo-keyword-faces
-      	   '(
-      	     ("DOING" . (:foreground "#D19A66" :weight bold))
-      	     ("ABANDONED" . (:foreground "#BE5046" :weight bold))
-      	     ("DONE" . (:foreground "#98C379" :weight bold))
-      	     ))
+	; use this to change colours of keywords1
+       (setq org-todo-keyword-faces
+      	    '(
+      	      ("DOING" . (:foreground "#D19A66" :weight bold))
+      	      ("ABANDONED" . (:foreground "#BE5046" :weight bold))
+      	      ("DONE" . (:foreground "#98C379" :weight bold))
+      	      ))
 
-     (setq org-todo-keywords
-	   '((sequence "TODO" "DOING" "DONE" "ABANDONED")))
+      (setq org-todo-keywords
+	    '((sequence "TODO" "DOING" "DONE" "ABANDONED")))
 
-     ;  (require 'org-tempo)
-   #+END_SRC
-;  (require 'org-tempo)
-#+END_SRC
-
-   Create *org-capture-templates*
-
-   #+BEGIN_SRC emacs-lisp
-     (setq org-capture-templates
-	'(("x"  "local notes" entry
-	  (file+headline (lambda () (concat (file-name-directory buffer-file-name) "notes.org")) "Copied regions")
-	    "* %^{Title} %U \n %i")
-     ))
-
-
-       (setq org-export-html-style-include-scripts nil
-	     org-export-html-style-include-default nil)
-
-     (setq org-clock-persist 'history)
-     (org-clock-persistence-insinuate)
-   #+END_SRC
+      ;  (require 'org-tempo)
+    #+END_SRC
+ #+END_SRC
+*** Key binds
+    #+begin_src emacs-lisp
+      (global-set-key (kbd "C-c l") org-stored-links)
+      (global-set-key (kbd "C-c a") (lambda () (interactive) (org-agenda nil "a")))
+      (global-set-key (kbd "C-c c") 'org-capture)
+    #+end_src
 ** Org Brain
    Org Brain
    #+BEGIN_SRC emacs-lisp
-    (use-package org-brain :ensure t
-      :init
-      (setq org-brain-path "~/doc/Org Brain")
-      ;; For Evil users
-      (with-eval-after-load 'evil
-	(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
-      :config
-      (setq org-id-track-globally t)
-      (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
-      (push '("b" "Brain" plain (function org-brain-goto-end)
-	      "* %i%?" :empty-lines 1)
-	    org-capture-templates)
-      (setq org-brain-visualize-default-choices 'all)
-      (setq org-brain-title-max-length 12))
+;    (use-package org-brain :ensure t
+;      :init
+;      (setq org-brain-path "~/doc/Org Brain")
+;      ;; For Evil users
+;      (with-eval-after-load 'evil
+;	(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+;      :config
+;      (setq org-id-track-globally t)
+;      (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
+;      (push '("b" "Brain" plain (function org-brain-goto-end)
+;	      "* %i%?" :empty-lines 1)
+;	    org-capture-templates))
+;      (setq org-brain-visualize-default-choices 'all)
+;      (setq org-brain-title-max-length 12)
 
 
    #+END_SRC
@@ -296,8 +301,44 @@
     :ensure ox-reveal)
   (use-package htmlize
     :ensure t)
-    (setq org-reveal-root "file:///home/pywoe/.misc/reveal.js")
+
+(setq org-reveal-root "file:///d:/Tools/reveal.js")
    #+END_SRC
+** Org Capture
+*** Capture File
+#+BEGIN_SRC emacs-lisp
+  ;(setq org-default-notes-file (concat org-default-notes-file "c:/Users/dick jones/Dropbox/org/capture.org"))
+#+END_SRC
+*** Capture templates
+    Create *org-capture-templates*
+
+    #+BEGIN_SRC emacs-lisp
+      (setq org-capture-templates
+	    '(("x" "Misc." entry (file+headline "c:/Users/dick jones/Dropbox/org/capture/misc.org" "Tasks")
+	       "* TODO %?\n  %i\n  %a")
+	      ("m" "Mathematics" entry (file+headline "c:/Users/dick jones/Dropbox/org/capture/mathCap.org" "maths")
+	       "* %?\nEntered on %U\n  %i\n  %a\n Chapter: ")
+	      ("c" "Code Snippets" entry (file+datetree "c:/Users/dick jones/Dropbox/org/capture/codesnip.org")
+	       "* %?\nEntered on %U\n  %i\n  %a")))
+
+	(setq org-export-html-style-include-scripts nil)
+	(setq org-export-html-style-include-default nil)
+
+      (setq org-clock-persist 'history)
+      (org-clock-persistence-insinuate)
+    #+END_SRC
+** Org Agenda
+   Super agenda for time management
+#+BEGIN_SRC emacs-lisp
+   (use-package org-super-agenda
+     :ensure t
+     :config
+     (org-super-agenda-mode t))
+
+     (let ((org-super-agenda-groups
+       '((:auto-group t)))))
+  ;; Set C-c a to agenda view
+#+END_SRC
 * Helm (NOT USED)
 #+BEGIN_SRC emacs-lisp
  ; (use-package helm
@@ -324,7 +365,7 @@
     :ensure t)
   ;(global-set-key (kbd "M-x") 'helm-M-x)
   ;(global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-s") 'helm-swoop)
+  ;(global-set-key (kbd "C-s") 'helm-swoop)
   ;(global-set-key (kbd "C-x b") 'helm-buffers-list)
 
  ; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
@@ -332,7 +373,7 @@
 
  ; (helm-mode 1)
 
-#+END_SRC
+#+END_SRC	
 * Counsel
 ** Main Counsel
 
@@ -389,8 +430,8 @@
   (use-package company-irony
     :ensure t)
   (add-to-list 'company-backends 'company-yasnippet)
-  (add-to-list 'company-backends 'company-auctex)
-  (add-to-list 'company-backends 'company-bibtex)
+  ;(add-to-list 'company-backends 'company-auctex)
+  ;(add-to-list 'company-backends 'company-bibtex)
   (add-to-list 'company-backends 'elpy-company-backend)
   (add-to-list 'company-backends 'company-elisp)
   (add-to-list 'company-backends 'company-clang)
@@ -400,6 +441,8 @@
 
 
   (add-hook 'after-init-hook 'global-company-mode)
+  (global-company-mode t)
+  
 
 #+END_SRC
 * Japanese
@@ -420,27 +463,27 @@
    Rss Manager
    #+begin_src emacs-lisp
 
-;  (use-package elfeed
-;     :ensure t)
-;
-;  (use-package elfeed-org
-;    :ensure t)
-;
-;  (global-set-key (kbd "C-x w") 'elfeed)
-;  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeedURLS.org"))
-;  (setq rmh-elfeed-org-tree-id "elfeed")
-;  (elfeed-org)
-;
-;  (add-to-list 'evil-motion-state-modes 'elfeed-search-mode)
-;  (add-to-list 'evil-motion-state-modes 'elfeed-show-mode)
-;
-;  (evil-define-key* 'motion elfeed-search-mode-map
-;		    "o" #'elfeed-search-browse-url
-;		    "g" #'elfeed-update
-;		    "G" #'elfeed-update-feed
-;		    (kbd "SPC") #'elfeed-search-show-entry
-;		    (kbd "RET") #'elfeed-search-show-entry
-;		    "y" #'ekfeed-search-yank)
+  (use-package elfeed
+     :ensure t)
+
+  (use-package elfeed-org
+    :ensure t)
+
+  (global-set-key (kbd "C-c w") 'elfeed)
+  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeedURLS.org"))
+  (setq rmh-elfeed-org-tree-id "elfeed")
+  (elfeed-org)
+
+  (add-to-list 'evil-motion-state-modes 'elfeed-search-mode)
+  (add-to-list 'evil-motion-state-modes 'elfeed-show-mode)
+
+  (evil-define-key* 'motion elfeed-search-mode-map
+		    "o" #'elfeed-search-browse-url
+		    "g" #'elfeed-update
+		    "G" #'elfeed-update-feed
+		    (kbd "SPC") #'elfeed-search-show-entry
+		    (kbd "RET") #'elfeed-search-show-entry
+		    "y" #'ekfeed-search-yank)
 
    #+end_src
 
@@ -477,8 +520,8 @@
   ; (setq elpy-rpc-python-command "python2")
   ; (setq python-shell-interpreter "python2")
   ;; Python3
-  (setq elpy-rpc-python-command "python3")
-  (setq python-shell-interpreter "python3")
+  (setq elpy-rpc-python-command "python")
+  (setq python-shell-interpreter "C:/Program Files (x86)/Python38-32/python.exe/")
 #+END_SRC
 *** Magit
 #+BEGIN_SRC emacs-lisp
@@ -728,6 +771,8 @@
     ;   ;; Good dark theme
       (use-package atom-one-dark-theme
 	:ensure t)
+  (use-package doom-themes
+    :ensure t)
     ;   ;; Solarized
     ;   (use-package solarized-theme
     ;     :ensure t)
@@ -741,15 +786,28 @@
        ;(load-theme 'moe-dark)
        ;(load-theme 'nimbus)
        ;(load-theme 'srcery)
-       (load-theme 'atom-one-dark)
+       ;(load-theme 'atom-one-dark)
        ;(load-theme 'solarized-light)
        ;(load-theme 'solarized-dark)
        ;(load-theme 'badwolf-theme)
        ;(load-theme 'base16-onedark)
   ;(load-theme 'base16-oceanicnext)
+  (load-theme 'doom-dark+ t)
+  
 #+END_SRC
 * Keybinds
   #+begin_src emacs-lisp
   (global-set-key (kbd "C-c p") 'counsel-bookmark) ;; bookmark
   #+end_src
+* Windows
+** Symlinks
+   #+begin_src emacs-lisp
 
+     (load "~/.emacs.d/site-lisp/w32-symlinks.el")
+     (require 'w32-symlinks)
+
+     (add-hook 'dired-load-hook
+	       (lambda ()
+		 (load "ls-lisp")
+		 (require 'w32-symlinks)))
+   #+end_src
