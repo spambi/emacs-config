@@ -2,15 +2,21 @@
 * Base Tweaks
 ** Startup commands
 #+BEGIN_SRC emacs-lisp
-;  (defun my-minibuffer-setup-hook ()
-;    (setq gc-cons-threshold most-positive-fixnum))
-;
-;  (defun my-minibuffer-exit-hook ()
-;    (setq gc-cons-threshold 800000))
-;
-;  (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
-;  (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
+  ;  (defun my-minibuffer-setup-hook ()
+  ;    (setq gc-cons-threshold most-positive-fixnum))
+  ;
+  ;  (defun my-minibuffer-exit-hook ()
+  ;    (setq gc-cons-threshold 800000))
+  ;
+  ;  (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+  ;  (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
 
+  (require 'tex-mik)
+  (load "auctex.el" nil t t) ;Now necessary with latest  
+	      ;version of AucTeX 
+  (setq org-export-with-LaTeX-fragments "dvipng") ;Now necessary with  
+	      ;orgmove version 7.4  
+	      ;or later 
 
 
 
@@ -35,25 +41,37 @@
 * Evil
   Used for main keybindings, remove from dired mode for personal preference (due to Dired Subtree being overwritten)
    #+BEGIN_SRC emacs-lisp
-     (use-package evil
+	  (use-package evil
+	    :ensure t
+	    :init
+	    (setq evil-want-keybinding t) ;; To make sure its set to nil
+	    (setq evil-want-keybinding nil)
+	    :config
+	    (evil-mode 1))
+
+     (use-package evil-org
+       :ensure t)
+     (use-package evil-org
        :ensure t
-       :init
-       (setq evil-want-keybinding t) ;; To make sure its set to nil
-       (setq evil-want-keybinding nil)
        :config
-       (evil-mode 1))
+       (add-hook 'org-mode-hook 'evil-org-mode)
+       (add-hook 'evil-org-mode-hook
+		 (lambda ()
+		   (evil-org-set-key-theme)))
 
-     (use-package evil-collection
-       :after evil dired-subtree
-       :ensure t
-       :config
-       (evil-collection-init))
+       (require 'evil-org-agenda)
+       (evil-org-agenda-set-keys))
+	  (use-package evil-collection
+	    :after evil dired-subtree
+	    :ensure t
+	    :config
+	    (evil-collection-init))
 
-     ;(add-to-list 'evil-emacs-state-modes 'dired-mode)
+	  ;(add-to-list 'evil-emacs-state-modes 'dired-mode)
 
-     (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
-     ;(add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
-     ;(add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
+	  ;(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+	  ;(add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
+	  ;(add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
    #+END_SRC
 * Programming
 ** C++
@@ -315,9 +333,13 @@
     #+BEGIN_SRC emacs-lisp
       (setq org-capture-templates
 	    '(("x" "Misc." entry (file+headline "c:/Users/dick jones/Dropbox/org/capture/misc.org" "Tasks")
-	       "* TODO %?\n  %i\n  %a")
+	       "* %?\n  %i\n  %a")
 	      ("m" "Mathematics" entry (file+headline "c:/Users/dick jones/Dropbox/org/capture/mathCap.org" "maths")
 	       "* %?\nEntered on %U\n  %i\n  %a\n Chapter: ")
+	      ("n" "News" entry (file+headline "c:/Users/dick jones/Dropbox/org/capture/news.org" "news")
+	       "* %?\nEntered on %U\n  %i\n %a\n ")
+	      ("t" "TODO" entry (file+headline "c:/Users/dick jones/Dropbox/org/TODO.org" "Misc.")
+	       "* TODO  %?\nEntered on %U\n ")
 	      ("c" "Code Snippets" entry (file+datetree "c:/Users/dick jones/Dropbox/org/capture/codesnip.org")
 	       "* %?\nEntered on %U\n  %i\n  %a")))
 
@@ -335,8 +357,18 @@
      :config
      (org-super-agenda-mode t))
 
-     (let ((org-super-agenda-groups
-       '((:auto-group t)))))
+(let ((org-agenda-span 'day)
+      (org-super-agenda-groups
+       '((:name "Time grid items in all-uppercase with RosyBrown1 foreground"
+                :time-grid t
+                :transformer (--> it
+                                  (upcase it)
+                                  (propertize it 'face '(:foreground "RosyBrown1"))))
+         (:name "Priority >= C items underlined, on black background"
+                :face (:background "black" :underline t)
+                :not (:priority>= "C")
+                :order 100))))
+  (org-agenda nil "a"))
   ;; Set C-c a to agenda view
 #+END_SRC
 * Helm (NOT USED)
@@ -355,14 +387,14 @@
 #+END_SRC
 * Helm
 #+BEGIN_SRC emacs-lisp
-  (use-package helm
-      :ensure t
-      :config
-      (helm-mode))
-  (use-package helm-swoop
-    :ensure t)
-    (use-package helm-c-yasnippet
-    :ensure t)
+  ;(use-package helm
+  ;    :ensure t
+  ;    :config
+  ;    (helm-mode))
+  ;(use-package helm-swoop
+  ;  :ensure t)
+  ;  (use-package helm-c-yasnippet
+  ;  :ensure t)
   ;(global-set-key (kbd "M-x") 'helm-M-x)
   ;(global-set-key (kbd "C-x C-f") 'helm-find-files)
   ;(global-set-key (kbd "C-s") 'helm-swoop)
@@ -463,27 +495,31 @@
    Rss Manager
    #+begin_src emacs-lisp
 
-  (use-package elfeed
-     :ensure t)
+	  (use-package elfeed
+	     :ensure t)
 
-  (use-package elfeed-org
-    :ensure t)
+	  (use-package elfeed-org
+	    :ensure t)
 
-  (global-set-key (kbd "C-c w") 'elfeed)
-  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeedURLS.org"))
-  (setq rmh-elfeed-org-tree-id "elfeed")
-  (elfeed-org)
+	  (use-package elfeed-goodies
+	    :ensure t
+	    :config (elfeed-goodies/setup))
 
-  (add-to-list 'evil-motion-state-modes 'elfeed-search-mode)
-  (add-to-list 'evil-motion-state-modes 'elfeed-show-mode)
+	  (global-set-key (kbd "C-c w") 'elfeed)
+	  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeedURLS.org"))
+	  (setq rmh-elfeed-org-tree-id "elfeed")
+	  (elfeed-org)
 
-  (evil-define-key* 'motion elfeed-search-mode-map
-		    "o" #'elfeed-search-browse-url
-		    "g" #'elfeed-update
-		    "G" #'elfeed-update-feed
-		    (kbd "SPC") #'elfeed-search-show-entry
-		    (kbd "RET") #'elfeed-search-show-entry
-		    "y" #'ekfeed-search-yank)
+	  (add-to-list 'evil-motion-state-modes 'elfeed-search-mode)
+	  (add-to-list 'evil-motion-state-modes 'elfeed-show-mode)
+
+	  ;(evil-define-key* 'motion elfeed-search-mode-map
+     ;		       "o" #'elfeed-search-browse-url
+     		       ;"gU" #'elfeed-update)
+     ;		       "G" #'elfeed-update-feed
+     ;		       (kbd "SPC") #'elfeed-search-show-entry
+     ;		       (kbd "RET") #'elfeed-search-show-entry
+;			    "U" #'ekfeed-search-yank)
 
    #+end_src
 
@@ -552,14 +588,14 @@
    #+end_src
 ** EAF
    #+begin_src emacs-lisp
-	  (use-package eaf
-	    :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
-	    :custom
-	    (eaf-find-alternate-file-in-dired t)
-	    :config
-	    (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
-	    (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
-	    (eaf-bind-key take_photo "p" eaf-camera-keybinding))
+	 ; (use-package eaf
+	 ;   :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
+	 ;   :custom
+	 ;   (eaf-find-alternate-file-in-dired t)
+	 ;   :config
+	 ;   (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+	 ;   (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+	 ;   (eaf-bind-key take_photo "p" eaf-camera-keybinding))
    #+end_src
 ** IDK
    #+begin_src emacs-lisp
@@ -773,6 +809,8 @@
 	:ensure t)
   (use-package doom-themes
     :ensure t)
+    (use-package almost-mono-themes
+      :ensure t)
     ;   ;; Solarized
     ;   (use-package solarized-theme
     ;     :ensure t)
@@ -792,8 +830,9 @@
        ;(load-theme 'badwolf-theme)
        ;(load-theme 'base16-onedark)
   ;(load-theme 'base16-oceanicnext)
-  (load-theme 'doom-dark+ t)
-  
+  ;(load-theme 'doom-dark+ t)
+  (load-theme 'almost-mono-black t)
+
 #+END_SRC
 * Keybinds
   #+begin_src emacs-lisp
