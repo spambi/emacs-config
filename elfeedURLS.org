@@ -1,21 +1,39 @@
-* Blogs                                                              :elfeed:
+* Blogs                                                         :elfeed:blog:
 ** [[https://lukesmith.xyz/rss.xml][Luke Smith]]                                                         :linux:
 ** [[http://ergoemacs.org/emacs/blog.xml][Xah Emacs]]                                                          :emacs:
-* Youtube                                                            :elfeed:
-#+BEGIN_COMMENT
-** Youtube example rss
-*** Channel ID
-    https://www.youtube.com/feeds/videos.xml?channel_id=
-*** Channel username
-    https://www.youtube.com/feeds/videos.xml?user=
-#+END_COMMENT
-** IDK                                                                :misc:
-*** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCxsQFG_8Dbt1sZhLReL2mUw][Nerd City]] 
+** [[https://sachachua.com/blog/feed/][Sachachua Emacs Newletter]]                                          :emacs:
+** [[https://www.randygaul.net/feed/][Randy Gaull]]                                                         :pgrm:
+** [[https://n-o-d-e.net/rss/rss.xml][N-O-D-E]]                                                             :tech:
+** [[https://cestlaz.github.io/rss.xml][Mike Zamansky]]                                                      :emacs:
+* Youtube                                                 :elfeed:youtube:yt:
+** IDK                                                                 :misc:
+*** [[https://invidio.us/feed/channel/UCxsQFG_8Dbt1sZhLReL2mUw][Nerd City]]
+*** [[https://www.invidio.us/feed/channel/UCyWDmyZRjrGHeKF-ofFsT5Q][Eric Comment Etiquette with Erik]]
 ** Tech                                                                :tech:
-*** [[https://lukesmith.xyz/youtube.xml][Luke Smith yt]] 
-*** [[https://www.youtube.com/feeds/videos.xml?user=TheChernoProject][The Cherno]] 
-    
+*** Linux                                                             :linux:
+**** [[https://lukesmith.xyz/youtube.xml][Luke Smith yt]] 
+**** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg][Distro Tube]] 
+*** [[https://www.invidio.us/feed/channel/UCXuqSBlHAE6Xw-yeJA0Tunw][Linus Tech Tips]]
+** Programming                                                         :pgrm:
+*** [[https://www.youtube.com/feeds/videos.xml?user=TheChernoProject][The Cherno]]
+*** [[https://www.invidio.us/feed/channel/UCCMi6F5Ac3kQDfffWXQGZDw][Guided Hacking]]
+** Fitness                                                              :fit:
+*** [[https://invidio.us/feed/channel/UCmdlnVFzmf7Zhqm_QE-UlJw][Alpha Destiny]]
+*** [[https://invidio.us/feed/channel/UCe0TLA0EsQbE-MjuHXevj2A][Athlene-X]]
+** STEM                                                                :math:
+*** [[https://invidio.us/feed/channel/UCYO_jab_esuFRV4b17AJtAw][3blue1brown]]
+** News                                                                :news:
+*** [[https://www.invidio.us/feed/channel/UC2-i3KuYoODXsM99Z3-Gm0A][friendlyjordies]]                                                     :fun:
+*** [[https://invidio.us/feed/channel/UCtqxG9IrHFU_ID1khGvx9sA][All Gas no Breaks]]                                                   :fun:
 * Twitter                                                    :elfeed:twitter:
 ** Funny                                                                :fun:
-*** [[https://twitrss.me/twitter_user_to_rss/?user=idubbbz][idubbz]]
-*** [[https://twitrss.me/twitter_user_to_rss/?user=maxmoefoe][maxmoefoe]]
+*** [[https://nitter.net/maxmoefoe/rss][maxmoefoe]]
+*** [[https://nitter.net/Idubbbz/rss][idubbbz]]
+*** [[https://nitter.net/noobdoggy/rss][noobdog]]
+*** [[https://nitter.net/planetchili/rss][Planet Chilli]]                                                      :pgrm:
+** Misck
+*** [[https://nitter.net/elonmusk/rss][Elon Musk]]
+* Podcasts                                                   :elfeed:podcast:
+** [[https://www.abc.net.au/radio/programs/the-signal/feed/9443166/podcast.xml][The Signal]]                                                          :news:
+* News                                                          :elfeed:news:
+** [[https://www.theguardian.com/australia-news/sydney/rss][The Guardian]]
