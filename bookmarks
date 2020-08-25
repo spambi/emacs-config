@@ -1,8 +1,23 @@
-;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*- 
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("tor"
+(("next"
+ (filename . "~/doc/next/")
+ (front-context-string . "f4nny stuff!!\n  ")
+ (rear-context-string . "96 Aug 11 09:39 ")
+ (position . 239))
+("bsp"
+ (filename . "~/.dotfiles/bspwm/.config/bspwm/bspwmrc")
+ (front-context-string . "#! /bin/sh\n\n# --")
+ (rear-context-string)
+ (position . 1))
+("keys"
+ (filename . "~/.dotfiles/sxhkd/.config/sxhkd/sxhkdrc")
+ (front-context-string . "#\n# wm independe")
+ (rear-context-string)
+ (position . 1))
+("tor"
  (filename . "~/tor/")
  (front-context-string . "[AnimePlaza] Ish")
  (rear-context-string . "26 Mar 20 00:26 ")

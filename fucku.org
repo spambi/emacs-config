@@ -2,7 +2,8 @@
 * Base
 ** Interface
    #+begin_src emacs-lisp
-   (set-frame-font "hack 11" nil t)
+   (setq evil-want-keybinding 0)
+   (set-frame-font "hack 10" nil t)
    (scroll-bar-mode 0)
    (show-paren-mode t)
    (blink-cursor-mode 0)
@@ -13,6 +14,15 @@
    (global-visual-line-mode 1)
    (global-linum-mode 1)
    (global-hl-line-mode 0)
+   #+end_src
+** Theme
+   #+begin_src emacs-lisp
+     (use-package gruvbox-theme
+       :ensure t)
+     (use-package badwolf-theme
+       :ensure t)
+     ;(load-theme 'gruvbox t)
+     (load-theme 'badwolf t)
    #+end_src
 ** Revert Buffer
    #+begin_src emacs-lisp
@@ -27,16 +37,18 @@
    #+begin_src emacs-lisp
      (use-package dashboard
        :ensure t
+       :init
+       (page-break-lines-mode)
        :config
        (dashboard-setup-startup-hook)
-       (turn-page-break-lines-mode)
+       (turn-on-page-break-lines-mode t)
        (setq
 	dashboard-banner-logo-title "ただいま　おにいちゃん！"
 	dashboard-center-content t
 	dashboard-set-navigator t
 	global-page-break-lines-mode t))
    #+end_src
-** Counsel
+** Swiper
    #+begin_src emacs-lisp
      (use-package swiper
        :ensure t)
@@ -48,21 +60,21 @@
      (setq search-default-mode #'char-fold-to-regexp)
      
      (global-set-key "\C-s" 'swiper)
-     (global-set-key (kbd "C-c C-r") 'ivy-resume)
-     (global-set-key (kbd "<f6>") 'ivy-resume)
-     (global-set-key (kbd "M-x") 'counsel-M-x)
-     (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-     (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-     (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-     (global-set-key (kbd "<f1> l") 'counsel-find-library)
-     (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-     (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-     (global-set-key (kbd "C-c g") 'counsel-git)
-     (global-set-key (kbd "C-c j") 'counsel-git-grep)
-     (global-set-key (kbd "C-c k") 'counsel-ag)
-     (global-set-key (kbd "C-x l") 'counsel-locate)
-     (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-     (global-set-key (kbd "C-x d") 'counsel-dired)
+     ;(global-set-key (kbd "C-c C-r") 'ivy-resume)
+     ;(global-set-key (kbd "<f6>") 'ivy-resume)
+     ;;(global-set-key (kbd "M-x") 'counsel-M-x)
+     ;(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+     ;(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+     ;(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+     ;(global-set-key (kbd "<f1> l") 'counsel-find-library)
+     ;(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+     ;(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+     ;(global-set-key (kbd "C-c g") 'counsel-git)
+     ;(global-set-key (kbd "C-c j") 'counsel-git-grep)
+     ;(global-set-key (kbd "C-c k") 'counsel-ag)
+     ;(global-set-key (kbd "C-x l") 'counsel-locate)
+     ;(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+     ;(global-set-key (kbd "C-x d") 'counsel-dired)
 
      (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
      (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
@@ -125,22 +137,22 @@
 *** Org Base
    #+begin_src emacs-lisp
      (use-package org
-     
-	       :ensure t
-	       :pin org
-	       :config
-	       (org-babel-do-load-languages
-		'org-babel-load-languages '((python . t))))
+       :ensure t
+       :pin org
+       :config
+       (org-babel-do-load-languages
+	'org-babel-load-languages '((python . t))))
      (setq
-      org-directory "c:/Users/dick jones/Dropbox/org/"
+      org-directory "~/doc/Dropbox/org/"
       org-archive-location (concat org-directory "archive.org::"))
    #+end_src
 *** Org Roam
     #+begin_src emacs-lisp
+      (setq org-roam-directory "~/doc/Dropbox/org/roam")
       (use-package org-roam
 	    :ensure t
 	    :custom
-	    (org-roam-directory "c:/Users/dick jones/Dropbox/org/roam")
+	    (org-roam-directory "~/doc/Dropbox/org/roam")
 	    :bind (:map org-roam-mode-map
 		    (("C-c n r" . org-roam)
 		     ("C-c n f" . org-roam-find-file)
@@ -173,15 +185,16 @@
 	 (deft-recursive t)
 	 (deft-use-filter-string-for-filename t)
 	 (deft-default-extension "org")
-	 (deft-directory "c:/Users/dick jones/Dropbox/org/roam"))
+	 (deft-directory "~/doc/Dropbox/org/roam"))
      #+end_src
 *** Org Superstar
     #+begin_src emacs-lisp
-      (use-package org-superstar
-	      :ensure t
-	      :config
-	      (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
-      (setq org-hide-emphasis-markers t)
+	    (use-package org-superstar
+		    :ensure t
+		    :hook (org-mode . org-superstar-mode)
+		    :config
+		    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+		    (setq org-hide-emphasis-markers t))
     #+end_src
 *** Org Agenda
     #+begin_src emacs-lisp
@@ -214,15 +227,15 @@
 *** Org Capture
     #+begin_src emacs-lisp
       (setq org-capture-templates
-	    '(("x" "Misc." entry (file+headline "C:/Users/dick jones/Dropbox/org/capture.org" "Misc.")
+	    '(("x" "Misc." entry (file+headline "~/doc/Dropbox/org/capture.org" "Misc.")
 	       "* %? %i %^G\n  %i\n  %a")
-	      ("m" "Mathematics" entry (file+headline "C:/Users/dick jones/Dropbox/org/capture.org" "Maths")
+	      ("m" "Mathematics" entry (file+headline "~/doc/Dropbox/org/capture.org" "Maths")
 	       "*  %?\nEntered on %U\n  %i\n  %a\n Chapter: ")
-	      ("n" "News" entry (file+headline "C:/Users/dick jones/Dropbox/org/capture.org" "News")
+	      ("n" "News" entry (file+headline "~/doc/Dropbox/org/capture.org" "News")
 	       "*  %?\nEntered on %U\n  %i\n %a\n")
-	       ("t" "TODO" entry (file+headline "C:/Users/dick jones/Dropbox/org/capture.org" "TODOTASKS")
+	       ("t" "TODO" entry (file+headline "~/doc/Dropbox/org/capture.org" "TODOTASKS")
 	       "* TODO  %?\nEntered on %U\n ")
-	      ("c" "Code Snippets" entry (file+headline "C:/Users/dick jones/Dropbox/org/capture.org" "Code Snippets")
+	      ("c" "Code Snippets" entry (file+headline "~/doc/Dropbox/org/capture.org" "Code Snippets")
 	       "*  %?\nEntered on %U\n  %i\n  %a")))
       (setq org-export-html-style-include-default nil)
     #+end_src
@@ -235,7 +248,14 @@
     #+end_src
 *** Org Download
      #+begin_src emacs-lisp
-     
+       (use-package org-download
+	 :ensure t
+	 :hook dired-mode
+	 :config
+	 (setq org-download-timestamp t)
+	 (setq org-download-image-dir "~/pic/"))
+
+
      #+end_src
 *** Org Journal
      #+begin_src emacs-lisp
@@ -247,7 +267,7 @@
 	 :custom
 	 (org-journal-date-prefix "#+title: ")
 	 (org-journal-file-format "%Y-%m-%d.org")
-	 (org-journal-dir "c:/Users/dick jones/Dropbox/org/roam")
+	 (org-journal-dir "~/doc/Dropbox/org/roam")
 	 (org-journal-date-format "%A, %d %B %Y"))
      #+end_src
 *** Org Noter
@@ -257,6 +277,11 @@
 	 :bind (:map nov-mode-map
 		     (("I" . org-noter-insert-note))))
      #+end_src
+*** Org Yt
+    #+begin_src emacs-lisp
+      (use-package org-yt
+	:load-path "site-list/org-yt.el")
+    #+end_src
 ** Yasnippet
    #+begin_src emacs-lisp
      (use-package yasnippet
@@ -363,16 +388,15 @@
     #+begin_src emacs-lisp
       (use-package elfeed
 		   :ensure t)
-		   :config
-		(use-package elfeed-org
-		  :ensure t)
-		(use-package elfeed-goodies
-		  :ensure t
-		  :config (elfeed-goodies/setup))
-		(global-set-key (kbd "C-c w") 'elfeed)
-		(setq rmh-elfeed-org-files (list "e:/DOC/org/elfeedURLS.org"))
-		(setq rmh-elfeed-org-tree-id "elfeed")
-		(elfeed-org)
+      (use-package elfeed-org
+	:ensure t)
+
+      (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeedURLS.org")
+	    rmh-elfeed-org-tree-id "elfeed")
+      (use-package elfeed-goodies
+	:ensure t
+      :config (elfeed-goodies/setup))
+      (elfeed-org)
     #+end_src
 *** Keybinds
     #+begin_src emacs-lisp
@@ -441,8 +465,10 @@
     #+end_src
 ** Ytel
    #+begin_src emacs-lisp
-     (use-package ytel
-	    :ensure t)
+	  (use-package ytel
+		 :ensure t
+		 :config
+		 (setq ytel-invidious-api-url "https://invidious.us/"))
    
    #+end_src
 *** Custom
@@ -521,21 +547,22 @@
 ** Nov
    #+begin_src emacs-lisp
      (use-package nov
+       :after org-noter
        :ensure t
        :config
        (evil-collection-define-key 'normal 'nov-mode-map
 	 "i" 'org-noter-insert-note
-	 "o" 'nov-browse-url)
-	 
+	 "o" 'nov-browse-url))
+
        (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-       
+
      (defun my-nov-font-setup ()
        "ahahaha lol."
        (face-remap-add-relative 'variable-pitch :family "ETBembo"
 				:height 1.0))
-				
-     (add-hook 'nov-mode-hook 'my-nov-font-setup))
-   
+
+     (add-hook 'nov-mode-hook 'my-nov-font-setup)
+
    #+end_src
 ** Twitch
    Dump of irc and twitch shit
@@ -591,7 +618,19 @@
 		      :style 'libnotify
 		      :continue t)
    #+end_src
+** Books
+*** pdf-tools
+    #+begin_src emacs-lisp
+      (use-package pdf-tools
+	:ensure t)
+    #+end_src
+** Open With
+   #+begin_src emacs-lisp
+     (use-package openwith
+       :load-path "site-lisp/open-with.el")
+   #+end_src
 * Misc
+  
 ** Eyebrowse
    Multiple windows
    #+begin_src emacs-lisp
@@ -721,6 +760,8 @@
 * Keybinds
 ** Evil
    #+begin_src emacs-lisp
+	    (setq evil-want-keybinding t) ;; To make sure its set to nil
+	    (setq evil-want-keybinding nil)
      (use-package evil
 	    :ensure t
 	    :init
@@ -734,35 +775,37 @@
    #+end_src
 *** Evil Org
     #+begin_src emacs-lisp
-     (use-package evil-org
-       :ensure t
-       :config
-       (add-hook 'org-mode-hook 'evil-org-mode)
-       (add-hook 'evil-org-mode-hook
-		 (lambda ()
-		   (evil-org-set-key-theme)))
+      (use-package evil-org
+	:ensure t
+	:config
+	(add-hook 'org-mode-hook 'evil-org-mode)
+	(add-hook 'evil-org-mode-hook
+		  (lambda ()
+		    (evil-org-set-key-theme)))
 
-       (require 'evil-org-agenda)
-       (evil-org-agenda-set-keys))
-	  (use-package evil-collection
-	    :after evil dired-subtree elfeed
-	    :ensure t
-	    :config
-	    (evil-collection-init)
-	    (evil-collection-define-key 'normal 'elfeed-search-mode-map
-	      "gw" 'dj/ElfeedWatch
-	      "ga" 'dj/ElfeedListen
-	      "gb" 'dj/ElfeedBrowse
-	      "gu" 'elfeed-update
-	      "gd" 'dj/ElfeedDownload)
-	    (evil-collection-define-key 'normal 'elfeed-show-mode-map
-	      "gw" 'dj/ElfeedWatch
-	      "ga" 'dj/ElfeedListen
-	      "gb" 'dj/ElfeedBrowse
-	      "gd" 'dj/ElfeedDownload
-	      "J" 'elfeed-show-next
-	      "K" 'elfeed-show-prev))
-    
+	(require 'evil-org-agenda)
+	(evil-org-agenda-set-keys))
+      (use-package evil-collection
+	:after evil dired-subtree elfeed
+	:init
+	(setq evil-want-keybinding nil)
+	:ensure t
+	:config
+	(evil-collection-init)
+	(evil-collection-define-key 'normal 'elfeed-search-mode-map
+	  "gw" 'dj/ElfeedWatch
+	  "ga" 'dj/ElfeedListen
+	  "gb" 'dj/ElfeedBrowse
+	  "gu" 'elfeed-update
+	  "gd" 'dj/ElfeedDownload)
+	(evil-collection-define-key 'normal 'elfeed-show-mode-map
+	  "gw" 'dj/ElfeedWatch
+	  "ga" 'dj/ElfeedListen
+	  "gb" 'dj/ElfeedBrowse
+	  "gd" 'dj/ElfeedDownload
+	  "J" 'elfeed-show-next
+	  "K" 'elfeed-show-prev))
+
     #+end_src
 ** Custom
    Misc. Keybinds
@@ -774,4 +817,5 @@
    (global-set-key (kbd "C-c p") 'counsel-bookmark)
    (global-set-key (kbd "C-c C-p") 'xah-copy-file-path)
    (global-set-key (kbd "C-c C-'") 'dj/ytwatch)
+   (global-set-key (kbd "C-c w") 'elfeed)
    #+end_src

@@ -1,35 +1,4 @@
 ls
-sudo chown -r pywoe *
-chown pywoe -r *
-chown pywoe *
-chown -R pywoe *
-sudo chown -R pywoe *
-hunspell en_AU.dic
-clear
-python3 watchList.py 
-git config --global user.email "spamyyyy@gmail.com"
-git config --global user.name "spambi"
-ls
-sudo chmod +x xsetroottime 
-xsetroot
-xsetroottime 
-xsetroottime 
-xsetroottime 
-xsetroottime 
-pkill st
-git push origin HEAD:origin/master
-git push origin HEAD:origin
-python2 PyPe.py
-sudo pip2 install wxPython
-ls
-sudo chmod +x launch.sh 
-ls
-cd scripts/
-ls
-sudo chmod +x check-all-updates.sh 
-ls
-sudo chmod +x pavolume.sh 
-ls
 clear
 ls
 ls
@@ -107,3 +76,53 @@ git add add eshell/lastdir
 git add/rm add eshell/lastdir
 git add eshell/lastdir
 git add eshell/history
+sxhkd
+sxhkd
+sudo chmod +x pidswallow
+ls
+ls
+ls
+clear
+clear
+ls
+make
+sudo make clean install
+sudo make clean install
+sudo make clean install
+make clean
+make
+sudo make install
+sudo make clean
+make
+sudo make install
+make clean
+make
+sudo make install
+make clean
+make
+sudo make install
+make clean
+make
+sudo make install
+sudo make clean install
+sudo make clean install
+sudo make clean install
+sudo make clean install
+make
+ls
+make
+make
+make
+make
+make
+make
+make
+make
+make
+make
+make
+ls
+./01_hello_SDL
+ls
+./01_hello_SDL
+ls
