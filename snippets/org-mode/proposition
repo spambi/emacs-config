@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: proposition argument
+# key: prop
+# --
+* $1
+* $2
+-------
+* ∴ $3
+$0

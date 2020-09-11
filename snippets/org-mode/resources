@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: resources
+# key: <r
+# --
+:RESOURCES:
+    - [[${1:Link}][${2:Description}]$0
+:END:

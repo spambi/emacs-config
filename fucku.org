@@ -1,19 +1,19 @@
-#+STARTUP: overview
+ #+STARTUP: overview
 * Base
 ** Interface
    #+begin_src emacs-lisp
-   (setq evil-want-keybinding 0)
-   (set-frame-font "hack 10" nil t)
-   (scroll-bar-mode 0)
-   (show-paren-mode t)
-   (blink-cursor-mode 0)
-   (tool-bar-mode -1)
-   (menu-bar-mode 0)
-   (setq visible-bell 1)
-   (electric-pair-mode 1)
-   (global-visual-line-mode 1)
-   (global-linum-mode 1)
-   (global-hl-line-mode 0)
+     (setq evil-want-integration t)
+     (set-frame-font "hack 11" nil t)
+     (scroll-bar-mode 0)
+     (show-paren-mode t)
+     (blink-cursor-mode 0)
+     (tool-bar-mode -1)
+     (menu-bar-mode 0)
+     (setq visible-bell 1)
+     (electric-pair-mode 1)
+     (global-visual-line-mode 1)
+     (global-linum-mode 1)
+     (global-hl-line-mode 0)
    #+end_src
 ** Theme
    #+begin_src emacs-lisp
@@ -83,6 +83,54 @@
        :ensure t
        :bind (("C-c y" . ivy-yasnippet)))
    #+end_src
+** Collection
+   #+begin_src emacs-lisp
+     (use-package evil-collection
+       :after evil dired-subtree elfeed
+       :init
+       :ensure t
+       :config
+       (evil-collection-init)
+       (evil-collection-define-key 'normal 'elfeed-search-mode-map
+         "gw" 'dj/ElfeedWatch
+         "ga" 'dj/ElfeedListen
+         "gb" 'dj/ElfeedBrowse
+         "gu" 'elfeed-update
+         "gd" 'dj/ElfeedDownload)
+       (evil-collection-define-key 'normal 'elfeed-show-mode-map
+         "gw" 'dj/ElfeedWatch
+         "ga" 'dj/ElfeedListen
+         "gb" 'dj/ElfeedBrowse
+         "gd" 'dj/ElfeedDownload
+         "J" 'elfeed-show-next
+         "K" 'elfeed-show-prev))
+   #+end_src
+** workgroups2
+#+begin_src emacs-lisp
+    ;; unset M- digit keys
+    (dotimes (n 4)
+      (global-unset-key (kbd (format "M-%d" n))))
+
+
+    (use-package workgroups2
+      :ensure t
+      :bind (:map workgroups-mode-map
+              (("M-1" . wg-switch-to-workgroup-at-index-0))
+              (("M-2" . wg-switch-to-workgroup-at-index-1))
+              (("M-3" . wg-switch-to-workgroup-at-index-2))
+              (("M-4" . wg-switch-to-workgroup-at-index-3)))
+      :config 
+      (setq wg-workgroups-mode-exit-save-behavior 'save)
+      (setq wg-emacs-exit-save-behavior 'save)
+      (setq wg-mode-line-display-on t)
+      (setq wg-session-file "~/.emacs.d/.emacs_workgroups"))
+  ;    (define-key workgroups-mode-map (kbd "M-1") 'wg-switch-to-workgroup-at-index-0)
+  ;    (define-key workgroups-mode-map (kbd "M-2") 'wg-switch-to-workgroup-at-index-1)
+  ;    (define-key workgroups-mode-map (kbd "M-3") 'wg-switch-to-workgroup-at-index-2)
+  ;    (define-key workgroups-mode-map (kbd "M-4") 'wg-switch-to-workgroup-at-index-3)
+
+    (workgroups-mode t)
+#+end_src
 * Editing
 ** Programming
 *** Python
@@ -145,21 +193,45 @@
      (setq
       org-directory "~/doc/Dropbox/org/"
       org-archive-location (concat org-directory "archive.org::"))
+
+     (setq org-startup-indented t
+	   org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+	   org-ellipsis "" ;; folding symbol
+	   org-pretty-entities t
+	   org-hide-emphasis-markers t
+	   ;; show actually italicized text instead of /italicized text/
+	   org-agenda-block-separator ""
+	   org-fontify-whole-heading-line t
+	   org-fontify-done-headline t
+	   org-fontify-quote-and-verse-blocks t)
    #+end_src
 *** Org Roam
     #+begin_src emacs-lisp
       (setq org-roam-directory "~/doc/Dropbox/org/roam")
       (use-package org-roam
-	    :ensure t
-	    :custom
-	    (org-roam-directory "~/doc/Dropbox/org/roam")
-	    :bind (:map org-roam-mode-map
-		    (("C-c n r" . org-roam)
-		     ("C-c n f" . org-roam-find-file)
-		     ("C-c n g" . org-roam-graph))
-		    :map org-mode-map
-		    (("C-c n i" . org-roam-insert)
-		     ("C-c n l" . org-roam-store-link))))
+            :ensure t
+            :custom
+            (org-roam-directory "~/doc/Dropbox/org/roam")
+            :config
+            (require 'time-stamp)
+            (add-hook 'write-file-functions 'time-stamp) ; update when saving
+            (setq org-roam-capture-templates
+                  '(("d" "default" plain (function org-roam--capture-get-point)
+                     "%?"
+                     :file-name "${slug}"
+                     :head "#+TITLE: ${title}\n#+STARTUP: inlineimages\nTime-stamp: <>\n\n"
+                     :unnarrowed t)))
+            :bind (:map org-roam-mode-map
+                    (("C-c n r" . org-roam)
+                     ("C-c n f" . org-roam-find-file)
+                     ("C-c n g" . org-roam-graph)
+                     ("C-c d d" . org-roam-dailies-today)
+                     ("C-c d y" . org-roam-dailies-yesterday)
+                     ("C-c d t" . org-roam-dailies-tommorow))
+                    :map org-mode-map
+                    (("C-c n i" . org-roam-insert)
+                     ("C-c l" . org-store-link))))
+      (org-roam-mode 1)
     #+end_src
 **** Org Roam Server
      #+begin_src emacs-lisp
@@ -249,12 +321,10 @@
 *** Org Download
      #+begin_src emacs-lisp
        (use-package org-download
-	 :ensure t
-	 :hook dired-mode
-	 :config
-	 (setq org-download-timestamp t)
-	 (setq org-download-image-dir "~/pic/"))
-
+             :ensure t
+             :config
+             (setq org-download-timestamp t
+                   org-download-screenshot-method "scrot -s %s"))
 
      #+end_src
 *** Org Journal
@@ -273,19 +343,35 @@
 *** Org Noter
      #+begin_src emacs-lisp
        (use-package org-noter
-	 :ensure t
-	 :bind (:map nov-mode-map
-		     (("I" . org-noter-insert-note))))
+         :ensure t
+         :bind (:map nov-mode-map
+                     (("I" . org-noter-insert-note)))
+         :config
+         (setq org-noter-notes-window-location 'other-frame
+               org-noter-always-create-frame nil
+               org-noter-hide-other nil))
+
+       ;(use-package org-pdftools
+       ;  :ensure t
+       ;  (org-pdftools-setup-link))
+
+       (use-package org-noter-pdftools
+         :after org-noter
+         :config
+         (with-eval-after-load 'pdf-annot
+           (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
      #+end_src
 *** Org Yt
     #+begin_src emacs-lisp
       (use-package org-yt
-	:load-path "site-list/org-yt.el")
+	:load-path "site-lisp/org-yt.+end_src")
     #+end_src
 ** Yasnippet
    #+begin_src emacs-lisp
      (use-package yasnippet
-	:ensure t)
+       :ensure t
+       :config
+       (add-hook 'org-mode-hook '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed))))
       (use-package yasnippet-snippets
       :ensure t)
       (yas-global-mode 1)
@@ -306,7 +392,7 @@
    
    #+end_src
 ** Company
-   Autocompete framework
+   Auto complete framework
    #+begin_src emacs-lisp
      (use-package company
 	:ensure t
@@ -319,27 +405,41 @@
 
 	(add-hook 'after-init-hook 'global-company-mode)
 	(global-company-mode t)
+
+     (use-package company-irony
+       :ensure t)
+
+     (use-package company-irony-c-headers
+       :ensure t)
+
    #+end_src
 *** Backends
     #+begin_src emacs-lisp
+          (use-package company-emoji
+            :ensure t)
+          (use-package company-auctex
+            :ensure t)
+          (use-package company-bibtex
+            :ensure t)
+          (use-package company-c-headers
+            :ensure t)
 
-      (use-package company-emoji
-	:ensure t)
-      (use-package company-auctex
-	:ensure t)
-      (use-package company-bibtex
-	:ensure t)
-      (use-package company-c-headers
-	:ensure t)
-
+      (use-package company-org-roam
+            :ensure t
+            :pin melpa
+            :config
+            (push 'company-org-roam company-backends))
     #+end_src
 *** Adding Backends
     #+begin_src emacs-lisp
-       (add-to-list 'company-backends 'company-emoji)
-       (add-to-list 'company-backends 'company-clang)
-       (add-to-list 'company-backends 'company-yasnippet)
-       (add-to-list 'company-backends 'company-elisp)
-       (add-to-list 'company-backends 'elpy-company-backend)
+      (add-to-list 'company-backends 'company-emoji)
+      ;(add-to-list 'company-backends 'company-clang)
+      (add-to-list 'company-backends 'company-yasnippet)
+      ;(add-to-list 'company-backends 'company-elisp)
+      ;(add-to-list 'company-backends 'company-irony)
+      ;(add-to-list 'company-backends 'company-irony-c-headers)
+      (add-to-list 'company-backends 'company-org-roam)
+      ;(add-to-list 'company-backends 'elpy-company-backend)
     #+end_src
 ** IEdit
    #+begin_src emacs-lisp
@@ -381,6 +481,31 @@
 	    (progn
 	      (message "File path copied: 「%s」" $fpath)
 	      $fpath )))))
+
+     (global-set-key (kbd "C-c C-p") 'xah-copy-file-path)
+   #+end_src
+** Flyspell
+   #+begin_src emacs-lisp
+     (dolist (hook '(org-mode-hook))
+       (add-hook hook (lambda () (flyspell-mode))))
+
+     (use-package flyspell-correct
+       :ensure t
+       :after flyspell
+       :bind* (:map flyspell-mode-map ("C-'" . flyspell-correct-wrapper)))
+
+     (use-package flyspell-correct-ivy
+       :ensure t
+       :after flyspell-correct)
+   #+end_src
+** Japanese
+   #+begin_src emacs-lisp
+     (use-package ddskk
+       :ensure t
+       :bind (("C-x C-j" . skk-mode))
+       :config
+       (setq skk-large-jiyso "/usr/share/skk/SKK-JISYO.L"))
+
    #+end_src
 * Media
 ** Elfeed
@@ -468,7 +593,7 @@
 	  (use-package ytel
 		 :ensure t
 		 :config
-		 (setq ytel-invidious-api-url "https://invidious.us/"))
+		 (setq ytel-invidious-api-url "invidious.snopyta.org"))
    
    #+end_src
 *** Custom
@@ -490,7 +615,7 @@
 	    (let* ((video (ytel-get-current-video))
 	    (id    (ytel-video-id video)))
 	      (start-process "ytel mpv" nil
-		      "mpv.exe"
+		      "mpv"
 		      (concat "https://www.youtube.com/watch?v=" id))
 		      "--ytdl-format=bestaudio/best")
 	      (message "Starting streaming...")
@@ -502,7 +627,7 @@
 	    (interactive)
 	    (let* ((video (read-string "Enter Video URL: ")))
 	      (start-process "youtube-watch" nil
-		      "mpv.exe"
+		      "mpv"
 		      video)
 		      "--ytdl-format=bestaudio/best")
 	      (message "Starting stream..."))
@@ -558,7 +683,7 @@
 
      (defun my-nov-font-setup ()
        "ahahaha lol."
-       (face-remap-add-relative 'variable-pitch :family "ETBembo"
+       (face-remap-add-relative 'variable-pitch :family "ETBookOT"
 				:height 1.0))
 
      (add-hook 'nov-mode-hook 'my-nov-font-setup)
@@ -622,34 +747,13 @@
 *** pdf-tools
     #+begin_src emacs-lisp
       (use-package pdf-tools
-	:ensure t)
+	:ensure t
+	:config
+	(pdf-tools-install))
+;       (pdf-loader-org-pdftools
+;	:ensure t)
     #+end_src
-** Open With
-   #+begin_src emacs-lisp
-     (use-package openwith
-       :load-path "site-lisp/open-with.el")
-   #+end_src
 * Misc
-  
-** Eyebrowse
-   Multiple windows
-   #+begin_src emacs-lisp
-     (use-package eyebrowse
-       :ensure t
-       :diminish eyebrowse-mode
-       :config (progn
-		 (dotimes (n 10)
-		   (global-unset-key (kbd (format "M-%d" n))))
-		 (define-key eyebrowse-mode-map (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
-		 (define-key eyebrowse-mode-map (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
-		 (define-key eyebrowse-mode-map (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
-		 (define-key eyebrowse-mode-map (kbd "M-4") 'eyebrowse-switch-to-window-config-4)
-		 (define-key eyebrowse-mode-map (kbd "M-5") 'eyebrowse-switch-to-window-config-5)
-		 (define-key eyebrowse-mode-map (kbd "M-6") 'eyebrowse-switch-to-window-config-6)
-		 (eyebrowse-mode t)
-		 (setq eyebrowse-new-workspace t)))
-
-   #+end_src
 ** Literate Calc Mode
    #+begin_src emacs-lisp
      (use-package literate-calc-mode
@@ -757,15 +861,50 @@
        :config
        (global-emojify-mode t))
    #+end_src
+** helm-bibtex
+   #+begin_src emacs-lisp
+     (use-package helm-bibtex
+       :ensure t
+       :config
+       (setq bibtex-completion-bibliography
+	     '("/home/moogly/doc/Dropbox/bib/ref.bib")
+	     bibtex-completion-library-path
+	     '("/home/moogly/doc/Resources/articles/")
+	     bibtex-completion-pdf-field "File"))
+
+
+   #+end_src
+** org-ref
+   #+begin_src emacs-lisp
+     (use-package org-ref
+       :ensure t
+       :bind* (:map org-mode-map
+		   ("C-c ]" . org-ref-ivy-insert-cite-link))
+       :config
+       (setq reftex-default-bibliography '("/home/moogly/doc/Dropbox/bib/ref.bib"))
+       (setq bibtex-completion-pdf-open-function
+	     (lambda (fpath)
+	       (start-process "open" "*open*" "open" fpath)))
+       (setq org-ref-default-bibliography '("/home/moogly/doc/Dropbox/bib/ref.bib"))
+       (setq org-ref-pdf-directory '("/home/moogly/doc/Resources/articles/")))
+   #+end_src
+** org-roam-bibtex
+   #+begin_src emacs-lisp
+     (use-package org-roam-bibtex
+      :after org-roam
+      :hook (org-roam-mode . org-roam-bibtex-mode)
+      :bind (:map org-mode-map
+		  (("C-c n a" . orb-note-actions))))
+
+   #+end_src
+   
 * Keybinds
 ** Evil
    #+begin_src emacs-lisp
-	    (setq evil-want-keybinding t) ;; To make sure its set to nil
-	    (setq evil-want-keybinding nil)
      (use-package evil
 	    :ensure t
 	    :init
-	    (setq evil-want-keybinding t) ;; To make sure its set to nil
+	    (setq evil-want-integration t)
 	    (setq evil-want-keybinding nil)
 	    :config
 	    (evil-mode 1))
@@ -785,27 +924,6 @@
 
 	(require 'evil-org-agenda)
 	(evil-org-agenda-set-keys))
-      (use-package evil-collection
-	:after evil dired-subtree elfeed
-	:init
-	(setq evil-want-keybinding nil)
-	:ensure t
-	:config
-	(evil-collection-init)
-	(evil-collection-define-key 'normal 'elfeed-search-mode-map
-	  "gw" 'dj/ElfeedWatch
-	  "ga" 'dj/ElfeedListen
-	  "gb" 'dj/ElfeedBrowse
-	  "gu" 'elfeed-update
-	  "gd" 'dj/ElfeedDownload)
-	(evil-collection-define-key 'normal 'elfeed-show-mode-map
-	  "gw" 'dj/ElfeedWatch
-	  "ga" 'dj/ElfeedListen
-	  "gb" 'dj/ElfeedBrowse
-	  "gd" 'dj/ElfeedDownload
-	  "J" 'elfeed-show-next
-	  "K" 'elfeed-show-prev))
-
     #+end_src
 ** Custom
    Misc. Keybinds

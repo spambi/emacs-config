@@ -36,5 +36,7 @@
 *** [[https://nitter.net/elonmusk/rss][Elon Musk]]
 * Podcasts                                                   :elfeed:podcast:
 ** [[https://www.abc.net.au/radio/programs/the-signal/feed/9443166/podcast.xml][The Signal]]                                                          :news:
+** [[https://notrelated.libsyn.com/rss][Not Related]]
+
 * News                                                          :elfeed:news:
 ** [[https://www.theguardian.com/australia-news/sydney/rss][The Guardian]]
