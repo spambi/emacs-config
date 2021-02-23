@@ -1,9 +1,8 @@
- #+STARTUP: overview
+#+STARTUP: overview
 * Base
 ** Interface
    #+begin_src emacs-lisp
      (setq evil-want-integration t)
-     (set-frame-font "hack 11" nil t)
      (scroll-bar-mode 0)
      (show-paren-mode t)
      (blink-cursor-mode 0)
@@ -14,6 +13,7 @@
      (global-visual-line-mode 1)
      (global-linum-mode 1)
      (global-hl-line-mode 0)
+     (set-frame-font "hack 11" nil t)
    #+end_src
 ** Theme
    #+begin_src emacs-lisp
@@ -83,28 +83,6 @@
        :ensure t
        :bind (("C-c y" . ivy-yasnippet)))
    #+end_src
-** Collection
-   #+begin_src emacs-lisp
-     (use-package evil-collection
-       :after evil dired-subtree elfeed
-       :init
-       :ensure t
-       :config
-       (evil-collection-init)
-       (evil-collection-define-key 'normal 'elfeed-search-mode-map
-         "gw" 'dj/ElfeedWatch
-         "ga" 'dj/ElfeedListen
-         "gb" 'dj/ElfeedBrowse
-         "gu" 'elfeed-update
-         "gd" 'dj/ElfeedDownload)
-       (evil-collection-define-key 'normal 'elfeed-show-mode-map
-         "gw" 'dj/ElfeedWatch
-         "ga" 'dj/ElfeedListen
-         "gb" 'dj/ElfeedBrowse
-         "gd" 'dj/ElfeedDownload
-         "J" 'elfeed-show-next
-         "K" 'elfeed-show-prev))
-   #+end_src
 ** workgroups2
 #+begin_src emacs-lisp
     ;; unset M- digit keys
@@ -131,6 +109,50 @@
 
     (workgroups-mode t)
 #+end_src
+** Evil
+   #+begin_src emacs-lisp
+     (use-package evil
+	    :ensure t
+	    :init
+	    (setq evil-want-integration t)
+	    (setq evil-want-keybinding nil)
+	    :config
+	    (evil-mode 1))
+
+     (use-package evil-org
+       :ensure t)
+   #+end_src
+*** Evil Org
+    #+begin_src emacs-lisp
+      (use-package evil-org
+        :ensure t
+        :config
+        (add-hook 'org-mode-hook 'evil-org-mode)
+        (add-hook 'evil-org-mode-hook
+                  (lambda ()
+                    (evil-org-set-key-theme)))
+        (require 'evil-org-agenda)
+        (evil-org-agenda-set-keys))
+    #+end_src
+*** Evil Collection
+   #+begin_src emacs-lisp
+	  (use-package evil-collection
+	    :after evil dired-subtree elfeed
+	    :ensure t
+	    :config
+	    (evil-collection-init)
+	    (evil-collection-define-key 'normal 'elfeed-search-mode-map
+	      "gw" 'dj/ElfeedWatch
+	      "ga" 'dj/ElfeedListen
+	      "gb" 'dj/ElfeedBrowse
+	      "gu" 'elfeed-update
+	      "gd" 'dj/ElfeedDownload)
+	    (evil-collection-define-key 'normal 'elfeed-show-mode-map
+	      "gw" 'dj/ElfeedWatch
+	      "ga" 'dj/ElfeedListen
+	      "gb" 'dj/ElfeedBrowse
+	      "gd" 'dj/ElfeedDownload))
+   #+end_src
 * Editing
 ** Programming
 *** Python
@@ -144,9 +166,9 @@
 *** Magit
     #+begin_src emacs-lisp
       (use-package magit
-	  :ensure t)
+        :ensure t)
       (use-package evil-magit
-	:ensure t)
+        :ensure t)
     #+end_src
 *** Eshell
     #+begin_src emacs-lisp
@@ -189,29 +211,32 @@
        :pin org
        :config
        (org-babel-do-load-languages
-	'org-babel-load-languages '((python . t))))
+        'org-babel-load-languages '((python . t))))
      (setq
-      org-directory "~/doc/Dropbox/org/"
+      org-directory "~/Dropbox/org/"
       org-archive-location (concat org-directory "archive.org::"))
 
+     ;; org ricing
      (setq org-startup-indented t
-	   org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
-	   org-ellipsis "" ;; folding symbol
-	   org-pretty-entities t
-	   org-hide-emphasis-markers t
-	   ;; show actually italicized text instead of /italicized text/
-	   org-agenda-block-separator ""
-	   org-fontify-whole-heading-line t
-	   org-fontify-done-headline t
-	   org-fontify-quote-and-verse-blocks t)
+           org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+           org-ellipsis "" ;; folding symbol
+           org-pretty-entities t
+           org-hide-emphasis-markers t
+           ;; show actually italicized text instead of /italicized text/
+           org-agenda-block-separator ""
+           org-fontify-whole-heading-line t
+           org-fontify-done-headline t
+           org-fontify-quote-and-verse-blocks t)
+
+     (setq org-startup-with-inline-images t)
    #+end_src
 *** Org Roam
     #+begin_src emacs-lisp
-      (setq org-roam-directory "~/doc/Dropbox/org/roam")
+      (setq org-roam-directory "~/Dropbox/org/roam")
       (use-package org-roam
             :ensure t
             :custom
-            (org-roam-directory "~/doc/Dropbox/org/roam")
+            (org-roam-directory "~/Dropbox/org/roam")
             :config
             (require 'time-stamp)
             (add-hook 'write-file-functions 'time-stamp) ; update when saving
@@ -225,9 +250,9 @@
                     (("C-c n r" . org-roam)
                      ("C-c n f" . org-roam-find-file)
                      ("C-c n g" . org-roam-graph)
-                     ("C-c d d" . org-roam-dailies-today)
-                     ("C-c d y" . org-roam-dailies-yesterday)
-                     ("C-c d t" . org-roam-dailies-tommorow))
+                     ("C-c d d" . org-roam-dailies-capture-today)
+                     ("C-c d y" . org-roam-dailies-find-yesterday)
+                     ("C-c d t" . org-roam-dailies-find-tommorow))
                     :map org-mode-map
                     (("C-c n i" . org-roam-insert)
                      ("C-c l" . org-store-link))))
@@ -261,12 +286,13 @@
      #+end_src
 *** Org Superstar
     #+begin_src emacs-lisp
-	    (use-package org-superstar
-		    :ensure t
-		    :hook (org-mode . org-superstar-mode)
-		    :config
-		    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
-		    (setq org-hide-emphasis-markers t))
+      (use-package org-superstar
+        :ensure t
+        :hook org
+        :config
+        (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+        (setq org-hide-emphasis-markers t)
+        (org-superstart-mode t))
     #+end_src
 *** Org Agenda
     #+begin_src emacs-lisp
@@ -299,46 +325,55 @@
 *** Org Capture
     #+begin_src emacs-lisp
       (setq org-capture-templates
-	    '(("x" "Misc." entry (file+headline "~/doc/Dropbox/org/capture.org" "Misc.")
+	    '(("x" "Misc." entry (file+headline "~/Dropbox/org/capture.org" "Misc.")
 	       "* %? %i %^G\n  %i\n  %a")
-	      ("m" "Mathematics" entry (file+headline "~/doc/Dropbox/org/capture.org" "Maths")
+	      ("m" "Mathematics" entry (file+headline "~/Dropbox/org/capture.org" "Maths")
 	       "*  %?\nEntered on %U\n  %i\n  %a\n Chapter: ")
-	      ("n" "News" entry (file+headline "~/doc/Dropbox/org/capture.org" "News")
+	      ("n" "News" entry (file+headline "~/Dropbox/org/capture.org" "News")
 	       "*  %?\nEntered on %U\n  %i\n %a\n")
-	       ("t" "TODO" entry (file+headline "~/doc/Dropbox/org/capture.org" "TODOTASKS")
+	       ("t" "TODO" entry (file+headline "~/Dropbox/org/capture.org" "TODOTASKS")
 	       "* TODO  %?\nEntered on %U\n ")
-	      ("c" "Code Snippets" entry (file+headline "~/doc/Dropbox/org/capture.org" "Code Snippets")
+	       ("C" "Calendar Entry" entry (file+headline "~/Dropbox/org/TODO.org" "General")
+	       "* TODO  %?\nEntered on %U\n ")
+	      ("c" "Code Snippets" entry (file+headline "~/Dropbox/org/capture.org" "Code Snippets")
 	       "*  %?\nEntered on %U\n  %i\n  %a")))
       (setq org-export-html-style-include-default nil)
     #+end_src
 *** Org Cliplink
     #+begin_src emacs-lisp
       (use-package org-cliplink
-	:ensure t
-	:bind (:map org-mode-map
-		    ("C-c m" . org-cliplink))) 
+        :ensure t
+        :bind (:map org-mode-map
+                    ("C-c m" . org-cliplink))) 
     #+end_src
 *** Org Download
      #+begin_src emacs-lisp
        (use-package org-download
-             :ensure t
-             :config
-             (setq org-download-timestamp t
-                   org-download-screenshot-method "scrot -s %s"))
-
+         :ensure t
+         :defer t
+         :init
+         ;; Add handlers for drag-and-drop when Org is loaded.
+         (with-eval-after-load 'org
+           (org-download-enable))
+         :config
+         (setq org-download-timestamp t
+               org-downloada-screenshot-method "scrot -s %s"
+               org-download-image-dir "~/Dropbox/images/orgImages/"
+               org-download-method 'directory
+               org-download-heading-lvl nil))
      #+end_src
 *** Org Journal
      #+begin_src emacs-lisp
        (use-package org-journal
-	 :ensure t
-	 :defer t
-	 :bind
-	 ("C-c n j" . org-journal-new-entry)
-	 :custom
-	 (org-journal-date-prefix "#+title: ")
-	 (org-journal-file-format "%Y-%m-%d.org")
-	 (org-journal-dir "~/doc/Dropbox/org/roam")
-	 (org-journal-date-format "%A, %d %B %Y"))
+         :ensure t
+         :defer t
+         :bind
+         ("C-c n j" . org-journal-new-entry)
+         :custom
+         (org-journal-date-prefix "#+title: ")
+         (org-journal-file-format "%Y-%m-%d.org")
+         (org-journal-dir "~/doc/Dropbox/org/roam")
+         (org-journal-date-format "%A, %d %B %Y"))
      #+end_src
 *** Org Noter
      #+begin_src emacs-lisp
@@ -364,7 +399,7 @@
 *** Org Yt
     #+begin_src emacs-lisp
       (use-package org-yt
-	:load-path "site-lisp/org-yt.+end_src")
+        :load-path "site-lisp/org-yt.+end_src")
     #+end_src
 ** Yasnippet
    #+begin_src emacs-lisp
@@ -746,10 +781,8 @@
 ** Books
 *** pdf-tools
     #+begin_src emacs-lisp
-      (use-package pdf-tools
-	:ensure t
-	:config
-	(pdf-tools-install))
+  (use-package pdf-tools
+	:ensure t)
 ;       (pdf-loader-org-pdftools
 ;	:ensure t)
     #+end_src
@@ -897,34 +930,11 @@
 		  (("C-c n a" . orb-note-actions))))
 
    #+end_src
-   
+** Default Browser
+#+begin_src emacs-lisp
+(setq browse-url-browser-function 'browse-url-chromium) 
+#+end_src
 * Keybinds
-** Evil
-   #+begin_src emacs-lisp
-     (use-package evil
-	    :ensure t
-	    :init
-	    (setq evil-want-integration t)
-	    (setq evil-want-keybinding nil)
-	    :config
-	    (evil-mode 1))
-
-     (use-package evil-org
-       :ensure t)
-   #+end_src
-*** Evil Org
-    #+begin_src emacs-lisp
-      (use-package evil-org
-	:ensure t
-	:config
-	(add-hook 'org-mode-hook 'evil-org-mode)
-	(add-hook 'evil-org-mode-hook
-		  (lambda ()
-		    (evil-org-set-key-theme)))
-
-	(require 'evil-org-agenda)
-	(evil-org-agenda-set-keys))
-    #+end_src
 ** Custom
    Misc. Keybinds
    #+begin_src emacs-lisp
@@ -937,3 +947,4 @@
    (global-set-key (kbd "C-c C-'") 'dj/ytwatch)
    (global-set-key (kbd "C-c w") 'elfeed)
    #+end_src
+   

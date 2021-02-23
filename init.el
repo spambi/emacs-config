@@ -1,11 +1,10 @@
-(require 'package)
-(require 'use-package)
-(require 'evil-collection)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(require 'package)
+;(require 'use-package)
+;(require 'evil-collection)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 (add-to-list 'load-path "~/.emacs.d/site-lisp/")
 (package-initialize)
-
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -60,6 +59,7 @@ static char *gnus-pointer[] = {
 \"###....####.######\",
 \"###..######.######\",
 \"###########.######\" };") t)
+ '(helm-minibuffer-history-key "M-p")
  '(jdee-db-active-breakpoint-face-colors (cons "#0d1011" "#fabd2f"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#0d1011" "#b8bb26"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#0d1011" "#928374"))
@@ -69,13 +69,12 @@ static char *gnus-pointer[] = {
      ("deleted" :foreground "#ff2c4b" :bold t)))
  '(objed-cursor-color "#fb4934")
  '(openwith-associations '(("jpg png webp" "sxiv" nil) ("pdf" "zathura" nil)))
- '(org-agenda-files
-   '("~/doc/Dropbox/org/roam/jiang2003.org" "~/doc/Dropbox/org/roam/20200823201538-logic_the_laws_of_truth.org"))
+ '(org-agenda-files '("~/Dropbox/org/TODO.org"))
  '(org-download-screenshot-method "maim")
  '(org-roam-bibtex-mode t)
  '(org-super-agenda-mode t)
  '(package-selected-packages
-   '(org-noter-pdftools ddskk doom helm-bibtex org-roam-bibtex org-ref org-pdftools org-pdfview org-download company-org-roam company-irony-c-headers irony helm-flyspell flyspell-correct-ivy tj flyspell-correct quelpa-use-package quelpa literate-calc-mode lua-mode calibredb pdf-tools gruvbox-theme base16-themes almost-mono-themes evil-org evil-org-mode elfeed-goodies fountain-mode elfeed-org elfeed dired-hack-utils org-alert doom-themes ivy-yasnippet company-lsp yasnippet-snippets which-key web-mode use-package try toml-mode sublimity stack-mode srcery-theme solarized-theme rtags rainbow-mode ox-reveal org-superstar org-bullets org-brain openwith nyan-mode nimbus-theme moe-theme irony-eldoc iedit htmlize haskell-emacs flymake-haskell-multi flycheck-stack flycheck-rust flycheck-irony flycheck-haskell evil-magit evil-collection emojify emms emmet-mode elpy doom-modeline dired-subtree dired-rainbow dired-open counsel company-irony company-ghc company-emoji company-c-headers company-bibtex company-auctex cargo base16-theme badwolf-theme atom-one-dark-theme arduino-mode anki-mode anki-editor ace-window))
+   '(evil-collection org-noter-pdftools ddskk doom helm-bibtex org-roam-bibtex org-ref org-pdftools org-pdfview org-download company-org-roam company-irony-c-headers irony helm-flyspell flyspell-correct-ivy tj flyspell-correct quelpa-use-package quelpa literate-calc-mode lua-mode calibredb pdf-tools gruvbox-theme base16-themes almost-mono-themes evil-org evil-org-mode elfeed-goodies fountain-mode elfeed-org elfeed dired-hack-utils org-alert doom-themes ivy-yasnippet company-lsp yasnippet-snippets which-key web-mode use-package try toml-mode sublimity stack-mode srcery-theme solarized-theme rtags rainbow-mode ox-reveal org-superstar org-bullets org-brain openwith nyan-mode nimbus-theme moe-theme irony-eldoc iedit htmlize haskell-emacs flymake-haskell-multi flycheck-stack flycheck-rust flycheck-irony flycheck-haskell evil-magit emojify emms emmet-mode elpy doom-modeline dired-subtree dired-rainbow dired-open counsel company-irony company-ghc company-emoji company-c-headers company-bibtex company-auctex cargo base16-theme badwolf-theme atom-one-dark-theme arduino-mode anki-mode anki-editor ace-window))
  '(pdf-view-midnight-colors (cons "#ebdbb2" "#282828"))
  '(perfect-margin-mode t)
  '(rustic-ansi-faces

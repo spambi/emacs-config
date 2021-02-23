@@ -2,7 +2,22 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("next"
+(("todo"
+ (filename . "~/Dropbox/org/TODO.org")
+ (front-context-string . "* Planning Proje")
+ (rear-context-string)
+ (position . 1))
+("org  "
+ (filename . "~/Dropbox/org/")
+ (front-context-string . "archived.org\n  -")
+ (rear-context-string . "32 Jul  7  2020 ")
+ (position . 234))
+("org-capture-last-stored"
+ (filename . "~/Dropbox/org/TODO.org")
+ (front-context-string . "** TODO Weekly r")
+ (rear-context-string . "2-18 Thu 10:56]\n")
+ (position . 9556))
+("next"
  (filename . "~/doc/next/")
  (front-context-string . "f4nny stuff!!\n  ")
  (rear-context-string . "96 Aug 11 09:39 ")
