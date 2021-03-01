@@ -1,41 +1,3 @@
-ls
-clear
-ls
-ls
-sudo chmod +x pub-ip.sh 
-ls
-ls
-mkdir python
-yay -S ghc
-yay -S texlive-most
-cls
-clear
-yay -S stack
-ssh
-mpc volume
-mpv volume +2
-mpv volume + 2
-mpv volume 2
-mpv volume +2
-mpc volume +2
-mpc volume +2
-mpc volume +2
-mpc volume +2
-mpc volume +2
-mpc volume +2
-ghc --make begin.hs 
-ghc --make begin.hs 
-ls
-ls
-ls
-ls
-ghc --make begin.hs 
-ghc-pkg check
-ghc install
-ghc-pkg
-ghc-pkg install
-ghc-pkg --help
-ghc
 runghc
 clear
 ghci
@@ -126,3 +88,41 @@ ls
 ls
 ./01_hello_SDL
 ls
+ls
+mv launch.sh dockylaunch.sh
+ls
+mv dockylaunch.sh ~/.local/bin/
+cd
+g++ 01_hello_SDL.cpp
+make
+make
+./01_hello_SDL
+./01_hello_SDL
+./01_hello_SDL
+./01_hello_SDL
+./01_hello_SDL
+make
+./01_hello_SDL
+k
+ls
+g++ 02_getting_an_image_on_the_screen.cpp
+g++ 02_getting_an_image_on_the_screen.cpp
+g++ 02_getting_an_image_on_the_screen.cpp
+g++ 02_getting_an_image_on_the_screen.cppakg++ 02_getting_an_image_on_the_screen.cppak
+make
+ls
+./01_hello_SDL
+ls
+clear
+clear
+ls
+make
+./02_image
+./02_image
+./01_hello_SDL
+make
+./01_hello_SDL
+./02_image
+ls
+ledger -f test.dat balance
+pwd
