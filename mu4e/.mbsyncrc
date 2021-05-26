@@ -1,0 +1,173 @@
+# mbsyncrc based on
+# http://www.ict4g.net/adolfo/notes/2014/12/27/EmacsIMAP.html
+# ACCOUNT INFORMATION
+IMAPAccount morgan.perry4132-gmail
+# Address to connect to
+Host imap.gmail.com
+User morgan.perry4132@gmail.com
+PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.emacs.d/mu4e/.mbsyncpass-morgan.perry4132.gpg"
+AuthMechs LOGIN
+SSLType IMAPS
+SSLVersions TLSv1.2
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+# THEN WE SPECIFY THE LOCAL AND REMOTE STORAGE
+# - THE REMOTE STORAGE IS WHERE WE GET THE MAIL FROM (E.G., THE
+#   SPECIFICATION OF AN IMAP ACCOUNT)
+# - THE LOCAL STORAGE IS WHERE WE STORE THE EMAIL ON OUR COMPUTER
+
+# REMOTE STORAGE (USE THE IMAP ACCOUNT SPECIFIED ABOVE)
+IMAPStore morgan.perry4132-gmail-remote
+Account morgan.perry4132-gmail
+
+# LOCAL STORAGE (CREATE DIRECTORIES with mkdir -p ~/Maildir/morgan.perry4132-gmail)
+MaildirStore morgan.perry4132-gmail-local
+Path ~/Maildir/morgan.perry4132-gmail/
+Inbox ~/Maildir/morgan.perry4132-gmail/INBOX
+# REQUIRED ONLY IF YOU WANT TO DOWNLOAD ALL SUBFOLDERS; SYNCING SLOWS DOWN
+# SubFolders Verbatim
+
+# CONNECTIONS SPECIFY LINKS BETWEEN REMOTE AND LOCAL FOLDERS
+#
+# CONNECTIONS ARE SPECIFIED USING PATTERNS, WHICH MATCH REMOTE MAIl
+# FOLDERS. SOME COMMONLY USED PATTERS INCLUDE:
+#
+# 1 "*" TO MATCH EVERYTHING
+# 2 "!DIR" TO EXCLUDE "DIR"
+# 3 "DIR" TO MATCH DIR
+
+Channel morgan.perry4132-gmail-inbox
+Master :morgan.perry4132-gmail-remote:
+Slave :morgan.perry4132-gmail-local:
+Patterns "INBOX"
+Create Both
+Expunge Both
+SyncState *
+
+Channel morgan.perry4132-gmail-trash
+Master :morgan.perry4132-gmail-remote:"[Gmail]/Bin"
+Slave :morgan.perry4132-gmail-local:"[morgan.perry4132].Bin"
+Create Both
+Expunge Both
+SyncState *
+
+Channel morgan.perry4132-gmail-sent
+Master :morgan.perry4132-gmail-remote:"[Gmail]/Sent Mail"
+Slave :morgan.perry4132-gmail-local:"[morgan.perry4132].Sent Mail"
+Create Both
+Expunge Both
+SyncState *
+
+Channel morgan.perry4132-gmail-all
+Master :morgan.perry4132-gmail-remote:"[Gmail]/All Mail"
+Slave :morgan.perry4132-gmail-local:"[morgan.perry4132].All Mail"
+Create Both
+Expunge Both
+SyncState *
+
+Channel morgan.perry4132-gmail-starred
+Master :morgan.perry4132-gmail-remote:"[Gmail]/Starred"
+Slave :morgan.perry4132-gmail-local:"[morgan.perry4132].Starred"
+Create Both
+Expunge Both
+SyncState *
+
+# GROUPS PUT TOGETHER CHANNELS, SO THAT WE CAN INVOKE
+# MBSYNC ON A GROUP TO SYNC ALL CHANNELS
+#
+# FOR INSTANCE: "mbsync gmail" GETS MAIL FROM
+# "gmail-inbox", "gmail-sent", and "gmail-trash"
+#
+Group morgan.perry4132-gmail
+Channel morgan.perry4132-gmail-inbox
+Channel morgan.perry4132-gmail-sent
+Channel morgan.perry4132-gmail-trash
+Channel morgan.perry4132-gmail-all
+Channel morgan.perry4132-gmail-starred
+
+
+# ================================================================================
+
+
+# # ACCOUNT INFORMATION
+# IMAPAccount spambayyyy-gmail
+# # Address to connect to
+# Host imap.gmail.com
+# User spambayyyy@gmail.com
+# PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.emacs.d/mu4e/.mbsyncpass-spambayyyy.gpg"
+# AuthMechs LOGIN
+# SSLType IMAPS
+# SSLVersions TLSv1.2
+# CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+# # THEN WE SPECIFY THE LOCAL AND REMOTE STORAGE
+# # - THE REMOTE STORAGE IS WHERE WE GET THE MAIL FROM (E.G., THE
+# #   SPECIFICATION OF AN IMAP ACCOUNT)
+# # - THE LOCAL STORAGE IS WHERE WE STORE THE EMAIL ON OUR COMPUTER
+
+# # REMOTE STORAGE (USE THE IMAP ACCOUNT SPECIFIED ABOVE)
+# IMAPStore spambayyyy-gmail-remote
+# Account spambayyyy-gmail
+
+# # LOCAL STORAGE (CREATE DIRECTORIES with mkdir -p ~/Maildir/spambayyyy-gmail)
+# MaildirStore spambayyyy-gmail-local
+# Path ~/Maildir/spambayyyy-gmail/
+# Inbox ~/Maildir/spambayyyy-gmail/INBOX
+
+# # CONNECTIONS SPECIFY LINKS BETWEEN REMOTE AND LOCAL FOLDERS
+# #
+# # CONNECTIONS ARE SPECIFIED USING PATTERNS, WHICH MATCH REMOTE MAIl
+# # FOLDERS. SOME COMMONLY USED PATTERS INCLUDE:
+# #
+# # 1 "*" TO MATCH EVERYTHING
+# # 2 "!DIR" TO EXCLUDE "DIR"
+# # 3 "DIR" TO MATCH DIR
+
+# Channel spambayyyy-gmail-inbox
+# Master :spambayyyy-gmail-remote:
+# Slave :spambayyyy-gmail-local:
+# Patterns "INBOX"
+# Create Both
+# Expunge Both
+# SyncState *
+
+# Channel spambayyyy-gmail-trash
+# Master :spambayyyy-gmail-remote:"[Gmail]/Trash"
+# Slave :spambayyyy-gmail-local:"[spambayyyy].Trash"
+# Create Both
+# Expunge Both
+# SyncState *
+
+# Channel spambayyyy-gmail-sent
+# Master :spambayyyy-gmail-remote:"[Gmail]/Sent Mail"
+# Slave :spambayyyy-gmail-local:"[spambayyyy].Sent Mail"
+# Create Both
+# Expunge Both
+# SyncState *
+
+# Channel spambayyyy-gmail-all
+# Master :spambayyyy-gmail-remote:"[Gmail]/All Mail"
+# Slave :spambayyyy-gmail-local:"[spambayyyy].All Mail"
+# Create Both
+# Expunge Both
+# SyncState *
+
+# Channel spambayyyy-gmail-starred
+# Master :spambayyyy-gmail-remote:"[Gmail]/Starred"
+# Slave :spambayyyy-gmail-local:"[spambayyyy].Starred"
+# Create Both
+# Expunge Both
+# SyncState *
+
+# # GROUPS PUT TOGETHER CHANNELS, SO THAT WE CAN INVOKE
+# # MBSYNC ON A GROUP TO SYNC ALL CHANNELS
+# #
+# # FOR INSTANCE: "mbsync gmail" GETS MAIL FROM
+# # "gmail-inbox", "gmail-sent", and "gmail-trash"
+# #
+# Group spambayyyy-gmail
+# Channel spambayyyy-gmail-inbox
+# Channel spambayyyy-gmail-sent
+# Channel spambayyyy-gmail-trash
+# Channel spambayyyy-gmail-all
+# Channel spambayyyy-gmail-starred

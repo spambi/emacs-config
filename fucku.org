@@ -21,8 +21,11 @@
        :ensure t)
      (use-package badwolf-theme
        :ensure t)
+     (use-package doom-themes
+       :ensure t)
      ;(load-theme 'gruvbox t)
-     (load-theme 'badwolf t)
+     ;(load-theme 'badwolf t)
+     (load-theme 'doom-dark+ t)
    #+end_src
 ** Revert Buffer
    #+begin_src emacs-lisp
@@ -86,7 +89,7 @@
 ** workgroups2
 #+begin_src emacs-lisp
     ;; unset M- digit keys
-    (dotimes (n 4)
+    (dotimes (n 5)
       (global-unset-key (kbd (format "M-%d" n))))
 
 
@@ -96,7 +99,8 @@
               (("M-1" . wg-switch-to-workgroup-at-index-0))
               (("M-2" . wg-switch-to-workgroup-at-index-1))
               (("M-3" . wg-switch-to-workgroup-at-index-2))
-              (("M-4" . wg-switch-to-workgroup-at-index-3)))
+              (("M-4" . wg-switch-to-workgroup-at-index-3))
+              (("M-5" . wg-switch-to-workgroup-at-index-4)))
       :config 
       (setq wg-workgroups-mode-exit-save-behavior 'save)
       (setq wg-emacs-exit-save-behavior 'save)
@@ -159,6 +163,173 @@
        :config
        (evil-collection-init))
    #+end_src
+** mu4e
+   #+begin_src emacs-lisp
+     (require 'org-mime)
+
+     (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
+     (require 'mu4e)
+
+     (setq mu4e-maildir (expand-file-name "~/Maildir"))
+
+     ; get mail
+     (setq mu4e-get-mail-command "mbsync -c ~/.emacs.d/mu4e/.mbsyncrc -a"
+       ;; mu4e-html2text-command "w3m -T text/html" ;;using the default mu4e-shr2text
+       mu4e-view-prefer-html t
+       mu4e-update-interval 180
+       mu4e-headers-auto-update t
+       mu4e-compose-signature-auto-include nil
+       mu4e-compose-format-flowed t)
+
+     ;; to view selected message in the browser, no signin, just html mail
+     (add-to-list 'mu4e-view-actions
+       '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+
+     ;; enable inline images
+     (setq mu4e-view-show-images t)
+     ;; use imagemagick, if available
+     (when (fboundp 'imagemagick-register-types)
+       (imagemagick-register-types))
+
+     ;; every new email composition gets its own frame!
+     ;(setq mu4e-compose-in-new-frame t)
+
+     ;; don't save message to Sent Messages, IMAP takes care of this
+     (setq mu4e-sent-messages-behavior 'delete)
+
+     (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
+
+     ;; <tab> to navigate to links, <RET> to open them in browser
+     (add-hook 'mu4e-view-mode-hook
+       (lambda()
+     ;; try to emulate some of the eww key-bindings
+     (local-set-key (kbd "<RET>") 'mu4e~view-browse-url-from-binding)
+     (local-set-key (kbd "<tab>") 'shr-next-link)
+     (local-set-key (kbd "<backtab>") 'shr-previous-link)))
+
+     ;; from https://www.reddit.com/r/emacs/comments/bfsck6/mu4e_for_dummies/elgoumx
+     (add-hook 'mu4e-headers-mode-hook
+	   (defun my/mu4e-change-headers ()
+	     (interactive)
+	     (setq mu4e-headers-fields
+		   `((:human-date . 25) ;; alternatively, use :date
+		     (:flags . 6)
+		     (:from . 22)
+		     (:thread-subject . ,(- (window-body-width) 70)) ;; alternatively, use :subject
+		     (:size . 7)))))
+
+     ;; if you use date instead of human-date in the above, use this setting
+     ;; give me ISO(ish) format date-time stamps in the header list
+     ;(setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
+
+     ;; spell check
+     (add-hook 'mu4e-compose-mode-hook
+	 (defun my-do-compose-stuff ()
+	    "My settings for message composition."
+	    (visual-line-mode)
+	    (org-mu4e-compose-org-mode)
+		(use-hard-newlines -1)
+	    (flyspell-mode)))
+
+     (require 'smtpmail)
+
+     ;;rename files when moving
+     ;;NEEDED FOR MBSYNC
+     (setq mu4e-change-filenames-when-moving t)
+
+     ;;set up queue for offline email
+     ;;use mu mkdir  ~/Maildir/acc/queue to set up first
+     (setq smtpmail-queue-mail nil)  ;; start in normal mode
+
+     ;;from the info manual
+     (setq mu4e-attachment-dir  "~/Downloads")
+
+     (setq message-kill-buffer-on-exit t)
+     (setq mu4e-compose-dont-reply-to-self t)
+
+     (require 'org-mu4e)
+
+     ;; convert org mode to HTML automatically
+     (setq org-mu4e-convert-to-html t)
+
+     ;;from vxlabs config
+     ;; show full addresses in view message (instead of just names)
+     ;; toggle per name with M-RET
+     (setq mu4e-view-show-addresses 't)
+
+     ;; don't ask when quitting
+     (setq mu4e-confirm-quit nil)
+
+     ;; mu4e-context
+     (setq mu4e-context-policy 'pick-first)
+     (setq mu4e-compose-context-policy 'always-ask)
+     (setq mu4e-contexts
+       (list
+	(make-mu4e-context
+	 :name "work" ;;for morgan.perry4132-gmail
+	 :enter-func (lambda () (mu4e-message "Entering context work"))
+	 :leave-func (lambda () (mu4e-message "Leaving context work"))
+	 :match-func (lambda (msg)
+		       (when msg
+		     (mu4e-message-contact-field-matches
+		      msg '(:from :to :cc :bcc) "morgan.perry4132@gmail.com")))
+	 :vars '((user-mail-address . "morgan.perry4132@gmail.com")
+		 (user-full-name . "User Account1")
+		 (mu4e-sent-folder . "/morgan.perry4132-gmail/[morgan.perry4132].Sent Mail")
+		 (mu4e-drafts-folder . "/morgan.perry4132-gmail/[morgan.perry4132].drafts")
+		 (mu4e-trash-folder . "/morgan.perry4132-gmail/[morgan.perry4132].Bin")
+		 (mu4e-compose-signature . (concat "Formal Signature\n" "Emacs 25, org-mode 9, mu4e 1.0\n"))
+		 (mu4e-compose-format-flowed . t)
+		 (smtpmail-queue-dir . "~/Maildir/morgan.perry4132-gmail/queue/cur")
+		 (message-send-mail-function . smtpmail-send-it)
+		 (smtpmail-smtp-user . "morgan.perry4132")
+		 (smtpmail-starttls-credentials . (("smtp.gmail.com" 587 nil nil)))
+		 (smtpmail-auth-credentials . (expand-file-name "~/.config/authinfo.gpg"))
+		 (smtpmail-default-smtp-server . "smtp.gmail.com")
+		 (smtpmail-smtp-server . "smtp.gmail.com")
+		 (smtpmail-smtp-service . 587)
+		 (smtpmail-debug-info . t)
+		 (smtpmail-debug-verbose . t)
+		 (mu4e-maildir-shortcuts . ( ("/morgan.perry4132-gmail/INBOX"            . ?i)
+					     ("/morgan.perry4132-gmail/[morgan.perry4132].Sent Mail" . ?s)
+					     ("/morgan.perry4132-gmail/[morgan.perry4132].Bin"       . ?t)
+					     ("/morgan.perry4132-gmail/[morgan.perry4132].All Mail"  . ?a)
+					     ("/morgan.perry4132-gmail/[morgan.perry4132].Starred"   . ?r)
+					     ("/morgan.perry4132-gmail/[morgan.perry4132].drafts"    . ?d)
+					     ))))
+	(make-mu4e-context
+	 :name "personal" ;;for acc2-gmail
+	 :enter-func (lambda () (mu4e-message "Entering context personal"))
+	 :leave-func (lambda () (mu4e-message "Leaving context personal"))
+	 :match-func (lambda (msg)
+		       (when msg
+		     (mu4e-message-contact-field-matches
+		      msg '(:from :to :cc :bcc) "acc2@gmail.com")))
+	 :vars '((user-mail-address . "acc2@gmail.com")
+		 (user-full-name . "User Account2")
+		 (mu4e-sent-folder . "/acc2-gmail/[acc2].Sent Mail")
+		 (mu4e-drafts-folder . "/acc2-gmail/[acc2].drafts")
+		 (mu4e-trash-folder . "/acc2-gmail/[acc2].Trash")
+		 (mu4e-compose-signature . (concat "Informal Signature\n" "Emacs is awesome!\n"))
+		 (mu4e-compose-format-flowed . t)
+		 (smtpmail-queue-dir . "~/Maildir/acc2-gmail/queue/cur")
+		 (message-send-mail-function . smtpmail-send-it)
+		 (smtpmail-smtp-user . "acc2")
+		 (smtpmail-starttls-credentials . (("smtp.gmail.com" 587 nil nil)))
+		 (smtpmail-auth-credentials . (expand-file-name "~/.config/authinfo.gpg"))
+		 (smtpmail-default-smtp-server . "smtp.gmail.com")
+		 (smtpmail-smtp-server . "smtp.gmail.com")
+		 (smtpmail-smtp-service . 587)
+		 (smtpmail-debug-info . t)
+		 (smtpmail-debug-verbose . t)
+		 (mu4e-maildir-shortcuts . ( ("/acc2-gmail/INBOX"            . ?i)
+					     ("/acc2-gmail/[acc2].Sent Mail" . ?s)
+					     ("/acc2-gmail/[acc2].Trash"     . ?t)
+					     ("/acc2-gmail/[acc2].All Mail"  . ?a)
+					     ("/acc2-gmail/[acc2].Starred"   . ?r)
+					     ("/acc2-gmail/[acc2].drafts"    . ?d)
+					     ))))))
+   #+end_src
 * Editing
 ** Programming
 *** Python
@@ -217,22 +388,23 @@
        :pin org
        :config
        (org-babel-do-load-languages
-	'org-babel-load-languages '((python . t))))
+        'org-babel-load-languages '((python . t))))
+
      (setq
       org-directory "~/Dropbox/org/"
       org-archive-location (concat org-directory "archive.org::"))
 
      ;; org ricing
      (setq org-startup-indented t
-	   org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
-	   org-ellipsis "" ;; folding symbol
-	   org-pretty-entities t
-	   org-hide-emphasis-markers t
-	   ;; show actually italicized text instead of /italicized text/
-	   org-agenda-block-separator ""
-	   org-fontify-whole-heading-line t
-	   org-fontify-done-headline t
-	   org-fontify-quote-and-verse-blocks t)
+           org-bullets-bullet-list '(" ") ;; no bullets, needs org-bullets package
+           org-ellipsis "" ;; folding symbol
+           org-pretty-entities t
+           org-hide-emphasis-markers t
+           ;; show actually italicized text instead of /italicized text/
+           org-agenda-block-separator ""
+           org-fontify-whole-heading-line t
+           org-fontify-done-headline t
+           org-fontify-quote-and-verse-blocks t)
 
      (setq org-startup-with-inline-images t)
    #+end_src
@@ -270,7 +442,7 @@
 	:ensure t
 	:config
 	(setq org-roam-server-host "127.0.0.1"
-	      org-roam-server-port 8080
+	      org-roam-server-port 8082
 	      org-roam-server-export-inline-images t
 	      org-roam-server-authenticate nil
 	      org-roam-server-label-truncate t
@@ -293,10 +465,11 @@
 *** Org Superstar
     #+begin_src emacs-lisp
       (use-package org-superstar
-        :ensure t
-        :config
-        (setq org-hide-emphasis-markers t)
-        (org-superstar-mode t))
+       :ensure t
+       :config
+       (setq org-hide-emphasis-markers t))
+
+      (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
     #+end_src
 *** Org Agenda
     #+begin_src emacs-lisp
@@ -405,6 +578,11 @@
       (use-package org-yt
         :load-path "site-lisp/org-yt.+end_src")
     #+end_src
+*** Org Mime
+    #+begin_src emacs-lisp
+      (use-package org-mime
+	:ensure t)
+    #+end_src
 ** Yasnippet
    #+begin_src emacs-lisp
      (use-package yasnippet
@@ -487,8 +665,9 @@
 ** IEdit
    #+begin_src emacs-lisp
 
-   (use-package iedit
-     :ensure t)
+	(use-package iedit
+	  :ensure t
+	  :bind ("C-:" . iedit-mode))
 
    #+end_src
 ** Find File Path
@@ -642,74 +821,110 @@
     #+end_src
 ** Ytel
    #+begin_src emacs-lisp
-	  (use-package ytel
-		 :ensure t
-		 :config
-		 (setq ytel-invidious-api-url "invidious.snopyta.org"))
-   
+      (use-package ytel
+             :ensure t
+             :config
+             (setq ytel-invidious-api-url "https://ytprivate.com/"))
+
+     (defvar invidious-instances-url
+           "https://api.invidious.io/instances.json?pretty=1&sort_by=health")
+
+     (defun ytel-instances-fetch-json ()
+       "Fetch list of invidious instances as json, sorted by health."
+       (let
+           ((url-request-method "GET")
+            (url-request-extra-headers
+             '(("Accept" . "application/json"))))
+         (with-current-buffer
+             (url-retrieve-synchronously invidious-instances-url)
+           (goto-char (point-min))
+           (re-search-forward "^$")
+           (let* ((json-object-type 'alist)
+                  (json-array-type 'list)
+                  (json-key-type 'string))
+             (json-read)))))
+
+     (defun ytel-instances-alist-from-json ()
+       "Make the json of invidious instances into an alist."
+       (let ((jsonlist (ytel-instances-fetch-json))
+             (inst ()))
+         (while jsonlist
+           (push (concat "https://" (caar jsonlist)) inst)
+           (setq jsonlist (cdr jsonlist)))
+         (nreverse inst)))
+
+     (defun ytel-choose-instance ()
+       "Prompt user to choose an invidious instance to use."
+       (interactive)
+       (setq ytel-invidious-api-url
+             (or (condition-case nil
+                     (completing-read "Using instance: "
+                                      (subseq (ytel-instances-alist-from-json) 0 11) nil "confirm" "https://") ; "healthiest" 12 instances; no require match
+                   (error nil))
+                 "https://invidious.synopyta.org"))) ; fallback
    #+end_src
 *** Custom
    #+begin_src emacs-lisp
      (defun ytel-watch ()
        "Stream video at point in mpv."
-	    (interactive)
-	    (let* ((video (ytel-get-current-video))
-	    (id    (ytel-video-id video)))
-	      (start-process "ytel mpv" nil
-		      "mpv"
-		      (concat "https://www.youtube.com/watch?v=" id))
-		      "--ytdl-format=bestaudio/best")
-	      (message "Starting streaming..."))
+            (interactive)
+            (let* ((video (ytel-get-current-video))
+            (id    (ytel-video-id video)))
+              (start-process "ytel mpv" nil
+                      "mpv"
+                      (concat "https://www.youtube.com/watch?v=" id))
+                      "--ytdl-format=bestaudio/best")
+              (message "Starting streaming..."))
 
      (defun ytel-watch-replace ()
-	    "Stream video at point in mpv."
-	    (interactive)
-	    (let* ((video (ytel-get-current-video))
-	    (id    (ytel-video-id video)))
-	      (start-process "ytel mpv" nil
-		      "mpv"
-		      (concat "https://www.youtube.com/watch?v=" id))
-		      "--ytdl-format=bestaudio/best")
-	      (message "Starting streaming...")
-	    (ytel-remove-current-video))
-       
+            "Stream video at point in mpv."
+            (interactive)
+            (let* ((video (ytel-get-current-video))
+            (id    (ytel-video-id video)))
+              (start-process "ytel mpv" nil
+                      "mpv"
+                      (concat "https://www.youtube.com/watch?v=" id))
+                      "--ytdl-format=bestaudio/best")
+              (message "Starting streaming...")
+            (ytel-remove-current-video))
+
      (defun dj/ytwatch ()
-	    "Stream video at point in mpv."
-	    (require 'ytel)
-	    (interactive)
-	    (let* ((video (read-string "Enter Video URL: ")))
-	      (start-process "youtube-watch" nil
-		      "mpv"
-		      video)
-		      "--ytdl-format=bestaudio/best")
-	      (message "Starting stream..."))
+            "Stream video at point in mpv."
+            (require 'ytel)
+            (interactive)
+            (let* ((video (read-string "Enter Video URL: ")))
+              (start-process "youtube-watch" nil
+                      "mpv"
+                      video)
+                      "--ytdl-format=bestaudio/best")
+              (message "Starting stream..."))
 
 
      (defun dj/twitchWatch ()
-	    "Stream video at point in mpv."
-	    (require 'ytel)
-	    (interactive)
-	    (let* ((user (read-string "Enter Twitch Usernam: ")))
-	      (start-process "dj/twitchWatch" nil
-		      "mpv"
-		      user)
-		      "--ytdl-format=bestaudio/best")
-	      (message "Starting stream..."))
+            "Stream video at point in mpv."
+            (require 'ytel)
+            (interactive)
+            (let* ((user (read-string "Enter Twitch Usernam: ")))
+              (start-process "dj/twitchWatch" nil
+                      "mpv"
+                      user)
+                      "--ytdl-format=bestaudio/best")
+              (message "Starting stream..."))
 
      (defun dj/ytelYank ()
        "Will yank from current position in ytel."
        (interactive)
        (let ((fuck (ytel-get-current-video)))
-	 (kill-new (concat "https://invidio.us/watch?v="(ytel-video-id fuck)))
-	 (message (concat "Yanked: " (concat "https://invidio.us/watch?v="(ytel-video-id fuck))))))
+         (kill-new (concat "https://invidio.us/watch?v="(ytel-video-id fuck)))
+         (message (concat "Yanked: " (concat "https://invidio.us/watch?v="(ytel-video-id fuck))))))
 
-	   (define-key ytel-mode-map (kbd "w") 'ytel-watch)
-	   (define-key ytel-mode-map (kbd "W") 'ytel-watch-replace)
-	   (define-key ytel-mode-map (kbd "j") 'next-line)
-	   (define-key ytel-mode-map (kbd "k") 'previous-line)
-	   (define-key ytel-mode-map (kbd "G") 'end-of-buffer)
-	   (define-key ytel-mode-map (kbd "g") 'beginning-of-buffer)
-	   (define-key ytel-mode-map (kbd "y") 'dj/ytelYank)
+           (define-key ytel-mode-map (kbd "w") 'ytel-watch)
+           (define-key ytel-mode-map (kbd "W") 'ytel-watch-replace)
+           (define-key ytel-mode-map (kbd "j") 'next-line)
+           (define-key ytel-mode-map (kbd "k") 'previous-line)
+           (define-key ytel-mode-map (kbd "G") 'end-of-buffer)
+           (define-key ytel-mode-map (kbd "g") 'beginning-of-buffer)
+           (define-key ytel-mode-map (kbd "y") 'dj/ytelYank)
    #+end_src
 *** Keybinds
    #+begin_src emacs-lisp
@@ -721,6 +936,25 @@
      (define-key ytel-mode-map (kbd "g") 'beginning-of-buffer)
      (define-key ytel-mode-map (kbd "y") 'dj/ytelYank)
    #+end_src
+*** ytdious
+    #+begin_src emacs-lisp
+      (use-package ytdious
+	:ensure
+	:config
+	(setq ytdious-invidious-api-url "https://ytprivate.com")
+	(define-key ytdious-mode-map "y" #'ytdious-watch)
+	(defun ytdious-watch ()
+	  "Stream video at point in mpv."
+	  (interactive)
+	  (let* ((video (ytdious-get-current-video))
+		 (id    (ytdious-video-id-fun video)))
+	    (start-process "ytdious mpv" nil
+			   "mpv"
+			   (concat "https://www.youtube.com/watch?v=" id))
+	    "--ytdl-format=bestvideo[height<=?720]+bestaudio/best")
+	  (message "Starting streaming...")))
+
+    #+end_src
 ** Nov
    #+begin_src emacs-lisp
      (use-package nov
