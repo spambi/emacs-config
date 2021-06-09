@@ -18,8 +18,8 @@
  (rear-context-string . "32 Jul  7  2020 ")
  (position . 234))
 ("org-capture-last-stored"
- (filename . "~/Dropbox/org/roam/theanine_with_caffeine.org")
- (front-context-string . "#+TITLE: Theanin")
+ (filename . "~/Dropbox/org/roam/euthyphro_dialogue.org")
+ (front-context-string . "#+TITLE: Euthyph")
  (rear-context-string)
  (position . 1))
 ("next"

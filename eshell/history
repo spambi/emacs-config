@@ -1,5 +1,3 @@
-./hello 
-git add rm eshell/history
 git add rm eshell/lastdir
 git add add eshell/lastdir
 git add/rm add eshell/lastdir
@@ -126,3 +124,5 @@ gpg2 -c .mbsynpass-morgan.perry4132
 ls
 ls -a
 rm .mbsynpass-morgan.perry4132
+chmod +x get_spotify_status.sh
+chmod +x scroll_spotify_status.sh

@@ -1,3 +1,5 @@
+;; The default is 800 kilobytes.  Measured in bytes.
+(setq gc-cons-threshold (* 50 1000 1000))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (require 'package)
 (require 'use-package)
@@ -21,7 +23,7 @@
    ["#3c3836" "#fb4933" "#b8bb26" "#fabd2f" "#83a598" "#d3869b" "#8ec07c" "#ebdbb2"])
  '(auth-source-save-behavior nil)
  '(custom-safe-themes
-   '("76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" "16ab866312f1bd47d1304b303145f339eac46bbc8d655c9bfa423b957aa23cc9" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "75b8719c741c6d7afa290e0bb394d809f0cc62045b93e1d66cd646907f8e6d43" "b89ae2d35d2e18e4286c8be8aaecb41022c1a306070f64a66fd114310ade88aa" default))
+   '("6b80b5b0762a814c62ce858e9d72745a05dd5fc66f821a1c5023b4f2a76bc910" "4dc0f49717431e40b2cae6ee4ab941f470ce302d25c2e4dccb2e0bfd93c898b3" "76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" "16ab866312f1bd47d1304b303145f339eac46bbc8d655c9bfa423b957aa23cc9" "4cf9ed30ea575fb0ca3cff6ef34b1b87192965245776afa9e9e20c17d115f3fb" "75b8719c741c6d7afa290e0bb394d809f0cc62045b93e1d66cd646907f8e6d43" "b89ae2d35d2e18e4286c8be8aaecb41022c1a306070f64a66fd114310ade88aa" default))
  '(fci-rule-color "#7c6f64")
  '(helm-minibuffer-history-key "M-p")
  '(jdee-db-active-breakpoint-face-colors (cons "#0d1011" "#fabd2f"))
@@ -32,9 +34,9 @@
      ("flagged" :foreground "#0a9dff")
      ("deleted" :foreground "#ff2c4b" :bold t)))
  '(objed-cursor-color "#fb4934")
- '(org-agenda-files '("~/Dropbox/org/capture.org" "~/Dropbox/org/TODO.org"))
+ '(org-agenda-files '("~/Dropbox/org/TODO.org" "~/Dropbox/org/capture.org"))
  '(package-selected-packages
-   '(ytdious org-mime mu4e ytel visual-fill-column lexic dictionary org-superstar undo-tree doom-themes lua-mode yasnippet-snippets workgroups2 which-key use-package try sauron rainbow-mode ox-reveal org-super-agenda org-roam-server org-ref org-noter org-journal org-dropbox org-download org-cliplink nyan-mode nov literate-calc-mode ledger-mode ivy-yasnippet iedit gruvbox-theme flyspell-correct-ivy flycheck evil-org evil-magit evil-collection emojify elpy elfeed-org elfeed-goodies doom-modeline dired-subtree dired-rainbow dired-open deft ddskk dashboard counsel company-org-roam company-ledger company-irony-c-headers company-irony company-emoji company-c-headers company-bibtex company-auctex bug-hunter badwolf-theme alert ace-window))
+   '(org-roam-bibtex ivy-bibtex ytdious org-mime mu4e ytel visual-fill-column lexic dictionary org-superstar undo-tree doom-themes lua-mode yasnippet-snippets workgroups2 which-key use-package try sauron rainbow-mode ox-reveal org-super-agenda org-roam-server org-ref org-noter org-journal org-dropbox org-download org-cliplink nyan-mode nov literate-calc-mode ledger-mode ivy-yasnippet iedit gruvbox-theme flyspell-correct-ivy flycheck evil-org evil-magit evil-collection emojify elpy elfeed-org elfeed-goodies doom-modeline dired-subtree dired-rainbow dired-open deft ddskk dashboard counsel company-org-roam company-ledger company-irony-c-headers company-irony company-emoji company-c-headers company-bibtex company-auctex bug-hunter badwolf-theme alert ace-window))
  '(pdf-view-midnight-colors '("#fdf4c1" . "#1d2021"))
  '(rustic-ansi-faces
    ["#282828" "#fb4934" "#b8bb26" "#fabd2f" "#83a598" "#cc241d" "#8ec07c" "#ebdbb2"])
@@ -67,3 +69,6 @@
  ;; If there is more than one, they won't work right.
  '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 2.5)))))
 (put 'upcase-region 'disabled nil)
+
+;; Make gc pauses faster by decreasing the threshold.
+(setq gc-cons-threshold (* 2 1000 1000))

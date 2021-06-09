@@ -1,4 +1,3 @@
-/home/pywoe/.config/polybar/scripts
 ~/doc/Programming
 /usr/share/man/man1
 /home/pywoe/doc/Programming/haskell
@@ -31,3 +30,4 @@
 /home/moogly/dwn/dmenu-distrotube
 /home/moogly/doc/next/PlexStuff
 /home/moogly
+/home/moogly/.dotfiles/polybar/.config/polybar/scripts
