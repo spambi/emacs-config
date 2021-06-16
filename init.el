@@ -1,9 +1,9 @@
+(let ((file-name-handler-alist nil))
 ;; The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (require 'package)
-(require 'use-package)
-(require 'evil-collection)
+;(require 'use-package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 (add-to-list 'load-path "~/.emacs.d/site-lisp/")
 (package-initialize)
@@ -36,7 +36,7 @@
  '(objed-cursor-color "#fb4934")
  '(org-agenda-files '("~/Dropbox/org/TODO.org" "~/Dropbox/org/capture.org"))
  '(package-selected-packages
-   '(org-roam-bibtex ivy-bibtex ytdious org-mime mu4e ytel visual-fill-column lexic dictionary org-superstar undo-tree doom-themes lua-mode yasnippet-snippets workgroups2 which-key use-package try sauron rainbow-mode ox-reveal org-super-agenda org-roam-server org-ref org-noter org-journal org-dropbox org-download org-cliplink nyan-mode nov literate-calc-mode ledger-mode ivy-yasnippet iedit gruvbox-theme flyspell-correct-ivy flycheck evil-org evil-magit evil-collection emojify elpy elfeed-org elfeed-goodies doom-modeline dired-subtree dired-rainbow dired-open deft ddskk dashboard counsel company-org-roam company-ledger company-irony-c-headers company-irony company-emoji company-c-headers company-bibtex company-auctex bug-hunter badwolf-theme alert ace-window))
+   '(evil-nerd-commenter ivy-posframe org-roam-bibtex ivy-bibtex ytdious org-mime mu4e ytel visual-fill-column lexic dictionary org-superstar undo-tree doom-themes lua-mode yasnippet-snippets workgroups2 which-key use-package try sauron rainbow-mode ox-reveal org-super-agenda org-roam-server org-ref org-noter org-journal org-dropbox org-download org-cliplink nyan-mode nov literate-calc-mode ledger-mode ivy-yasnippet iedit gruvbox-theme flyspell-correct-ivy flycheck evil-org evil-magit evil-collection emojify elpy elfeed-org elfeed-goodies doom-modeline dired-subtree dired-rainbow dired-open deft ddskk dashboard counsel company-org-roam company-ledger company-irony-c-headers company-irony company-emoji company-c-headers company-bibtex company-auctex bug-hunter badwolf-theme alert ace-window))
  '(pdf-view-midnight-colors '("#fdf4c1" . "#1d2021"))
  '(rustic-ansi-faces
    ["#282828" "#fb4934" "#b8bb26" "#fabd2f" "#83a598" "#cc241d" "#8ec07c" "#ebdbb2"])
@@ -72,3 +72,4 @@
 
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
+)
