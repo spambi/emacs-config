@@ -22,8 +22,8 @@ Account morgan.perry4132-gmail
 
 # LOCAL STORAGE (CREATE DIRECTORIES with mkdir -p ~/Maildir/morgan.perry4132-gmail)
 MaildirStore morgan.perry4132-gmail-local
-Path ~/Maildir/morgan.perry4132-gmail/
-Inbox ~/Maildir/morgan.perry4132-gmail/INBOX
+Path ~/mail/morgan.perry4132-gmail/
+Inbox ~/mail/morgan.perry4132-gmail/INBOX
 # REQUIRED ONLY IF YOU WANT TO DOWNLOAD ALL SUBFOLDERS; SYNCING SLOWS DOWN
 # SubFolders Verbatim
 
@@ -45,8 +45,8 @@ Expunge Both
 SyncState *
 
 Channel morgan.perry4132-gmail-trash
-Master :morgan.perry4132-gmail-remote:"[Gmail]/Bin"
-Slave :morgan.perry4132-gmail-local:"[morgan.perry4132].Bin"
+Master :morgan.perry4132-gmail-remote:"[Gmail]/Trash"
+Slave :morgan.perry4132-gmail-local:"[morgan.perry4132].Trash"
 Create Both
 Expunge Both
 SyncState *
@@ -111,8 +111,8 @@ Channel morgan.perry4132-gmail-starred
 
 # # LOCAL STORAGE (CREATE DIRECTORIES with mkdir -p ~/Maildir/spambayyyy-gmail)
 # MaildirStore spambayyyy-gmail-local
-# Path ~/Maildir/spambayyyy-gmail/
-# Inbox ~/Maildir/spambayyyy-gmail/INBOX
+# Path ~/mail/spambayyyy-gmail/
+# Inbox ~/mail/spambayyyy-gmail/INBOX
 
 # # CONNECTIONS SPECIFY LINKS BETWEEN REMOTE AND LOCAL FOLDERS
 # #

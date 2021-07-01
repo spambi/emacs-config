@@ -93,9 +93,10 @@
      ("flagged" :foreground "#0a9dff")
      ("deleted" :foreground "#ff2c4b" :bold t)))
  '(objed-cursor-color "#fb4934")
- '(org-agenda-files '("~/Dropbox/org/TODO.org" "~/Dropbox/org/capture.org"))
+ '(org-agenda-files
+   '("~/Dropbox/org/calendar.org" "~/Dropbox/org/TODO.org" "~/Dropbox/org/capture.org"))
  '(package-selected-packages
-   '(org-caldav org-caldev company-web emmet-mode web-mode pass password-store evil-nerd-commenter ivy-posframe org-roam-bibtex ivy-bibtex ytdious org-mime mu4e ytel visual-fill-column lexic dictionary org-superstar undo-tree doom-themes lua-mode yasnippet-snippets workgroups2 which-key use-package try sauron rainbow-mode ox-reveal org-super-agenda org-roam-server org-ref org-noter org-journal org-dropbox org-download org-cliplink nyan-mode nov literate-calc-mode ledger-mode ivy-yasnippet iedit gruvbox-theme flyspell-correct-ivy flycheck evil-org evil-magit evil-collection emojify elpy elfeed-org elfeed-goodies doom-modeline dired-subtree dired-rainbow dired-open deft ddskk dashboard counsel company-org-roam company-ledger company-irony-c-headers company-irony company-emoji company-c-headers company-bibtex company-auctex bug-hunter badwolf-theme alert ace-window))
+   '(mu4e-alert mu4e-notify all-the-icons-ivy-rich ivy-rich workgroups2 org-caldav org-caldev company-web emmet-mode web-mode pass password-store evil-nerd-commenter ivy-posframe org-roam-bibtex ivy-bibtex ytdious org-mime mu4e ytel visual-fill-column lexic dictionary org-superstar undo-tree doom-themes lua-mode yasnippet-snippets which-key use-package try sauron rainbow-mode ox-reveal org-super-agenda org-roam-server org-ref org-noter org-journal org-dropbox org-download org-cliplink nyan-mode nov literate-calc-mode ledger-mode ivy-yasnippet iedit gruvbox-theme flyspell-correct-ivy flycheck evil-org evil-magit evil-collection emojify elpy elfeed-org elfeed-goodies doom-modeline dired-subtree dired-rainbow dired-open deft ddskk dashboard counsel company-org-roam company-ledger company-irony-c-headers company-irony company-emoji company-c-headers company-bibtex company-auctex bug-hunter badwolf-theme alert ace-window))
  '(pdf-view-midnight-colors '("#fdf4c1" . "#1d2021"))
  '(rustic-ansi-faces
    ["#282828" "#fb4934" "#b8bb26" "#fabd2f" "#83a598" "#cc241d" "#8ec07c" "#ebdbb2"])

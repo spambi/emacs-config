@@ -2,6 +2,7 @@
 * Base
 ** Interface
    #+begin_src emacs-lisp
+     (server-start)
      (setq evil-want-integration t)
      (scroll-bar-mode 0)
      (show-paren-mode t)
@@ -18,15 +19,14 @@
    #+end_src
 ** Theme
    #+begin_src emacs-lisp
-     (use-package gruvbox-theme
-       :ensure t)
-     (use-package badwolf-theme
-       :ensure t)
+     ;; (use-package badwolf-theme
+     ;;   :ensure t
+     ;;   :init
+     ;;   (load-theme 'badwolf nil))
      (use-package doom-themes
-       :ensure t)
-     ;(load-theme 'gruvbox t)
-     (load-theme 'badwolf t)
-     ;(load-theme 'doom-dark+ t)
+       :ensure t
+       :init
+       (load-theme 'doom-dark+ t))
    #+end_src
 ** Revert Buffer
    #+begin_src emacs-lisp
@@ -45,85 +45,74 @@
        (page-break-lines-mode)
        :config
        (dashboard-setup-startup-hook)
-       (turn-on-page-break-lines-mode t)
        (setq
-	dashboard-banner-logo-title "ただいま　おにいちゃん！"
-	dashboard-center-content t
-	dashboard-set-navigator t
-	global-page-break-lines-mode t))
+        dashboard-banner-logo-title "ただいま　おにいちゃん！"
+        dashboard-center-content t
+        dashboard-set-navigator t
+        global-page-break-lines-mode t
+        initial-buffer-choice (lambda () (get-buffer "*dashboard*"))))
    #+end_src
 ** Swiper
-   #+begin_src emacs-lisp
-     (use-package swiper
-       :ensure t)
-
-     (use-package counsel
-       :ensure t)
-
-     ;; (use-package ivy-posframe
-     ;;   :ensure t
-     ;;   :config
-     ;;   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
-     ;;   (setq ivy-posframe-height-alist '((swiper . 20)
-     ;;                                   (t      . 15))))
-
-
-     (ivy-mode 1)
-     (setq ivy-use-virtual-buffers t)
-     (setq enable-recursive-minibuffers t)
-     ;; enable this if you want `swiper' to use it
-     (setq search-default-mode #'char-fold-to-regexp)
-
-     (global-set-key "\C-s" 'swiper)
-     ;(global-set-key (kbd "C-c C-r") 'ivy-resume)
-     ;(global-set-key (kbd "<f6>") 'ivy-resume)
-     ;;(global-set-key (kbd "M-x") 'counsel-M-x)
-     ;(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-     ;(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-     ;(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-     ;(global-set-key (kbd "<f1> l") 'counsel-find-library)
-     ;(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-     ;(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-     ;(global-set-key (kbd "C-c g") 'counsel-git)
-     ;(global-set-key (kbd "C-c j") 'counsel-git-grep)
-     ;(global-set-key (kbd "C-c k") 'counsel-ag)
-     ;(global-set-key (kbd "C-x l") 'counsel-locate)
-     ;(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-     ;(global-set-key (kbd "C-x d") 'counsel-dired)
-
-     (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
-     (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-
-     (use-package ivy-yasnippet
-       :ensure t
-       :bind (("C-c y" . ivy-yasnippet)))
-   #+end_src
-** workgroups2
 #+begin_src emacs-lisp
-    ;; unset M- digit keys
+  (use-package ivy
+    :ensure t)
+
+   (use-package swiper
+     :ensure t)
+
+    (use-package counsel
+      :ensure t)
+
+    (use-package ivy-rich
+      :ensure t
+      :after ivy
+      :config
+      (ivy-rich-mode))
+
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    ;; enable this if you want `swiper' to use it
+    (setq search-default-mode #'char-fold-to-regexp)
+
+    (global-set-key "\C-s" 'swiper)
+    (global-set-key (kbd "M-x") 'counsel-M-x)
+    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+    (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+    (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+    (global-set-key (kbd "<f1> l") 'counsel-find-library)
+    (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+    (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+    (global-set-key (kbd "C-x d") 'counsel-dired)
+    (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
+
+    (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+
+#+end_src
+** workgroups
+#+begin_src emacs-lisp
+
+  ;; unset M- digit key2021-06-29T19:29:56+10:00
     (dotimes (n 5)
       (global-unset-key (kbd (format "M-%d" n))))
 
+  (use-package workgroups2
+    :ensure t
+    :bind (:map workgroups-mode-map
+	    (("M-1" . wg-switch-to-workgroup-at-index-0))
+	    (("M-2" . wg-switch-to-workgroup-at-index-1))
+	    (("M-3" . wg-switch-to-workgroup-at-index-2))
+	    (("M-4" . wg-switch-to-workgroup-at-index-3))
+	    (("M-5" . wg-switch-to-workgroup-at-index-4)))
+    :config 
+    (setq wg-mode-line-display-on t)
+    (setq wg-session-file "~/.emacs.d/.emacs_workgroups"))
 
-    (use-package workgroups2
-      :ensure t
-      :bind (:map workgroups-mode-map
-              (("M-1" . wg-switch-to-workgroup-at-index-0))
-              (("M-2" . wg-switch-to-workgroup-at-index-1))
-              (("M-3" . wg-switch-to-workgroup-at-index-2))
-              (("M-4" . wg-switch-to-workgroup-at-index-3))
-              (("M-5" . wg-switch-to-workgroup-at-index-4)))
-      :config 
-      (setq wg-workgroups-mode-exit-save-behavior 'save)
-      (setq wg-emacs-exit-save-behavior 'save)
-      (setq wg-mode-line-display-on t)
-      (setq wg-session-file "~/.emacs.d/.emacs_workgroups"))
-  ;    (define-key workgroups-mode-map (kbd "M-1") 'wg-switch-to-workgroup-at-index-0)
-  ;    (define-key workgroups-mode-map (kbd "M-2") 'wg-switch-to-workgroup-at-index-1)
-  ;    (define-key workgroups-mode-map (kbd "M-3") 'wg-switch-to-workgroup-at-index-2)
-  ;    (define-key workgroups-mode-map (kbd "M-4") 'wg-switch-to-workgroup-at-index-3)
+  (workgroups-mode 1)
 
-    (workgroups-mode t)
+
+  (wg-switch-to-workgroup-internal "roam")
+  (wg-switch-to-workgroup-internal "main")
 #+end_src
 ** Evil
    #+begin_src emacs-lisp
@@ -177,178 +166,194 @@
        (evil-collection-init))
    #+end_src
 ** mu4e
+** main
    #+begin_src emacs-lisp
-     ;; (use-package mu4e
-     ;;   :ensure nil
-     ;;   :load-path "/usr/share/emacs/site-lisp/mu4e"
-     ;;   :defer 20
-     ;;   :config
-     ;;   (require 'org-mime)
+     (use-package mu4e
+       :ensure nil
+       :load-path "/usr/share/emacs/site-lisp/mu4e"
+       :defer 20
+       :config
+       (require 'org-mime)
 
-     ;;   (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
-     ;;   (require 'mu4e)
+       (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
+       (require 'mu4e)
 
-     ;;   (setq mu4e-maildir (expand-file-name "~/Maildir"))
+       (setq mu4e-maildir (expand-file-name "~/mail"))
 
-     ;; 					; get mail
-     ;;   (setq mu4e-get-mail-command "mbsync -c ~/.emacs.d/mu4e/.mbsyncrc -a"
-     ;; 	;; mu4e-html2text-command "w3m -T text/html" ;;using the default mu4e-shr2text
-     ;; 	mu4e-view-prefer-html t
-     ;; 	mu4e-update-interval 180
-     ;; 	mu4e-headers-auto-update t
-     ;; 	mu4e-compose-signature-auto-include nil
-     ;; 	mu4e-compose-format-flowed t)
+					     ; get mail
+       (setq mu4e-get-mail-command "mbsync -c ~/.emacs.d/mu4e/.mbsyncrc -a"
+	     ;; mu4e-html2text-command "w3m -T text/html" ;;using the default mu4e-shr2text
+	     mu4e-view-prefer-html t
+	     mu4e-update-interval 180
+	     mu4e-headers-auto-update t
+	     mu4e-compose-signature-auto-include nil
+	     mu4e-compose-format-flowed t)
 
-     ;;   ;; to view selected message in the browser, no signin, just html mail
-     ;;   (add-to-list 'mu4e-view-actions
-     ;; 	       '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+       ;; to view selected message in the browser, no signin, just html mail
+       (add-to-list 'mu4e-view-actions
+		    '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 
-     ;;   ;; enable inline images
-     ;;   (setq mu4e-view-show-images t)
-     ;;   ;; use imagemagick, if available
-     ;;   (when (fboundp 'imagemagick-register-types)
-     ;;     (imagemagick-register-types))
+       ;; enable inline images
+       (setq mu4e-view-show-images t)
+       ;; use imagemagick, if available
+       (when (fboundp 'imagemagick-register-types)
+	 (imagemagick-register-types))
 
-     ;;   ;; every new email composition gets its own frame!
-     ;; 					;(setq mu4e-compose-in-new-frame t)
+       ;; every new email composition gets its own frame!
+					     ;(setq mu4e-compose-in-new-frame t)
 
-     ;;   ;; don't save message to Sent Messages, IMAP takes care of this
-     ;;   (setq mu4e-sent-messages-behavior 'delete)
+       ;; don't save message to Sent Messages, IMAP takes care of this
+       (setq mu4e-sent-messages-behavior 'delete)
 
-     ;;   (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
+       (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
 
-     ;;   ;; <tab> to navigate to links, <RET> to open them in browser
-     ;;   (add-hook 'mu4e-view-mode-hook
-     ;; 	    (lambda()
-     ;; 	      ;; try to emulate some of the eww key-bindings
-     ;; 	      (local-set-key (kbd "<RET>") 'mu4e~view-browse-url-from-binding)
-     ;; 	      (local-set-key (kbd "<tab>") 'shr-next-link)
-     ;; 	      (local-set-key (kbd "<backtab>") 'shr-previous-link)))
+       ;; <tab> to navigate to links, <RET> to open them in browser
+       (add-hook 'mu4e-view-mode-hook
+		 (lambda()
+		   ;; try to emulate some of the eww key-bindings
+		   (local-set-key (kbd "<RET>") 'mu4e~view-browse-url-from-binding)
+		   (local-set-key (kbd "<tab>") 'shr-next-link)
+		   (local-set-key (kbd "<backtab>") 'shr-previous-link)))
 
-     ;;   ;; from https://www.reddit.com/r/emacs/comments/bfsck6/mu4e_for_dummies/elgoumx
-     ;;   (add-hook 'mu4e-headers-mode-hook
-     ;; 	    (defun my/mu4e-change-headers ()
-     ;; 	      (interactive)
-     ;; 	      (setq mu4e-headers-fields
-     ;; 		    `((:human-date . 25) ;; alternatively, use :date
-     ;; 		      (:flags . 6)
-     ;; 		      (:from . 22)
-     ;; 		      (:thread-subject . ,(- (window-body-width) 70)) ;; alternatively, use :subject
-     ;; 		      (:size . 7)))))
+       ;; from https://www.reddit.com/r/emacs/comments/bfsck6/mu4e_for_dummies/elgoumx
+       (add-hook 'mu4e-headers-mode-hook
+		 (defun my/mu4e-change-headers ()
+		   (interactive)
+		   (setq mu4e-headers-fields
+			 `((:human-date . 25) ;; alternatively, use :date
+			   (:flags . 6)
+			   (:from . 22)
+			   (:thread-subject . ,(- (window-body-width) 70)) ;; alternatively, use :subject
+			   (:size . 7)))))
 
-     ;;   ;; if you use date instead of human-date in the above, use this setting
-     ;;   ;; give me ISO(ish) format date-time stamps in the header list
-     ;; 					;(setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
+       ;; if you use date instead of human-date in the above, use this setting
+       ;; give me ISO(ish) format date-time stamps in the header list
+					     ;(setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
 
-     ;;   ;; spell check
-     ;;   (add-hook 'mu4e-compose-mode-hook
-     ;; 	    (defun my-do-compose-stuff ()
-     ;; 	      "My settings for message composition."
-     ;; 	      (visual-line-mode)
-     ;; 	      (org-mu4e-compose-org-mode)
-     ;; 	      (use-hard-newlines -1)
-     ;; 	      (flyspell-mode)))
+       ;; spell check
+       (add-hook 'mu4e-compose-mode-hook
+		 (defun my-do-compose-stuff ()
+		   "My settings for message composition."
+		   (visual-line-mode)
+		   (org-mu4e-compose-org-mode)
+		   (use-hard-newlines -1)
+		   (flyspell-mode)))
 
-     ;;   (require 'smtpmail)
+       (require 'smtpmail)
 
-     ;;   ;;rename files when moving
-     ;;   ;;NEEDED FOR MBSYNC
-     ;;   (setq mu4e-change-filenames-when-moving t)
+       ;;rename files when moving
+       ;;NEEDED FOR MBSYNC
+       (setq mu4e-change-filenames-when-moving t)
 
-     ;;   ;;set up queue for offline email
-     ;;   ;;use mu mkdir  ~/Maildir/acc/queue to set up first
-     ;;   (setq smtpmail-queue-mail nil)  ;; start in normal mode
+       ;;set up queue for offline email
+       ;;use mu mkdir  ~/mail/acc/queue to set up first
+       (setq smtpmail-queue-mail nil)  ;; start in normal mode
 
-     ;;   ;;from the info manual
-     ;;   (setq mu4e-attachment-dir  "~/dwn")
+       ;;from the info manual
+       (setq mu4e-attachment-dir  "~/dwn")
 
-     ;;   (setq message-kill-buffer-on-exit t)
-     ;;   (setq mu4e-compose-dont-reply-to-self t)
+       (setq message-kill-buffer-on-exit t)
+       (setq mu4e-compose-dont-reply-to-self t)
 
-     ;;   (require 'org-mu4e)
+       (require 'org-mu4e)
 
-     ;;   ;; convert org mode to HTML automatically
-     ;;   (setq org-mu4e-convert-to-html t)
+       ;; convert org mode to HTML automatically
+       (setq org-mu4e-convert-to-html t)
 
-     ;;   ;;from vxlabs config
-     ;;   ;; show full addresses in view message (instead of just names)
-     ;;   ;; toggle per name with M-RET
-     ;;   (setq mu4e-view-show-addresses 't)
+       ;;from vxlabs config
+       ;; show full addresses in view message (instead of just names)
+       ;; toggle per name with M-RET
+       (setq mu4e-view-show-addresses 't)
 
-     ;;   ;; don't ask when quitting
-     ;;   (setq mu4e-confirm-quit nil)
+       ;; don't ask when quitting
+       (setq mu4e-confirm-quit nil)
 
-     ;;   ;; mu4e-context
-     ;;   (setq mu4e-context-policy 'pick-first)
-     ;;   (setq mu4e-compose-context-policy 'always-ask)
-     ;;   (setq mu4e-contexts
-     ;; 	(list
-     ;; 	 (make-mu4e-context
-     ;; 	  :name "work" ;;for morgan.perry4132-gmail
-     ;; 	  :enter-func (lambda () (mu4e-message "Entering context work"))
-     ;; 	  :leave-func (lambda () (mu4e-message "Leaving context work"))
-     ;; 	  :match-func (lambda (msg)
-     ;; 			(when msg
-     ;; 			  (mu4e-message-contact-field-matches
-     ;; 			   msg '(:from :to :cc :bcc) "morgan.perry4132@gmail.com")))
-     ;; 	  :vars '((user-mail-address . "morgan.perry4132@gmail.com")
-     ;; 		  (user-full-name . "User Account1")
-     ;; 		  (mu4e-sent-folder . "/morgan.perry4132-gmail/[morgan.perry4132].Sent Mail")
-     ;; 		  (mu4e-drafts-folder . "/morgan.perry4132-gmail/[morgan.perry4132].drafts")
-     ;; 		  (mu4e-trash-folder . "/morgan.perry4132-gmail/[morgan.perry4132].Bin")
-     ;; 		  (mu4e-compose-signature . (concat "Formal Signature\n" "Emacs 25, org-mode 9, mu4e 1.0\n"))
-     ;; 		  (mu4e-compose-format-flowed . t)
-     ;; 		  (smtpmail-queue-dir . "~/Maildir/morgan.perry4132-gmail/queue/cur")
-     ;; 		  (message-send-mail-function . smtpmail-send-it)
-     ;; 		  (smtpmail-smtp-user . "morgan.perry4132")
-     ;; 		  (smtpmail-starttls-credentials . (("smtp.gmail.com" 587 nil nil)))
-     ;; 		  (smtpmail-auth-credentials . (expand-file-name "~/.config/authinfo.gpg"))
-     ;; 		  (smtpmail-default-smtp-server . "smtp.gmail.com")
-     ;; 		  (smtpmail-smtp-server . "smtp.gmail.com")
-     ;; 		  (smtpmail-smtp-service . 587)
-     ;; 		  (smtpmail-debug-info . t)
-     ;; 		  (smtpmail-debug-verbose . t)
-     ;; 		  (mu4e-maildir-shortcuts . ( ("/morgan.perry4132-gmail/INBOX"            . ?i)
-     ;; 					      ("/morgan.perry4132-gmail/[morgan.perry4132].Sent Mail" . ?s)
-     ;; 					      ("/morgan.perry4132-gmail/[morgan.perry4132].Bin"       . ?t)
-     ;; 					      ("/morgan.perry4132-gmail/[morgan.perry4132].All Mail"  . ?a)
-     ;; 					      ("/morgan.perry4132-gmail/[morgan.perry4132].Starred"   . ?r)
-     ;; 					      ("/morgan.perry4132-gmail/[morgan.perry4132].drafts"    . ?d)
-     ;; 					      ))))
-     ;; 	 (make-mu4e-context
-     ;; 	  :name "personal" ;;for acc2-gmail
-     ;; 	  :enter-func (lambda () (mu4e-message "Entering context personal"))
-     ;; 	  :leave-func (lambda () (mu4e-message "Leaving context personal"))
-     ;; 	  :match-func (lambda (msg)
-     ;; 			(when msg
-     ;; 			  (mu4e-message-contact-field-matches
-     ;; 			   msg '(:from :to :cc :bcc) "acc2@gmail.com")))
-     ;; 	  :vars '((user-mail-address . "acc2@gmail.com")
-     ;; 		  (user-full-name . "User Account2")
-     ;; 		  (mu4e-sent-folder . "/acc2-gmail/[acc2].Sent Mail")
-     ;; 		  (mu4e-drafts-folder . "/acc2-gmail/[acc2].drafts")
-     ;; 		  (mu4e-trash-folder . "/acc2-gmail/[acc2].Trash")
-     ;; 		  (mu4e-compose-signature . (concat "Informal Signature\n" "Emacs is awesome!\n"))
-     ;; 		  (mu4e-compose-format-flowed . t)
-     ;; 		  (smtpmail-queue-dir . "~/Maildir/acc2-gmail/queue/cur")
-     ;; 		  (message-send-mail-function . smtpmail-send-it)
-     ;; 		  (smtpmail-smtp-user . "acc2")
-     ;; 		  (smtpmail-starttls-credentials . (("smtp.gmail.com" 587 nil nil)))
-     ;; 		  (smtpmail-auth-credentials . (expand-file-name "~/.config/authinfo"))
-     ;; 		  (smtpmail-default-smtp-server . "smtp.gmail.com")
-     ;; 		  (smtpmail-smtp-server . "smtp.gmail.com")
-     ;; 		  (smtpmail-smtp-service . 587)
-     ;; 		  (smtpmail-debug-info . t)
-     ;; 		  (smtpmail-debug-verbose . t)
-     ;; 		  (mu4e-maildir-shortcuts . ( ("/acc2-gmail/INBOX"            . ?i)
-     ;; 					      ("/acc2-gmail/[acc2].Sent Mail" . ?s)
-     ;; 					      ("/acc2-gmail/[acc2].Trash"     . ?t)
-     ;; 					      ("/acc2-gmail/[acc2].All Mail"  . ?a)
-     ;; 					      ("/acc2-gmail/[acc2].Starred"   . ?r)
-     ;; 					      ("/acc2-gmail/[acc2].drafts"    . ?d)
-     ;; 					      ))))))
-     ;; )
+       ;; mu4e-context
+       (setq mu4e-context-policy 'pick-first)
+       (setq mu4e-compose-context-policy 'always-ask)
+       (setq mu4e-contexts
+	     (list
+	      (make-mu4e-context
+	       :name "work" ;;for morgan.perry4132-gmail
+	       :enter-func (lambda () (mu4e-message "Entering context work"))
+	       :leave-func (lambda () (mu4e-message "Leaving context work"))
+	       :match-func (lambda (msg)
+			     (when msg
+			       (mu4e-message-contact-field-matches
+				msg '(:from :to :cc :bcc) "morgan.perry4132@gmail.com")))
+	       :vars '((user-mail-address . "morgan.perry4132@gmail.com")
+		       (user-full-name . "User Account1")
+		       (mu4e-sent-folder . "/morgan.perry4132-gmail/[morgan.perry4132].Sent Mail")
+		       (mu4e-drafts-folder . "/morgan.perry4132-gmail/[morgan.perry4132].drafts")
+		       (mu4e-trash-folder . "/morgan.perry4132-gmail/[morgan.perry4132].Bin")
+		       (mu4e-compose-signature . (concat "Formal Signature\n" "Emacs 25, org-mode 9, mu4e 1.0\n"))
+		       (mu4e-compose-format-flowed . t)
+		       (smtpmail-queue-dir . "~/mail/morgan.perry4132-gmail/queue/cur")
+		       (message-send-mail-function . smtpmail-send-it)
+		       (smtpmail-smtp-user . "morgan.perry4132")
+		       (smtpmail-starttls-credentials . (("smtp.gmail.com" 587 nil nil)))
+		       (smtpmail-auth-credentials . (expand-file-name "~/.emacs.d/mu4e/authinfo"))
+		       (smtpmail-default-smtp-server . "smtp.gmail.com")
+		       (smtpmail-smtp-server . "smtp.gmail.com")
+		       (smtpmail-smtp-service . 587)
+		       (smtpmail-debug-info . t)
+		       (smtpmail-debug-verbose . t)
+		       (mu4e-maildir-shortcuts . ( ("/morgan.perry4132-gmail/INBOX"            . ?i)
+						   ("/morgan.perry4132-gmail/[morgan.perry4132].Sent Mail" . ?s)
+						   ("/morgan.perry4132-gmail/[morgan.perry4132].Bin"       . ?t)
+						   ("/morgan.perry4132-gmail/[morgan.perry4132].All Mail"  . ?a)
+						   ("/morgan.perry4132-gmail/[morgan.perry4132].Starred"   . ?r)
+						   ("/morgan.perry4132-gmail/[morgan.perry4132].drafts"    . ?d)
+						   ))))
+	      (make-mu4e-context
+	       :name "personal" ;;for acc2-gmail
+	       :enter-func (lambda () (mu4e-message "Entering context personal"))
+	       :leave-func (lambda () (mu4e-message "Leaving context personal"))
+	       :match-func (lambda (msg)
+			     (when msg
+			       (mu4e-message-contact-field-matches
+				msg '(:from :to :cc :bcc) "acc2@gmail.com")))
+	       :vars '((user-mail-address . "acc2@gmail.com")
+		       (user-full-name . "User Account2")
+		       (mu4e-sent-folder . "/acc2-gmail/[acc2].Sent Mail")
+		       (mu4e-drafts-folder . "/acc2-gmail/[acc2].drafts")
+		       (mu4e-trash-folder . "/acc2-gmail/[acc2].Trash")
+		       ;(mu4e-compose-signature . (concat "Informal Signature\n" "Emacs is awesome!\n"))
+		       (mu4e-compose-format-flowed . t)
+		       (smtpmail-queue-dir . "~/mail/acc2-gmail/queue/cur")
+		       (message-send-mail-function . smtpmail-send-it)
+		       (smtpmail-smtp-user . "acc2")
+		       (smtpmail-starttls-credentials . (("smtp.gmail.com" 587 nil nil)))
+		       (smtpmail-auth-credentials . (expand-file-name "~/.emacs.d/mu4e/authinfo"))
+		       (smtpmail-default-smtp-server . "smtp.gmail.com")
+		       (smtpmail-smtp-server . "smtp.gmail.com")
+		       (smtpmail-smtp-service . 587)
+		       (smtpmail-debug-info . t)
+		       (smtpmail-debug-verbose . t)
+		       (mu4e-maildir-shortcuts . ( ("/acc2-gmail/INBOX"            . ?i)
+						   ("/acc2-gmail/[acc2].Sent Mail" . ?s)
+						   ("/acc2-gmail/[acc2].Trash"     . ?t)
+						   ("/acc2-gmail/[acc2].All Mail"  . ?a)
+						   ("/acc2-gmail/[acc2].Starred"   . ?r)
+						   ("/acc2-gmail/[acc2].drafts"    . ?d)
+						   ))))))
+     )
+
+     (add-hook 'mu4e-headers-mode-hook
+	     (defun my/mu4e-change-headers ()
+	       (interactive)
+	       (setq mu4e-headers-fields
+		 `((:human-date . 12)
+		   (:flags . 4)
+		   (:from-or-to . 15)
+		   (:subject . ,(- (window-body-width) 47))
+		   (:size . 7)))))
    #+end_src
+** notify
+#+begin_src emacs-lisp
+  (use-package mu4e-alert
+    :ensure t)
+#+end_src
 * Editing
 ** Programming
 *** Python
@@ -362,8 +367,6 @@
 *** Magit
     #+begin_src emacs-lisp
       (use-package magit
-        :ensure t)
-      (use-package evil-magit
         :ensure t)
     #+end_src
 *** Eshell
@@ -454,11 +457,11 @@
    #+end_src
 *** Org Roam
     #+begin_src emacs-lisp
-      (setq org-roam-directory "/home/moogly/Dropbox/org/roam")
+      (setq org-roam-directory "/home/dj/Dropbox/org/roam")
       (use-package org-roam
 	    :ensure t
 	    :custom
-	    (org-roam-directory "/home/moogly/Dropbox/org/roam")
+	    (org-roam-directory "/home/dj/Dropbox/org/roam")
 	    :config
 	    (require 'time-stamp)
 	    (add-hook 'write-file-functions 'time-stamp) ; update when saving
@@ -925,64 +928,64 @@
    #+begin_src emacs-lisp
      (defun ytel-watch ()
        "Stream video at point in mpv."
-            (interactive)
-            (let* ((video (ytel-get-current-video))
-            (id    (ytel-video-id video)))
-              (start-process "ytel mpv" nil
-                      "mpv"
-                      (concat "https://www.youtube.com/watch?v=" id))
-                      "--ytdl-format=bestaudio/best")
-              (message "Starting streaming..."))
+	    (interactive)
+	    (let* ((video (ytel-get-current-video))
+	    (id    (ytel-video-id video)))
+	      (start-process "ytel mpv" nil
+		      "mpv"
+		      (concat "https://www.youtube.com/watch?v=" id))
+		      "--ytdl-format=bestaudio/best")
+	      (message "Starting streaming..."))
 
      (defun ytel-watch-replace ()
-            "Stream video at point in mpv."
-            (interactive)
-            (let* ((video (ytel-get-current-video))
-            (id    (ytel-video-id video)))
-              (start-process "ytel mpv" nil
-                      "mpv"
-                      (concat "https://www.youtube.com/watch?v=" id))
-                      "--ytdl-format=bestaudio/best")
-              (message "Starting streaming...")
-            (ytel-remove-current-video))
+	    "Stream video at point in mpv."
+	    (interactive)
+	    (let* ((video (ytel-get-current-video))
+	    (id    (ytel-video-id video)))
+	      (start-process "ytel mpv" nil
+		      "mpv"
+		      (concat "https://www.youtube.com/watch?v=" id))
+		      "--ytdl-format=bestaudio/best")
+	      (message "Starting streaming...")
+	    (ytel-remove-current-video))
 
      (defun dj/ytwatch ()
-            "Stream video at point in mpv."
-            (require 'ytel)
-            (interactive)
-            (let* ((video (read-string "Enter Video URL: ")))
-              (start-process "youtube-watch" nil
-                      "mpv"
-                      video)
-                      "--ytdl-format=bestaudio/best")
-              (message "Starting stream..."))
+	    "Stream video at point in mpv."
+	    (require 'ytel)
+	    (interactive)
+	    (let* ((video (read-string "Enter Video URL: ")))
+	      (start-process "youtube-watch" nil
+		      "mpv"
+		      video)
+		      "--ytdl-format=bestaudio/best")
+	      (message "Starting stream..."))
 
 
      (defun dj/twitchWatch ()
-            "Stream video at point in mpv."
-            (require 'ytel)
-            (interactive)
-            (let* ((user (read-string "Enter Twitch Usernam: ")))
-              (start-process "dj/twitchWatch" nil
-                      "mpv"
-                      user)
-                      "--ytdl-format=bestaudio/best")
-              (message "Starting stream..."))
+	    "Stream twitch user in mpv process"
+	    (require 'ytel)
+	    (interactive)
+	    (let* ((user (read-string "Enter Twitch Usernam: ")))
+	      (start-process "dj/twitchWatch" nil
+		      "mpv"
+		      user)
+		      "--ytdl-format=bestaudio/best")
+	      (message "Starting stream..."))
 
      (defun dj/ytelYank ()
        "Will yank from current position in ytel."
        (interactive)
        (let ((fuck (ytel-get-current-video)))
-         (kill-new (concat "https://invidio.us/watch?v="(ytel-video-id fuck)))
-         (message (concat "Yanked: " (concat "https://invidio.us/watch?v="(ytel-video-id fuck))))))
+	 (kill-new (concat "https://invidio.us/watch?v="(ytel-video-id fuck)))
+	 (message (concat "Yanked: " (concat "https://invidio.us/watch?v="(ytel-video-id fuck))))))
 
-           (define-key ytel-mode-map (kbd "w") 'ytel-watch)
-           (define-key ytel-mode-map (kbd "W") 'ytel-watch-replace)
-           (define-key ytel-mode-map (kbd "j") 'next-line)
-           (define-key ytel-mode-map (kbd "k") 'previous-line)
-           (define-key ytel-mode-map (kbd "G") 'end-of-buffer)
-           (define-key ytel-mode-map (kbd "g") 'beginning-of-buffer)
-           (define-key ytel-mode-map (kbd "y") 'dj/ytelYank)
+	   (define-key ytel-mode-map (kbd "w") 'ytel-watch)
+	   (define-key ytel-mode-map (kbd "W") 'ytel-watch-replace)
+	   (define-key ytel-mode-map (kbd "j") 'next-line)
+	   (define-key ytel-mode-map (kbd "k") 'previous-line)
+	   (define-key ytel-mode-map (kbd "G") 'end-of-buffer)
+	   (define-key ytel-mode-map (kbd "g") 'beginning-of-buffer)
+	   (define-key ytel-mode-map (kbd "y") 'dj/ytelYank)
    #+end_src
 *** Keybinds
    #+begin_src emacs-lisp
@@ -1084,7 +1087,7 @@
    #+end_src
 ** Dired
    #+begin_src emacs-lisp
-   
+
    #+end_src
 *** Dired Rainbow
    #+begin_src emacs-lisp
@@ -1189,9 +1192,9 @@
        :ensure t
        :config
        (setq bibtex-completion-bibliography
-	     '("/home/moogly/Dropbox/bib/ref.bib")
+	     '("/home/dj/Dropbox/bib/ref.bib")
 	     bibtex-completion-library-path
-	     '("/home/moogly/Resources/articles/")
+	     '("/home/dj/Resources/articles/")
 	     bibtex-completion-pdf-field "File"))
 
 
@@ -1203,12 +1206,12 @@
        :bind* (:map org-mode-map
                    ("C-c ]" . org-ref-ivy-insert-cite-link))
        :config
-       (setq reftex-default-bibliography '("/home/moogly/Dropbox/bib/ref.bib"))
+       (setq reftex-default-bibliography '("/home/dj/Dropbox/bib/ref.bib"))
        (setq bibtex-completion-pdf-open-function
              (lambda (fpath)
                (start-process "open" "*open*" "open" fpath)))
-       (setq org-ref-default-bibliography '("/home/moogly/Dropbox/bib/ref.bib"))
-       (setq org-ref-pdf-directory '("/home/moogly/Resources/articles/")))
+       (setq org-ref-default-bibliography '("/home/dj/Dropbox/bib/ref.bib"))
+       (setq org-ref-pdf-directory '("/home/dj/Resources/articles/")))
    #+end_src
 ** org-roam-bibtex
    #+begin_src emacs-lisp
@@ -1223,6 +1226,17 @@
 #+begin_src emacs-lisp
 (setq browse-url-browser-function 'browse-url-chromium) 
 #+end_src
+** Calendar
+   #+begin_src emacs-lisp
+     (use-package org-caldav
+       :ensure t
+       :bind (("<f8>" . org-caldav-sync))
+       :custom
+       (org-caldav-url "https://nc.proxweb.dev/remote.php/dav/calendars/Spambi/")
+       (org-caldav-calendar-id "personal-1")
+       (org-caldav-calendar-id "personal")
+       (org-caldav-inbox "~/Dropbox/org/calendar.org"))
+   #+end_src
 * Keybinds
 ** Evil Nerd Commenter
    #+begin_src emacs-lisp
@@ -1234,12 +1248,13 @@
 ** Custom
    Misc. Keybinds
    #+begin_src emacs-lisp
-   (global-set-key (kbd "C-c s") 'eshell)
-   (global-set-key (kbd "C-c l") org-stored-links)
-   (global-set-key (kbd "C-c a") (lambda () (interactive) (org-agenda nil "a")))
-   (global-set-key (kbd "C-c c") 'org-capture)
-   (global-set-key (kbd "C-c p") 'counsel-bookmark)
-   (global-set-key (kbd "C-c C-p") 'xah-copy-file-path)
-   (global-set-key (kbd "C-c C-'") 'dj/ytwatch)
-   (global-set-key (kbd "C-c w") 'elfeed)
+     (global-set-key (kbd "<f4>" (lambda (mu4e))))
+     (global-set-key (kbd "C-c s") 'eshell)
+     (global-set-key (kbd "C-c l") org-stored-links)
+     (global-set-key (kbd "C-c a") (lambda () (interactive) (org-agenda nil "a")))
+     (global-set-key (kbd "C-c c") 'org-capture)
+     (global-set-key (kbd "C-c p") 'counsel-bookmark)
+     (global-set-key (kbd "C-c C-p") 'xah-copy-file-path)
+     (global-set-key (kbd "C-c C-'") 'dj/ytwatch)
+     (global-set-key (kbd "C-c w") 'elfeed)
    #+end_src
