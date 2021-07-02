@@ -404,24 +404,26 @@
     #+end_src
 *** Web Mode
 #+begin_src emacs-lisp
-  ;(use-web-mode
-  ;  :ensure t)
-  ;  :config
-  ;  (setq web-mode-enable-current-column-highlight t
-  ;	web-mode-enable-current-element-highlight t))
+  (use-package web-mode
+   :ensure t
+   :config
+   (setq web-mode-enable-current-column-highlight t
+          web-mode-enable-current-element-highlight t))
 
-  ;(use-package emmet-mode
-  ;  :hook ((prog-mode . web-mode)
-  ;	 (prog-mode . css-mode))
-  ;  :ensure t
-  ;  :config
-  ;  (setq emmet-indent-after-insert nil
-  ;	emmet-move-cursor-between-quotes t
-  ;	emmet-self-closing-tag-style " /"))
+  (use-package emmet-mode
+   :hook ((prog-mode . web-mode)
+           (prog-mode . css-mode))
+   :ensure t
+   :config
+   (setq emmet-indent-after-insert nil
+          emmet-move-cursor-between-quotes t
+          emmet-self-closing-tag-style " /"))
 
-  ;(defun my-web-mode-hook ()
-  ;  (set (make-local-variable 'company-backends) '(company-css company-web-html company-yasnippet company-files)))
+  (use-package impatient-mode
+    :ensure t)
 
+  (defun my-web-mode-hook ()
+   (set (make-local-variable 'company-backends) '(company-css company-web-html company-yasnippet company-files)))
   ;(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
   ;(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   ;(add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
@@ -1080,11 +1082,6 @@
 ;	:ensure t)
     #+end_src
 * Misc
-** Literate Calc Mode
-   #+begin_src emacs-lisp
-     ;; (use-package literate-calc-mode
-     ;;   :hook (org-mode . literate-calc-minor-mode))
-   #+end_src
 ** Dired
    #+begin_src emacs-lisp
 
@@ -1179,13 +1176,6 @@
 	 ))
    
    #+end_src
-** Emojify
-   #+begin_src emacs-lisp
-     ;; (use-package emojify
-     ;;   :ensure t
-     ;;   :config
-     ;;   (global-emojify-mode t))
-   #+end_src
 ** ivy-bibtex
    #+begin_src emacs-lisp
      (use-package ivy-bibtex
@@ -1248,7 +1238,6 @@
 ** Custom
    Misc. Keybinds
    #+begin_src emacs-lisp
-     (global-set-key (kbd "<f4>" (lambda (mu4e))))
      (global-set-key (kbd "C-c s") 'eshell)
      (global-set-key (kbd "C-c l") org-stored-links)
      (global-set-key (kbd "C-c a") (lambda () (interactive) (org-agenda nil "a")))
