@@ -2,7 +2,7 @@
 * Base
 ** Interface
    #+begin_src emacs-lisp
-     (server-start)
+     ;(server-start)
      (setq evil-want-integration t)
      (scroll-bar-mode 0)
      (show-paren-mode t)
@@ -117,13 +117,13 @@
 ** Evil
    #+begin_src emacs-lisp
      (use-package evil
-	    :ensure t
-	    :init
-	    (setq evil-want-integration t)
-	    (setq evil-want-keybinding nil)
-	    :config
-	    (evil-mode 1)
-	    (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char))
+            :ensure t
+            :init
+            (setq evil-want-integration t)
+            (setq evil-want-keybinding nil)
+            :config
+            (evil-mode 1)
+            (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char))
 
      (use-package evil-org
        :ensure t)
@@ -159,11 +159,11 @@
 	 "gb" 'dj/ElfeedBrowse
 	 "gd" 'dj/ElfeedDownload))
 
-     (use-package evil-collection
-       :after evil
-       :ensure t
-       :config
-       (evil-collection-init))
+  ;   (use-package evil-collection
+  ;     :after evil
+  ;     :ensure t
+  ;     :config
+  ;     (evil-collection-init))
    #+end_src
 ** mu4e
 ** main
@@ -404,30 +404,30 @@
     #+end_src
 *** Web Mode
 #+begin_src emacs-lisp
-  (use-package web-mode
-   :ensure t
-   :config
-   (setq web-mode-enable-current-column-highlight t
-          web-mode-enable-current-element-highlight t))
+  ;; (use-package web-mode
+  ;;  :ensure t)
+  ;; :config
+  ;; (setq web-mode-enable-current-column-highlight t
+  ;;        web-mode-enable-current-element-highlight t))
 
-  (use-package emmet-mode
-   :hook ((prog-mode . web-mode)
-           (prog-mode . css-mode))
-   :ensure t
-   :config
-   (setq emmet-indent-after-insert nil
-          emmet-move-cursor-between-quotes t
-          emmet-self-closing-tag-style " /"))
+  ;; (use-package emmet-mode
+  ;;  :hook ((prog-mode . web-mode)
+  ;;          (prog-mode . css-mode))
+  ;;  :ensure t
+  ;;  :config
+  ;;  (setq emmet-indent-after-insert nil
+  ;;         emmet-move-cursor-between-quotes t
+  ;;         emmet-self-closing-tag-style " /"))
 
-  (use-package impatient-mode
-    :ensure t)
+  ;; (use-package impatient-mode
+  ;;   :ensure t)
 
-  (defun my-web-mode-hook ()
-   (set (make-local-variable 'company-backends) '(company-css company-web-html company-yasnippet company-files)))
-  ;(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
-  ;(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  ;(add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
-  ;(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  ;; ;(defun my-web-mode-hook ()
+  ;; ; (set (make-local-variable 'company-backends) '(company-css company-web-html company-yasnippet company-files)))
+  ;; ;(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
+  ;; ;(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  ;; ;(add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+  ;; ;(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 #+end_src
 ** Org
 *** Org Base
@@ -477,7 +477,7 @@
 		    (("C-c n r" . org-roam)
 		     ("C-c n f" . org-roam-find-file)
 		     ("C-c n g" . org-roam-graph)
-		     ("C-c d d" . org-roam-dailies-capture-today)
+		     ("C-c d d" . org-roam-dailies-find-today)
 		     ("C-c d y" . org-roam-dailies-find-yesterday)
 		     ("C-c d t" . org-roam-dailies-find-tommorow)
 		     ("<f10>" . org-noter))
@@ -698,7 +698,6 @@
       (add-to-list 'company-backends 'company-elisp)
       ;(add-to-list 'company-backends 'elpy-company-backend)
       (add-to-list 'company-backends 'company-ledger)
-      (add-to-list 'company-backends 'company-web)
       (add-to-list 'company-backends 'company-css)
       (add-to-list 'company-backends 'company-capf)
     #+end_src
@@ -762,11 +761,11 @@
    #+end_src
 ** Japanese
    #+begin_src emacs-lisp
-     (use-package ddskk
-       :ensure t
-       :bind (("C-x C-j" . skk-mode))
-       :config
-       (setq skk-large-jiyso "/usr/share/skk/SKK-JISYO.L"))
+     ;; (use-package ddskk
+     ;;   :ensure t
+     ;;   :bind (("C-x C-j" . skk-mode))
+     ;;   :config
+     ;;   (setq skk-large-jiyso "/usr/share/skk/SKK-JISYO.L"))
 
    #+end_src
 ** Ledger
@@ -1083,9 +1082,6 @@
     #+end_src
 * Misc
 ** Dired
-   #+begin_src emacs-lisp
-
-   #+end_src
 *** Dired Rainbow
    #+begin_src emacs-lisp
    
